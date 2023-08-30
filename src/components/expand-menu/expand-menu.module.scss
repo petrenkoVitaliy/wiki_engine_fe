@@ -1,0 +1,34 @@
+@import '../../styles/variables.scss';
+
+.expandMenuWrapper {
+  margin: 10px;
+
+  position: relative;
+
+  cursor: pointer;
+
+  .listContainer {
+    position: absolute;
+    top: 20px;
+
+    display: none;
+
+    background: $backgroundSecondary;
+    color: $fontSecondary;
+
+    &.open {
+      display: block;
+    }
+
+    > li {
+      padding: 10px;
+
+      &:hover {
+        background: $backgroundMain;
+        color: $fontMain;
+
+        cursor: pointer;
+      }
+    }
+  }
+}

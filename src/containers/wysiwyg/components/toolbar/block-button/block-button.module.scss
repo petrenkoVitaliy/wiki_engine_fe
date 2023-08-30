@@ -1,0 +1,29 @@
+@import '../../../../../styles/variables.scss';
+
+.blockButton {
+  height: 24px;
+  width: 24px;
+
+  padding: 3px;
+  margin: 0 5px 0 0;
+
+  border: none;
+
+  cursor: pointer;
+
+  background: $backgroundMain;
+  color: $fontMain;
+
+  > img {
+    background: $backgroundMain;
+    color: $fontMain;
+  }
+
+  &.active {
+    background: $backgroundShadowed;
+
+    > img {
+      background: $backgroundShadowed;
+    }
+  }
+}

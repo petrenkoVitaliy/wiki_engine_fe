@@ -1,0 +1,42 @@
+@import '../../../../../styles/variables.scss';
+
+.tableContent {
+  position: sticky;
+  top: 30px;
+
+  height: fit-content;
+
+  background: $backgroundMain;
+  color: $fontMain;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0 20px;
+
+  .tableList {
+    width: 100%;
+
+    margin-top: 10px;
+    padding: 0;
+
+    > li {
+      width: 280px;
+
+      padding: 5px 0px;
+
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      background: $backgroundMain;
+      color: $fontMain;
+
+      &:hover {
+        background: $backgroundSecondary;
+        color: $fontSecondary;
+
+        cursor: pointer;
+      }
+    }
+  }
+}

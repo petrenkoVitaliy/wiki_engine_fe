@@ -1,0 +1,19 @@
+@import '../../styles/variables.scss';
+
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  > select {
+    height: 30px;
+
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+
+    background: $backgroundMain;
+    color: $fontMain;
+  }
+}

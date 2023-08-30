@@ -1,0 +1,15 @@
+@import '../../../../../../styles/variables.scss';
+
+.articleBar {
+  background: $backgroundMain;
+  color: $fontMain;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .controlPanel {
+    display: flex;
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,33 @@
+@import '../../styles/variables.scss';
+
+.inputWrapper {
+  width: 100%;
+  padding: 0px 15px 25px 15px;
+
+  position: relative;
+
+  &.error {
+    > input {
+      border: 3px solid red; // TODO
+    }
+  }
+
+  .label {
+    font-size: 13px;
+
+    padding: 5px;
+  }
+
+  .errorLabel {
+    height: 25px;
+
+    padding: 5px;
+
+    position: absolute;
+    bottom: 0;
+
+    font-size: 13px;
+
+    color: red;
+  }
+}

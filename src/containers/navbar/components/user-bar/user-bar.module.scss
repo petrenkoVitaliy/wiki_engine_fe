@@ -1,0 +1,10 @@
+@import '../../../../styles/variables.scss';
+
+.userBarWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: $backgroundSecondary;
+  color: $fontSecondary;
+}

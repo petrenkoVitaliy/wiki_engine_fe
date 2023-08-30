@@ -1,0 +1,13 @@
+@import '../../styles/variables.scss';
+
+.headingWrapper {
+  background: $backgroundMain;
+  color: $fontMain;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px 20px;
+  margin: 0 15px;
+}

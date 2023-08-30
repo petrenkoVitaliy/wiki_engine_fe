@@ -1,0 +1,32 @@
+@import '../../../../../../styles/variables.scss';
+
+.buttonWrapper {
+  height: 21px;
+  width: 21px;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  cursor: pointer;
+
+  background: $backgroundMain;
+  color: $fontMain;
+
+  &:hover {
+    background: $backgroundShadowed;
+
+    > img {
+      background: $backgroundShadowed;
+    }
+  }
+
+  > img {
+    background: $backgroundMain;
+    color: $fontMain;
+  }
+}
