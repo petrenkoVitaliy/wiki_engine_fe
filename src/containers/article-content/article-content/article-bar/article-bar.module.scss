@@ -1,0 +1,27 @@
+@import '../../../../styles/variables.scss';
+
+.articleBar {
+  background: $backgroundMain;
+  color: $fontMain;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .headingWrapper {
+    background: $backgroundMain;
+    color: $fontMain;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 20px;
+    margin: 0 15px;
+  }
+
+  .controlPanel {
+    display: flex;
+    justify-content: space-between;
+  }
+}

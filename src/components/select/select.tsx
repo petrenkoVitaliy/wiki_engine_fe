@@ -4,8 +4,8 @@ import styles from './select.module.scss';
 
 type SelectProps<T extends string> = {
   options: { label: string; value: string }[];
-  onChange: () => void;
   formRegister: UseFormRegisterReturn<T>;
+  onChange?: () => void;
 };
 
 export function Select<T extends string>(props: SelectProps<T>) {

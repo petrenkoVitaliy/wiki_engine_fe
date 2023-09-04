@@ -1,11 +1,11 @@
 'use client';
 
 import { Editable, Slate, RenderLeafProps, RenderElementProps } from 'slate-react';
-import { useMemo, useCallback, useState, KeyboardEvent, useContext, useEffect } from 'react';
+import { useMemo, useCallback, useState, KeyboardEvent, useEffect } from 'react';
 import { Descendant } from 'slate';
 
 import { updateHeadings } from '@/redux/slices/editor.slice';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useAppDispatch } from '@/redux/hooks';
 
 import { Toolbar } from './components/toolbar/toolbar';
 import { Leaf } from './components/leaf/leaf';
@@ -17,39 +17,42 @@ import { EditorHandler } from './handlers/editor-handler/editor.handler';
 
 import {
   ActiveElementsMap,
-  // CustomElement,
+  CustomElement,
   ElementFormat,
   MarkFormat,
   VerboseBlockOptions,
 } from './types';
 
 import styles from './wysiwyg.module.scss';
-import { ArticleContext } from '@/context/article-context';
+import { Article } from '@/api/types/article.types';
 
-// const initialValue: CustomElement[] = [
-//   {
-//     type: 'paragraph',
-//     children: [{ text: '' }],
-//   },
-// ]; TODO
+const defaultValue: CustomElement[] = [
+  {
+    type: 'paragraph',
+    children: [{ text: '' }],
+  },
+];
 
 type WysiwygProps = {
   editorHandler: EditorHandler;
+  article: Article | null;
+  isEditMode: boolean;
 };
 
 export function Wysiwyg(props: WysiwygProps) {
-  const articleContext = useContext(ArticleContext);
-  if (!articleContext) return null;
-
   const dispatch = useAppDispatch();
-  const isEditMode = useAppSelector((state) => state.editorReducer.isEditMode);
 
   const editorHandler = useMemo(() => props.editorHandler || new EditorHandler(), [props]);
 
-  const initialValue = useMemo(
-    () => JSON.parse(articleContext.article.language.version.content.content),
-    [articleContext]
-  );
+  const initialValue = useMemo(() => {
+    const { article } = props;
+
+    if (!article) {
+      return defaultValue;
+    }
+
+    return JSON.parse(article.language.version.content.content);
+  }, [props]);
 
   useEffect(() => {
     updateHeading(initialValue);
@@ -103,7 +106,7 @@ export function Wysiwyg(props: WysiwygProps) {
 
   return (
     <div className={styles.wysiwygWrapper}>
-      {isEditMode && (
+      {props.isEditMode && (
         <Toolbar
           toggleMark={toggleMark}
           toggleBlock={toggleBlock}
@@ -121,7 +124,7 @@ export function Wysiwyg(props: WysiwygProps) {
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           onKeyDown={handleHotKey}
-          readOnly={!isEditMode}
+          readOnly={!props.isEditMode}
           placeholder='Start typing here...'
           spellCheck
           autoFocus

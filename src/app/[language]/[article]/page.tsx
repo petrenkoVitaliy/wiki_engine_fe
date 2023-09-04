@@ -1,7 +1,7 @@
 import { Navbar } from '@/containers/navbar/navbar';
 import { Footer } from '@/containers/footer/footer';
 
-import { Article } from './article-content/article';
+import { Article } from '../../../containers/article-content/article';
 
 import { ArticleContext } from '../../../context/article-context';
 
@@ -10,6 +10,7 @@ import { apiMapper } from '@/api/api.mapper';
 
 import styles from './article-page.module.scss';
 import { AuthHandler } from '@/auth/auth.handler';
+import { notFound } from 'next/navigation';
 
 type ArticleLanguageProps = {
   params: ArticleLanguageParams;
@@ -24,13 +25,14 @@ export default async function ArticleLanguage(props: ArticleLanguageProps) {
   const [articleDto, user] = await Promise.all([getArticleDto(props.params), getUser()]);
 
   if (!articleDto) {
-    return null; // TODO redirect to 404
+    notFound();
+    return null;
   }
 
   const article = apiMapper.mapArticleDtoToType(articleDto, props.params.language);
 
   return (
-    <ArticleContext.Provider value={{ article }}>
+    <ArticleContext.Provider value={{ article, languages: [] }}>
       <main className={styles.mainWrapper}>
         <Navbar user={user} />
         <Article />
@@ -77,5 +79,3 @@ export async function generateStaticParams() {
   console.log(params);
   return params;
 }
-
-export const dynamicParams = false;
