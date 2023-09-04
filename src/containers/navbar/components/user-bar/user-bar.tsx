@@ -1,15 +1,16 @@
 'use client';
 
-import { useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { Button } from '@/components/button/button';
 import { User } from '@/api/types/user.types';
-import { useAppSelector } from '@/redux/hooks';
 
 import styles from './user-bar.module.scss';
 import { CookieHandler } from '@/cookie/cookie.handler';
 import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
+import { setUser } from '@/redux/slices/user.slice';
+import { useTruthSource } from '@/hooks/truth-source.hook';
+import { useAppDispatch } from '@/redux/hooks';
 
 type UserBarProps = {
   user: User | null;
@@ -18,10 +19,12 @@ type UserBarProps = {
 export function UserBar(props: UserBarProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
 
-  const storedUser = useAppSelector((state) => state.userReducer.user);
-
-  const user = useMemo(() => props.user || storedUser, [props, storedUser]);
+  const user = useTruthSource({
+    propSource: props.user,
+    storeSelector: (state) => state.userReducer.user,
+  });
 
   const onLoginClick = () => {
     router.push(RoutesHandler.withQuery(ROUTES.login(), { from: pathname }));
@@ -29,6 +32,8 @@ export function UserBar(props: UserBarProps) {
 
   const onLogoutClick = () => {
     CookieHandler.removeAuthCookie();
+    dispatch(setUser(null));
+
     router.refresh();
   };
 

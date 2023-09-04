@@ -2,18 +2,18 @@
 
 import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import { LabeledInput } from '@/components/labeled-input/labeled-input';
 import { Button } from '@/components/button/button';
 
-import { AuthHandler } from '@/auth/auth.handler';
-import { setUser } from '@/redux/slices/user.slice';
+import { loginUser } from '@/redux/slices/user.slice';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './form.module.scss';
-import { useDispatch } from 'react-redux';
 import { ROUTES } from '@/routes/routes.handler';
+import { User } from '@/api/types/user.types';
+import { useAppDispatch } from '@/redux/hooks';
 
 type FormValues = {
   password: string;
@@ -28,16 +28,13 @@ export function LoginForm() {
   } = useForm<FormValues>();
 
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
 
-  const onSubmit = async (data: FormValues) => {
-    const loginResponse = await AuthHandler.login(data);
-
-    if (loginResponse.status === 'ok') {
-      dispatch(setUser(loginResponse.result.user));
-
+  const handleLogin = (user: User | null) => {
+    if (user) {
       const from = searchParams.get('from');
+
       if (from) {
         router.push(from);
       } else {
@@ -48,10 +45,19 @@ export function LoginForm() {
     }
   };
 
+  const onSubmit = async (formValues: FormValues) => {
+    dispatch(
+      loginUser({
+        credentials: formValues,
+        callback: handleLogin,
+      })
+    );
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.header}>Login</div>
-      <form>
+      <form autoComplete='on'>
         <LabeledInput
           label='email'
           formRegister={register('email')}
@@ -68,7 +74,6 @@ export function LoginForm() {
 
         <Button onClick={handleSubmit(onSubmit)} label='submit' />
       </form>
-      <ToastContainer />
     </section>
   );
 }

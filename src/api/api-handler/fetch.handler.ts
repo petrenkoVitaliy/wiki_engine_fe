@@ -12,7 +12,7 @@ const ERROR_MESSAGES: { [key: number]: string } = {
 };
 
 class FetchHandler {
-  public SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+  private SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
   private getErrorMessage(res: Response) {
     return ERROR_MESSAGES[res.status] || ERROR_MESSAGES[500];

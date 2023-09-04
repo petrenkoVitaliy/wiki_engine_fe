@@ -1,7 +1,7 @@
 'use client';
 
 import { Editable, Slate, RenderLeafProps, RenderElementProps } from 'slate-react';
-import { useMemo, useCallback, useState, KeyboardEvent, useContext } from 'react';
+import { useMemo, useCallback, useState, KeyboardEvent, useContext, useEffect } from 'react';
 import { Descendant } from 'slate';
 
 import { updateHeadings } from '@/redux/slices/editor.slice';
@@ -33,36 +33,47 @@ import { ArticleContext } from '@/context/article-context';
 //   },
 // ]; TODO
 
-export function Wysiwyg() {
+type WysiwygProps = {
+  editorHandler: EditorHandler;
+};
+
+export function Wysiwyg(props: WysiwygProps) {
   const articleContext = useContext(ArticleContext);
   if (!articleContext) return null;
 
   const dispatch = useAppDispatch();
-  const isReadOnly = useAppSelector((state) => state.editorReducer.isReadOnly);
+  const isEditMode = useAppSelector((state) => state.editorReducer.isEditMode);
+
+  const editorHandler = useMemo(() => props.editorHandler || new EditorHandler(), [props]);
 
   const initialValue = useMemo(
     () => JSON.parse(articleContext.article.language.version.content.content),
     [articleContext]
   );
 
-  const editorHandler = useMemo(() => new EditorHandler(), []);
+  useEffect(() => {
+    updateHeading(initialValue);
+  }, [initialValue]);
 
   const [activeElements, setActiveElements] = useState<ActiveElementsMap>({
     activeMarks: null,
     activeBlocks: {},
   });
 
-  const handleChange = (values: Descendant[]) => {
-    const isChanged = editorHandler.hasChanged(values);
+  const updateHeading = (values: Descendant[]) => {
+    const headings = editorHandler.getUpdatedHeadings(values);
 
+    if (headings) {
+      dispatch(updateHeadings(headings));
+    }
+  };
+
+  const handleChange = (values: Descendant[]) => {
     setActiveElements(editorHandler.getActiveElements());
 
+    const isChanged = editorHandler.hasChanged(values);
     if (isChanged) {
-      const headings = editorHandler.getUpdatedHeadings(values);
-
-      if (headings) {
-        dispatch(updateHeadings(headings));
-      }
+      updateHeading(values);
     }
   };
 
@@ -92,7 +103,7 @@ export function Wysiwyg() {
 
   return (
     <div className={styles.wysiwygWrapper}>
-      {!isReadOnly && (
+      {isEditMode && (
         <Toolbar
           toggleMark={toggleMark}
           toggleBlock={toggleBlock}
@@ -110,7 +121,7 @@ export function Wysiwyg() {
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           onKeyDown={handleHotKey}
-          readOnly={isReadOnly}
+          readOnly={!isEditMode}
           placeholder='Start typing here...'
           spellCheck
           autoFocus

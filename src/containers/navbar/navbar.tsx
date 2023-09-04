@@ -14,6 +14,7 @@ export function Navbar(props: NavbarProps) {
     <section className={styles.navbarWrapper}>
       <Menu />
       <SearchBar />
+
       <UserBar user={props.user} />
     </section>
   );

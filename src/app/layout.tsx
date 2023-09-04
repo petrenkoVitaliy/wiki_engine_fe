@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ToastContainer } from 'react-toastify';
 
 import { Provider } from '@/redux/provider';
 
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={styles.body}>
         <Provider>{children}</Provider>
+        <ToastContainer />
       </body>
     </html>
   );

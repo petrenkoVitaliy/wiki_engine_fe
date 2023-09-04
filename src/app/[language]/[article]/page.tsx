@@ -23,6 +23,10 @@ type ArticleLanguageParams = {
 export default async function ArticleLanguage(props: ArticleLanguageProps) {
   const [articleDto, user] = await Promise.all([getArticleDto(props.params), getUser()]);
 
+  if (!articleDto) {
+    return null; // TODO redirect to 404
+  }
+
   const article = apiMapper.mapArticleDtoToType(articleDto, props.params.language);
 
   return (
@@ -37,7 +41,13 @@ export default async function ArticleLanguage(props: ArticleLanguageProps) {
 }
 
 async function getArticleDto(params: ArticleLanguageParams) {
-  return apiHandler.getArticle(params.article);
+  const articleResponse = await apiHandler.getArticle(params.article);
+
+  if (articleResponse.status === 'error') {
+    return null;
+  }
+
+  return articleResponse.result;
 }
 
 async function getUser() {
@@ -47,11 +57,15 @@ async function getUser() {
 }
 
 export async function generateStaticParams() {
-  const articles = await apiHandler.getArticlesList();
+  const articlesListResponse = await apiHandler.getArticlesList();
 
   const params: ArticleLanguageParams[] = [];
 
-  articles.forEach((article) => {
+  if (articlesListResponse.status === 'error') {
+    return params;
+  }
+
+  articlesListResponse.result.forEach((article) => {
     article.languages.forEach((articleLanguage) => {
       params.push({
         article: String(article.id),

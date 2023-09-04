@@ -1,4 +1,4 @@
-import { ArticleDto } from '../dto/article.dto';
+import { ArticleDto, ArticleVersionDto } from '../dto/article.dto';
 import { LoginDto, UserDto } from '../dto/auth.dto';
 import { FetchHandler } from './fetch.handler';
 
@@ -26,39 +26,40 @@ class ApiHandler extends FetchHandler {
     return userResponse;
   }
 
-  // TODO
   public async getArticlesList() {
-    try {
-      const articlesResponse = await fetch(`${this.SERVER_URL}/articles`, {
-        method: 'get',
-        cache: 'no-store',
-      });
+    const articlesResponse = await this.fetchApi<ArticleDto[]>('articles', {
+      method: 'get',
+      cache: 'no-store',
+    });
 
-      const articles: ArticleDto[] = await articlesResponse.json();
-
-      return articles;
-    } catch (ex) {
-      console.log(JSON.stringify(ex, null, 2));
-
-      throw ex;
-    }
+    return articlesResponse;
   }
 
   public async getArticle(id: string) {
-    try {
-      const articleResponse = await fetch(`${this.SERVER_URL}/articles/${id}`, {
-        method: 'get',
+    const articleResponse = await this.fetchApi<ArticleDto>(`articles/${id}`, {
+      method: 'get',
+      cache: 'no-store',
+    });
+
+    return articleResponse;
+  }
+
+  public async createArticleVersion(
+    id: number,
+    language: string,
+    contentBody: { content: string }
+  ) {
+    const articleResponse = await this.fetchApi<ArticleVersionDto>(
+      `articles/${id}/language/${language}/version`,
+      {
+        method: 'post',
         cache: 'no-store',
-      });
+        body: JSON.stringify(contentBody),
+      },
+      { isAuth: true }
+    );
 
-      const article: ArticleDto = await articleResponse.json();
-
-      return article;
-    } catch (ex) {
-      console.log(JSON.stringify(ex, null, 2));
-
-      throw ex;
-    }
+    return articleResponse;
   }
 }
 
