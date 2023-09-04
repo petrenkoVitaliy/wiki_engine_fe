@@ -1,7 +1,7 @@
 'use client';
 
 import { Editable, Slate, RenderLeafProps, RenderElementProps } from 'slate-react';
-import { useMemo, useCallback, useState, KeyboardEvent } from 'react';
+import { useMemo, useCallback, useState, KeyboardEvent, useContext } from 'react';
 import { Descendant } from 'slate';
 
 import { updateHeadings } from '@/redux/slices/editor.slice';
@@ -17,31 +17,54 @@ import { EditorHandler } from './handlers/editor-handler/editor.handler';
 
 import {
   ActiveElementsMap,
-  CustomElement,
+  // CustomElement,
   ElementFormat,
   MarkFormat,
   VerboseBlockOptions,
 } from './types';
 
 import styles from './wysiwyg.module.scss';
+import { ArticleContext } from '@/context/article-context';
 
-const initialValue: CustomElement[] = [
-  {
-    type: 'paragraph',
-    children: [{ text: '' }],
-  },
-];
+// const initialValue: CustomElement[] = [
+//   {
+//     type: 'paragraph',
+//     children: [{ text: '' }],
+//   },
+// ]; TODO
 
 export function Wysiwyg() {
+  const articleContext = useContext(ArticleContext);
+  if (!articleContext) return null;
+
   const dispatch = useAppDispatch();
   const isReadOnly = useAppSelector((state) => state.editorReducer.isReadOnly);
+
+  const initialValue = useMemo(
+    () => JSON.parse(articleContext.article.language.version.content.content),
+    [articleContext]
+  );
+
+  const editorHandler = useMemo(() => new EditorHandler(), []);
 
   const [activeElements, setActiveElements] = useState<ActiveElementsMap>({
     activeMarks: null,
     activeBlocks: {},
   });
 
-  const editorHandler = useMemo(() => new EditorHandler(initialValue), []);
+  const handleChange = (values: Descendant[]) => {
+    const isChanged = editorHandler.hasChanged(values);
+
+    setActiveElements(editorHandler.getActiveElements());
+
+    if (isChanged) {
+      const headings = editorHandler.getUpdatedHeadings(values);
+
+      if (headings) {
+        dispatch(updateHeadings(headings));
+      }
+    }
+  };
 
   const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);
   const renderElement = useCallback((props: RenderElementProps) => <Element {...props} />, []);
@@ -66,20 +89,6 @@ export function Wysiwyg() {
     (event: KeyboardEvent<HTMLDivElement>) => editorHandler.handleHotKey(event),
     []
   );
-
-  const handleChange = (values: Descendant[]) => {
-    const isChanged = editorHandler.hasChanged(values);
-
-    setActiveElements(editorHandler.getActiveElements());
-
-    if (isChanged) {
-      const headings = editorHandler.getUpdatedHeadings(values);
-
-      if (headings) {
-        dispatch(updateHeadings(headings));
-      }
-    }
-  };
 
   return (
     <div className={styles.wysiwygWrapper}>

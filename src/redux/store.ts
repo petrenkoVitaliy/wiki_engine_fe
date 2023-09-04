@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { editorReducer } from './slices/editor.slice';
+import { userReducer } from './slices/user.slice';
 
 export const store = configureStore({
   reducer: {
     editorReducer,
+    userReducer,
   },
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: false,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,4 +1,4 @@
-import { createEditor, BaseEditor, Descendant, Transforms } from 'slate';
+import { createEditor, BaseEditor, Descendant } from 'slate';
 import { withReact, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { KeyboardEvent } from 'react';
@@ -20,11 +20,11 @@ export class EditorHandler {
   private headings: string[];
   private prevState: Descendant[];
 
-  constructor(initialValue: Descendant[]) {
+  constructor() {
     this.editor = withImage(withInline(withHistory(withReact(createEditor()))));
 
-    this.headings = this.getHeadings(initialValue);
-    this.prevState = initialValue;
+    this.headings = [];
+    this.prevState = [];
 
     this.blochHandler = new BlockEditorHandler(this.editor);
     this.markHandler = new MarkEditorHandler(this.editor);
@@ -81,10 +81,6 @@ export class EditorHandler {
       if (format) {
         this.markHandler.toggleMark(format);
         event.preventDefault();
-      }
-    } else {
-      if (event.key === 'ArrowRight') {
-        Transforms.move(this.editor, { unit: 'offset' });
       }
     }
   }

@@ -11,12 +11,13 @@ const initialState: EditorState = {
 };
 
 export const editorSlice = createSlice({
-  name: 'counter',
+  name: 'editor',
   initialState,
   reducers: {
     updateHeadings: (state, action: PayloadAction<string[]>) => {
       state.headings = action.payload;
     },
+
     toggleReadOnly: (state) => {
       state.isReadOnly = !state.isReadOnly;
     },

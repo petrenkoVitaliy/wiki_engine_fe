@@ -1,9 +1,13 @@
 import styles from './heading-container.module.scss';
 
-export function HeadingContainer() {
+type HeaderProps = {
+  articleName: string;
+};
+
+export function HeadingContainer(props: HeaderProps) {
   return (
     <div className={styles.headingWrapper}>
-      <p>Heading</p>
+      <p>{props.articleName}</p>
     </div>
   );
 }
