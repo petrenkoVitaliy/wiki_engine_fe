@@ -10,7 +10,7 @@ export function Menu() {
   const router = useRouter();
 
   const handleCreateNewArticle = () => {
-    router.push(ROUTES.create());
+    router.push(ROUTES.createArticle());
   };
 
   return (

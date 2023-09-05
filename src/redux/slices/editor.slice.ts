@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
 import { ApiMapper } from '@/api/api.mapper';
-import { Article } from '@/api/types/article.types';
+import { Article, ArticleType } from '@/api/types/article.types';
 
 type EditorState = {
   headings: string[];
@@ -18,6 +18,41 @@ const initialState: EditorState = {
 
 const sliceName = 'editor';
 
+const createArticleLanguage = createAsyncThunk(
+  `${sliceName}/createArticleLanguage`,
+  async (params: {
+    id: number;
+    content: string;
+    language: string;
+    name: string;
+    storedArticle: Article;
+    callback: (article: Article | null) => void;
+  }) => {
+    const { content, name, language, callback, id, storedArticle } = params;
+    const articleLanguageResponse = await apiHandler.createArticleLanguage(id, language, {
+      content,
+      name,
+    });
+
+    let article: Article | null = null;
+
+    if (articleLanguageResponse.status === 'ok') {
+      article = {
+        ...storedArticle,
+        languages: [...storedArticle.languages, articleLanguageResponse.result],
+        languagesMap: {
+          ...storedArticle.languagesMap,
+          [articleLanguageResponse.result.language.code]: articleLanguageResponse.result, // TODO optimize
+        },
+      };
+    }
+
+    callback(article);
+
+    return article;
+  }
+);
+
 const createArticle = createAsyncThunk(
   `${sliceName}/createArticle`,
   async (params: {
@@ -31,13 +66,13 @@ const createArticle = createAsyncThunk(
       content,
       language,
       name,
-      article_type: 'Public', // TODO enum & select
+      article_type: ArticleType.Public,
     });
 
     let article: Article | null = null;
 
     if (articleResponse.status === 'ok') {
-      article = ApiMapper.mapArticleDtoToType(articleResponse.result, language);
+      article = ApiMapper.mapArticleDtoToType(articleResponse.result);
     }
 
     callback(article);
@@ -66,12 +101,22 @@ const editArticle = createAsyncThunk(
     let article: Article | null = null;
 
     if (articleVersionResponse.status === 'ok') {
+      const updatedLanguagesMap = { ...storedArticle.languagesMap };
+      const updatedArticleLanguages = storedArticle.languages.map((articleLanguage) => {
+        if (articleLanguage.language.code !== language) {
+          return articleLanguage;
+        }
+
+        articleLanguage.version = articleVersionResponse.result;
+        updatedLanguagesMap[language].version = articleVersionResponse.result;
+
+        return articleLanguage;
+      });
+
       article = {
         ...storedArticle,
-        language: {
-          ...storedArticle.language,
-          version: articleVersionResponse.result,
-        },
+        languages: updatedArticleLanguages,
+        languagesMap: updatedLanguagesMap,
       };
     }
 
@@ -104,9 +149,12 @@ export const editorSlice = createSlice({
     builder.addCase(createArticle.fulfilled, (state, action) => {
       state.article = action.payload;
     });
+    builder.addCase(createArticleLanguage.fulfilled, (state, action) => {
+      state.article = action.payload;
+    });
   },
 });
 
-export { editArticle, createArticle };
+export { editArticle, createArticle, createArticleLanguage };
 export const { updateHeadings, toggleEditMode, setEditMode } = editorSlice.actions;
 export const editorReducer = editorSlice.reducer;

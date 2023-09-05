@@ -1,9 +1,10 @@
 @import '../../styles/variables.scss';
 
 .button {
-  width: 90px;
+  min-width: 90px;
   height: 30px;
 
+  padding: 0 5px;
   margin: 5px 15px;
 
   cursor: pointer;

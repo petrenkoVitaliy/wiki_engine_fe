@@ -8,7 +8,7 @@ import { apiHandler } from '@/api/api-handler/api.handler';
 import { ApiMapper } from '@/api/api.mapper';
 
 import { AuthHandler } from '@/auth/auth.handler';
-import { ArticleContext } from '@/context/article-context';
+import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 
 import styles from './article-page.module.scss';
 
@@ -18,21 +18,26 @@ type ArticleLanguageProps = {
 
 type ArticleLanguageParams = {
   article: string;
-  language: string;
 };
 
 export default async function ArticleLanguage(props: ArticleLanguageProps) {
-  const [articleDto, user] = await Promise.all([getArticleDto(props.params), getUser()]);
+  const [articleDto, user, languages] = await Promise.all([
+    getArticleDto(props.params),
+    getUser(),
+    getLanguages(),
+  ]);
 
   if (!articleDto) {
     notFound();
-    return null;
   }
 
-  const article = ApiMapper.mapArticleDtoToType(articleDto, props.params.language);
+  const article = ApiMapper.mapArticleDtoToType(articleDto);
+  const availableLanguages = ApiMapper.getAvailableLanguages(articleDto, languages);
 
   return (
-    <ArticleContext.Provider value={{ article, languages: [] }}>
+    <ArticleContext.Provider
+      value={{ article, languages: availableLanguages, mode: ArticleEditMode.LanguageCreation }}
+    >
       <main className={styles.mainWrapper}>
         <Navbar user={user} />
         <Article />
@@ -58,6 +63,16 @@ async function getUser() {
   return user;
 }
 
+async function getLanguages() {
+  const languages = await apiHandler.getSystemLanguages();
+
+  if (languages.status === 'error') {
+    return [];
+  }
+
+  return languages.result;
+}
+
 export async function generateStaticParams() {
   const articlesListResponse = await apiHandler.getArticlesList();
 
@@ -68,14 +83,13 @@ export async function generateStaticParams() {
   }
 
   articlesListResponse.result.forEach((article) => {
-    article.languages.forEach((articleLanguage) => {
-      params.push({
-        article: String(article.id),
-        language: articleLanguage.language.code,
-      });
+    params.push({
+      article: String(article.id),
     });
   });
 
   console.log(params);
   return params;
 }
+
+export const dynamicParams = false;

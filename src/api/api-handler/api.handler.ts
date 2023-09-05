@@ -1,4 +1,4 @@
-import { ArticleDto, ArticleVersionDto, LanguageDto } from '../dto/article.dto';
+import { ArticleDto, ArticleLanguageDto, ArticleVersionDto, LanguageDto } from '../dto/article.dto';
 import { LoginDto, UserDto } from '../dto/auth.dto';
 import { FetchHandler } from './fetch.handler';
 
@@ -79,6 +79,27 @@ class ApiHandler extends FetchHandler {
     );
 
     return articleResponse;
+  }
+
+  public async createArticleLanguage(
+    id: number,
+    language: string,
+    contentBody: {
+      content: string;
+      name: string;
+    }
+  ) {
+    const articleLanguageResponse = await this.fetchApi<ArticleLanguageDto>(
+      `articles/${id}/language/${language}`,
+      {
+        method: 'post',
+        cache: 'no-store',
+        body: JSON.stringify(contentBody),
+      },
+      { isAuth: true }
+    );
+
+    return articleLanguageResponse;
   }
 
   public async getSystemLanguages() {

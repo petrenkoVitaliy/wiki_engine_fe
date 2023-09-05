@@ -1,33 +1,27 @@
-import { ArticleDto } from './dto/article.dto';
+import { ArticleDto, LanguageDto } from './dto/article.dto';
 import { Article, ArticleLanguage } from './types/article.types';
 
 class ApiMapper {
-  public static mapArticleDtoToType(articleDto: ArticleDto, selectedLanguageCode: string): Article {
-    let language: ArticleLanguage | undefined;
-
-    const otherLanguages: string[] = articleDto.languages.reduce<string[]>(
+  public static mapArticleDtoToType(articleDto: ArticleDto): Article {
+    const languagesMap = articleDto.languages.reduce<{ [key: string]: ArticleLanguage }>(
       (acc, articleLanguage) => {
-        if (articleLanguage.language.code !== selectedLanguageCode) {
-          acc.push(articleLanguage.language.code);
-        } else {
-          language = articleLanguage;
-        }
+        acc[articleLanguage.language.code] = articleLanguage;
 
         return acc;
       },
-      []
+      {}
     );
 
     return {
+      languagesMap,
+
       id: articleDto.id,
       enabled: articleDto.enabled,
       archived: articleDto.archived,
       article_type: articleDto.article_type,
       updated_at: articleDto.updated_at,
       created_at: articleDto.created_at,
-
-      language: language || articleDto.languages[0],
-      otherLanguages,
+      languages: articleDto.languages,
     };
   }
 
@@ -36,19 +30,28 @@ class ApiMapper {
     value: string;
   }[] {
     const languageOptions =
-      article.otherLanguages.map((languageCode) => ({
-        value: languageCode,
-        label: languageCode,
+      article.languages.map(({ language: { code } }) => ({
+        value: code,
+        label: code,
       })) || [];
 
-    const selectedLanguage = article.language.language.code;
-
-    languageOptions.push({
-      label: selectedLanguage,
-      value: selectedLanguage,
-    });
-
     return languageOptions;
+  }
+
+  public static getAvailableLanguages(
+    articleDto: ArticleDto,
+    languages: LanguageDto[]
+  ): LanguageDto[] {
+    const usedLanguagesMap = articleDto.languages.reduce<{ [key: string]: boolean }>(
+      (acc, articleLanguage) => {
+        acc[articleLanguage.language.code] = true;
+
+        return acc;
+      },
+      {}
+    );
+
+    return languages.filter((language) => !usedLanguagesMap[language.code]);
   }
 }
 

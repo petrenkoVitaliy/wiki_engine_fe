@@ -10,7 +10,7 @@ import { Button } from '@/components/button/button';
 import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
 import { Input } from '@/components/input/input';
 
-import { createArticle } from '@/redux/slices/editor.slice';
+import { createArticle, createArticleLanguage } from '@/redux/slices/editor.slice';
 import { useAppDispatch } from '@/redux/hooks';
 
 import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
@@ -29,6 +29,7 @@ type FormValues = { language: string; name: string };
 type ArticleBarProps = {
   languages: LanguageDto[];
   editorHandler: EditorHandler;
+  article: Article | null;
 };
 
 export function CreateArticleBar(props: ArticleBarProps) {
@@ -54,10 +55,11 @@ export function CreateArticleBar(props: ArticleBarProps) {
   };
 
   const handleCreateArticle = (article: Article | null) => {
+    const values = getValues(); // TODO!!!
     if (article) {
-      toast('Article was successfully updated', { type: 'success' });
+      toast('Article was successfully created', { type: 'success' });
 
-      router.push(ROUTES.articleLanguage(article.language.language.code, article.id));
+      router.push(ROUTES.articleLanguage(values.language, article.id));
     } else {
       toast('Failed to save article', { type: 'error' });
     }
@@ -70,14 +72,28 @@ export function CreateArticleBar(props: ArticleBarProps) {
 
     const content = JSON.stringify(props.editorHandler.editor.children);
 
-    dispatch(
-      createArticle({
-        content: content,
-        language: values.language,
-        name: values.name,
-        callback: handleCreateArticle,
-      })
-    );
+    if (props.article) {
+      dispatch(
+        createArticleLanguage({
+          id: props.article.id,
+          content: content,
+          language: values.language,
+          name: values.name,
+          storedArticle: props.article,
+          callback: handleCreateArticle,
+        })
+      );
+    } else {
+      dispatch(
+        createArticle({
+          content: content,
+          language: values.language,
+          name: values.name,
+          callback: handleCreateArticle,
+        })
+      );
+    }
+    // createArticleLanguage
   };
 
   return (

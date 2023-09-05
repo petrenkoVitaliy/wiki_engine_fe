@@ -11,7 +11,7 @@ import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
 import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ROUTES } from '@/routes/routes.handler';
 
 import { ApiMapper } from '@/api/api.mapper';
@@ -32,13 +32,16 @@ type ArticleBarProps = {
 };
 
 export function EditArticleBar(props: ArticleBarProps) {
-  const { isOpened, handleCloseModal, handleOpenModal } = useModalControls();
-
+  const routeParams = useParams(); // TODO
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  const selectedLanguage = useMemo(() => routeParams.language as string, [routeParams]);
+
+  const { isOpened, handleCloseModal, handleOpenModal } = useModalControls();
+
   const { register, handleSubmit } = useForm<FormValues>({
-    values: { language: props.article.language.language.code },
+    values: { language: selectedLanguage },
   });
 
   const articleOptions = useMemo(() => {
@@ -48,9 +51,9 @@ export function EditArticleBar(props: ArticleBarProps) {
 
     return {
       languageOptions,
-      articleName: article.language.name,
+      articleName: article.languagesMap[selectedLanguage].name,
     };
-  }, [props.article]);
+  }, [props.article, selectedLanguage]);
 
   const onLanguageChange = (data: FormValues) => {
     router.push(ROUTES.articleLanguage(data.language, props.article.id));
@@ -63,6 +66,10 @@ export function EditArticleBar(props: ArticleBarProps) {
 
   const handleEditMode = () => {
     dispatch(toggleEditMode());
+  };
+
+  const handleAddLanguage = () => {
+    router.push(ROUTES.addLanguage(props.article.id));
   };
 
   const handleResponse = (article: Article | null) => {
@@ -84,7 +91,7 @@ export function EditArticleBar(props: ArticleBarProps) {
       editArticle({
         content: content,
         id: article.id,
-        language: article.language.language.code,
+        language: selectedLanguage,
         callback: handleResponse,
         storedArticle: article,
       })
@@ -110,7 +117,10 @@ export function EditArticleBar(props: ArticleBarProps) {
             <Button onClick={handleEditMode} label='Cancel' />
           </>
         ) : (
-          <Button onClick={handleEditMode} label='Edit' />
+          <>
+            <Button onClick={handleAddLanguage} label='Add language' />
+            <Button onClick={handleEditMode} label='Edit' />
+          </>
         )}
       </div>
 

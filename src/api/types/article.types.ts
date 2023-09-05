@@ -7,8 +7,8 @@ export type Article = {
   updated_at?: string;
   created_at: string;
 
-  language: ArticleLanguage;
-  otherLanguages: string[];
+  languages: ArticleLanguage[];
+  languagesMap: { [key: string]: ArticleLanguage };
 };
 
 export type ArticleLanguage = {
@@ -46,4 +46,9 @@ export type Language = {
   code: string;
 };
 
-export type ArticleType = 'Private' | 'Public' | 'Protected' | 'Restricted';
+export enum ArticleType {
+  Private = 'Private',
+  Public = 'Public',
+  Protected = 'Protected',
+  Restricted = 'Restricted',
+}

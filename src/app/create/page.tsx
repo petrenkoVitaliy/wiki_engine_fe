@@ -6,7 +6,7 @@ import { Article } from '@/containers/article-content/article';
 
 import { AuthHandler } from '@/auth/auth.handler';
 import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
-import { ArticleContext } from '@/context/article-context';
+import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 import { apiHandler } from '@/api/api-handler/api.handler';
 
 import styles from './create-article-page.module.scss';
@@ -15,11 +15,11 @@ export default async function CreateArticle() {
   const [user, languages] = await Promise.all([getUser(), getLanguages()]);
 
   if (!user) {
-    redirect(RoutesHandler.withQuery(ROUTES.login(), { from: ROUTES.create() }));
+    redirect(RoutesHandler.withQuery(ROUTES.login(), { from: ROUTES.createArticle() }));
   }
 
   return (
-    <ArticleContext.Provider value={{ article: null, languages }}>
+    <ArticleContext.Provider value={{ article: null, languages, mode: ArticleEditMode.Creation }}>
       <main className={styles.mainWrapper}>
         <Navbar user={user} />
         <Article />
@@ -41,5 +41,6 @@ async function getLanguages() {
   if (languages.status === 'error') {
     return [];
   }
+
   return languages.result;
 }
