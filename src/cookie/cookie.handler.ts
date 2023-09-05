@@ -1,5 +1,6 @@
 import Cookie from 'js-cookie';
 import { cookies } from 'next/dist/client/components/headers';
+
 import { AUTH_COOKIE_AGE, COOKIES } from './consts';
 
 class CookieHandler {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import styles from './expand-menu.module.scss';
 
 type MenuProps = {

@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
+
 import { useAppSelector } from '@/redux/hooks';
 import { RootState } from '@/redux/store';
-import { useMemo } from 'react';
 
 export function useTruthSource<T>(params: {
   propSource: T;

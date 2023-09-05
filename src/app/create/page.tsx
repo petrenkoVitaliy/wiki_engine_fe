@@ -1,13 +1,15 @@
+import { redirect } from 'next/navigation';
+
 import { Navbar } from '@/containers/navbar/navbar';
 import { Footer } from '@/containers/footer/footer';
+import { Article } from '@/containers/article-content/article';
+
+import { AuthHandler } from '@/auth/auth.handler';
+import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
+import { ArticleContext } from '@/context/article-context';
+import { apiHandler } from '@/api/api-handler/api.handler';
 
 import styles from './create-article-page.module.scss';
-import { AuthHandler } from '@/auth/auth.handler';
-import { redirect } from 'next/navigation';
-import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
-import { Article } from '@/containers/article-content/article';
-import { apiHandler } from '@/api/api-handler/api.handler';
-import { ArticleContext } from '@/context/article-context';
 
 export default async function CreateArticle() {
   const [user, languages] = await Promise.all([getUser(), getLanguages()]);

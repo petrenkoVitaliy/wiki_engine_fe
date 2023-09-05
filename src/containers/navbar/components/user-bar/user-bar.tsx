@@ -5,12 +5,14 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/button/button';
 import { User } from '@/api/types/user.types';
 
-import styles from './user-bar.module.scss';
 import { CookieHandler } from '@/cookie/cookie.handler';
 import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
-import { setUser } from '@/redux/slices/user.slice';
 import { useTruthSource } from '@/hooks/truth-source.hook';
+
+import { setUser } from '@/redux/slices/user.slice';
 import { useAppDispatch } from '@/redux/hooks';
+
+import styles from './user-bar.module.scss';
 
 type UserBarProps = {
   user: User | null;

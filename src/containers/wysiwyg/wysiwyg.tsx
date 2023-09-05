@@ -15,6 +15,8 @@ import { BlockButtons, MarkButtons, VerboseBlockButtons } from './elements';
 
 import { EditorHandler } from './handlers/editor-handler/editor.handler';
 
+import { Article } from '@/api/types/article.types';
+
 import {
   ActiveElementsMap,
   CustomElement,
@@ -24,7 +26,6 @@ import {
 } from './types';
 
 import styles from './wysiwyg.module.scss';
-import { Article } from '@/api/types/article.types';
 
 const defaultValue: CustomElement[] = [
   {

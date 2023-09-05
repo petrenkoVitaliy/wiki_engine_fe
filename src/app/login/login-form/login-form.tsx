@@ -8,12 +8,13 @@ import { LabeledInput } from '@/components/labeled-input/labeled-input';
 import { Button } from '@/components/button/button';
 
 import { loginUser } from '@/redux/slices/user.slice';
+import { useAppDispatch } from '@/redux/hooks';
+
+import { ROUTES } from '@/routes/routes.handler';
+import { User } from '@/api/types/user.types';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './form.module.scss';
-import { ROUTES } from '@/routes/routes.handler';
-import { User } from '@/api/types/user.types';
-import { useAppDispatch } from '@/redux/hooks';
 
 type FormValues = {
   password: string;

@@ -1,9 +1,8 @@
 import { ArticleDto } from './dto/article.dto';
 import { Article, ArticleLanguage } from './types/article.types';
 
-// TODO
 class ApiMapper {
-  public mapArticleDtoToType(articleDto: ArticleDto, selectedLanguageCode: string): Article {
+  public static mapArticleDtoToType(articleDto: ArticleDto, selectedLanguageCode: string): Article {
     let language: ArticleLanguage | undefined;
 
     const otherLanguages: string[] = articleDto.languages.reduce<string[]>(
@@ -32,7 +31,7 @@ class ApiMapper {
     };
   }
 
-  public getLanguageOptionsFromArticle(article: Article): {
+  public static getLanguageOptionsFromArticle(article: Article): {
     label: string;
     value: string;
   }[] {
@@ -53,6 +52,4 @@ class ApiMapper {
   }
 }
 
-const apiMapper = new ApiMapper();
-
-export { apiMapper };
+export { ApiMapper };

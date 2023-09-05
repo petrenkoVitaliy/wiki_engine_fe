@@ -2,29 +2,41 @@
 
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
+import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
+import { Input } from '@/components/input/input';
 
-import styles from './article-bar.module.scss';
+import { createArticle } from '@/redux/slices/editor.slice';
+import { useAppDispatch } from '@/redux/hooks';
+
+import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
+
+import { LanguageDto } from '@/api/dto/article.dto';
+import { Article } from '@/api/types/article.types';
+
+import { ROUTES } from '@/routes/routes.handler';
+import { useModalControls } from '@/hooks/modal-controls.hook';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
-import { useModalControls } from '@/hooks/modal-controls.hook';
-import { LanguageDto } from '@/api/dto/article.dto';
-import { Input } from '@/components/input/input';
+import styles from './article-bar.module.scss';
 
 type FormValues = { language: string; name: string };
 
 type ArticleBarProps = {
   languages: LanguageDto[];
-  handleSubmit: (values: { name: string; language: string }) => void;
+  editorHandler: EditorHandler;
 };
 
 export function CreateArticleBar(props: ArticleBarProps) {
-  const { isOpened, handleCloseModal, handleOpenModal } = useModalControls();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const { register, getValues } = useForm<FormValues>();
+  const { isOpened, handleCloseModal, handleOpenModal } = useModalControls();
 
   const articleOptions = useMemo(() => {
     const languageOptions = props.languages.map(({ code }) => ({
@@ -41,10 +53,31 @@ export function CreateArticleBar(props: ArticleBarProps) {
     handleOpenModal();
   };
 
-  const handleSubmitConfirmPopup = () => {
+  const handleCreateArticle = (article: Article | null) => {
+    if (article) {
+      toast('Article was successfully updated', { type: 'success' });
+
+      router.push(ROUTES.articleLanguage(article.language.language.code, article.id));
+    } else {
+      toast('Failed to save article', { type: 'error' });
+    }
+  };
+
+  const handleSubmitCreate = () => {
     handleCloseModal();
 
-    props.handleSubmit(getValues());
+    const values = getValues();
+
+    const content = JSON.stringify(props.editorHandler.editor.children);
+
+    dispatch(
+      createArticle({
+        content: content,
+        language: values.language,
+        name: values.name,
+        callback: handleCreateArticle,
+      })
+    );
   };
 
   return (
@@ -64,7 +97,7 @@ export function CreateArticleBar(props: ArticleBarProps) {
         label='Are you sure you want to create article?'
         cancelLabel='No'
         submitLabel='Yes'
-        handleSubmit={handleSubmitConfirmPopup}
+        handleSubmit={handleSubmitCreate}
         handleClose={handleCloseModal}
       />
     </section>

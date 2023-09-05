@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
-import { MarkFormat } from '../../../types';
+import { MarkFormat } from '@/containers/wysiwyg/types';
 
 import styles from './mark-button.module.scss';
 

@@ -1,7 +1,8 @@
-import { apiHandler } from '@/api/api-handler/api.handler';
-import { apiMapper } from '@/api/api.mapper';
-import { Article } from '@/api/types/article.types';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { apiHandler } from '@/api/api-handler/api.handler';
+import { ApiMapper } from '@/api/api.mapper';
+import { Article } from '@/api/types/article.types';
 
 type EditorState = {
   headings: string[];
@@ -36,7 +37,7 @@ const createArticle = createAsyncThunk(
     let article: Article | null = null;
 
     if (articleResponse.status === 'ok') {
-      article = apiMapper.mapArticleDtoToType(articleResponse.result, language);
+      article = ApiMapper.mapArticleDtoToType(articleResponse.result, language);
     }
 
     callback(article);

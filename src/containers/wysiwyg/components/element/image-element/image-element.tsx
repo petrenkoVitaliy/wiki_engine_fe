@@ -7,11 +7,11 @@ import {
 } from 'slate-react';
 import Image from 'next/image';
 
-import { BlockEditorHandler } from '../../../handlers/editor-handler/block-editor.handler';
+import { BlockEditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/block-editor.handler';
+import { ImageBlockElement } from '@/containers/wysiwyg/types';
 
 import { ControlButton } from './control-button/control-button';
 
-import { ImageBlockElement } from '../../../types';
 import { ICONS } from './icons';
 
 import styles from './image-element.module.scss';

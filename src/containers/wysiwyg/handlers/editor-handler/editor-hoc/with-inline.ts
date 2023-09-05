@@ -1,7 +1,9 @@
 import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { BlockEditorHandler } from '../block-editor.handler';
+
 import { isUri } from '@/utils/utils';
+
+import { BlockEditorHandler } from '../block-editor.handler';
 
 export const withInline = (editor: BaseEditor & ReactEditor) => {
   const { insertData, insertText, isInline } = editor;

@@ -1,8 +1,10 @@
 'use client';
-import { Button } from '@/components/button/button';
-import styles from './menu.module.scss';
 import { useRouter } from 'next/navigation';
+
+import { Button } from '@/components/button/button';
 import { ROUTES } from '@/routes/routes.handler';
+
+import styles from './menu.module.scss';
 
 export function Menu() {
   const router = useRouter();

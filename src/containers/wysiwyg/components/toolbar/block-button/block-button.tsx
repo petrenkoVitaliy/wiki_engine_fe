@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
-import { ElementFormat } from '../../../types';
+import { ElementFormat } from '@/containers/wysiwyg/types';
 
 import styles from './block-button.module.scss';
 

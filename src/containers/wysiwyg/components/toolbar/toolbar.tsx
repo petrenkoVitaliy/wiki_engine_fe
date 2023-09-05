@@ -2,9 +2,9 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 import { MarkButton } from './mark-button/mark-button';
 import { BlockButton } from './block-button/block-button';
+import { VerboseBlockButton } from './verbose-block-button/verbose-block-button';
 
 import { ActiveElementsMap, ElementFormat, MarkFormat, VerboseBlockOptions } from '../../types';
-import { VerboseBlockButton } from './verbose-block-button/verbose-block-button';
 
 import styles from './toolbar.module.scss';
 

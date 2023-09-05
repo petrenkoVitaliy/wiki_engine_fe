@@ -2,29 +2,33 @@
 
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import { useAppDispatch } from '@/redux/hooks';
-import { toggleEditMode } from '@/redux/slices/editor.slice';
+import { toggleEditMode, editArticle } from '@/redux/slices/editor.slice';
 
 import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
+import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
 
-import styles from './article-bar.module.scss';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/routes/routes.handler';
+
+import { ApiMapper } from '@/api/api.mapper';
 import { Article } from '@/api/types/article.types';
 
-import 'react-toastify/dist/ReactToastify.css';
-import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
 import { useModalControls } from '@/hooks/modal-controls.hook';
-import { apiMapper } from '@/api/api.mapper';
+import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
+
+import 'react-toastify/dist/ReactToastify.css';
+import styles from './article-bar.module.scss';
 
 type FormValues = { language: string };
 
 type ArticleBarProps = {
   article: Article;
   isEditMode: boolean;
-  handleSubmit: () => void;
+  editorHandler: EditorHandler;
 };
 
 export function EditArticleBar(props: ArticleBarProps) {
@@ -40,7 +44,7 @@ export function EditArticleBar(props: ArticleBarProps) {
   const articleOptions = useMemo(() => {
     const { article } = props;
 
-    const languageOptions = apiMapper.getLanguageOptionsFromArticle(article);
+    const languageOptions = ApiMapper.getLanguageOptionsFromArticle(article);
 
     return {
       languageOptions,
@@ -61,10 +65,30 @@ export function EditArticleBar(props: ArticleBarProps) {
     dispatch(toggleEditMode());
   };
 
-  const handleSubmitConfirmPopup = () => {
+  const handleResponse = (article: Article | null) => {
+    if (article) {
+      toast('Article was successfully updated', { type: 'success' });
+    } else {
+      toast('Failed to save article', { type: 'error' });
+    }
+  };
+
+  const handleSaveArticle = () => {
     handleCloseModal();
 
-    props.handleSubmit();
+    const { article } = props;
+
+    const content = JSON.stringify(props.editorHandler.editor.children);
+
+    dispatch(
+      editArticle({
+        content: content,
+        id: article.id,
+        language: article.language.language.code,
+        callback: handleResponse,
+        storedArticle: article,
+      })
+    );
   };
 
   return (
@@ -95,7 +119,7 @@ export function EditArticleBar(props: ArticleBarProps) {
         label='Are you sure you want to edit article?'
         cancelLabel='No'
         submitLabel='Yes'
-        handleSubmit={handleSubmitConfirmPopup}
+        handleSubmit={handleSaveArticle}
         handleClose={handleCloseModal}
       />
     </section>

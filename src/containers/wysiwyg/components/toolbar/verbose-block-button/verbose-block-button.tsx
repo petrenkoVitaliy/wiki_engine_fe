@@ -2,7 +2,7 @@ import { MouseEvent } from 'react';
 import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
-import { ElementFormat, VerboseBlockOptions } from '../../../types';
+import { ElementFormat, VerboseBlockOptions } from '@/containers/wysiwyg/types';
 
 import styles from './verbose-block-button.module.scss';
 

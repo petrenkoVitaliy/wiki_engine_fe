@@ -1,16 +1,16 @@
+import { notFound } from 'next/navigation';
+
 import { Navbar } from '@/containers/navbar/navbar';
 import { Footer } from '@/containers/footer/footer';
-
-import { Article } from '../../../containers/article-content/article';
-
-import { ArticleContext } from '../../../context/article-context';
+import { Article } from '@/containers/article-content/article';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
-import { apiMapper } from '@/api/api.mapper';
+import { ApiMapper } from '@/api/api.mapper';
+
+import { AuthHandler } from '@/auth/auth.handler';
+import { ArticleContext } from '@/context/article-context';
 
 import styles from './article-page.module.scss';
-import { AuthHandler } from '@/auth/auth.handler';
-import { notFound } from 'next/navigation';
 
 type ArticleLanguageProps = {
   params: ArticleLanguageParams;
@@ -29,7 +29,7 @@ export default async function ArticleLanguage(props: ArticleLanguageProps) {
     return null;
   }
 
-  const article = apiMapper.mapArticleDtoToType(articleDto, props.params.language);
+  const article = ApiMapper.mapArticleDtoToType(articleDto, props.params.language);
 
   return (
     <ArticleContext.Provider value={{ article, languages: [] }}>
