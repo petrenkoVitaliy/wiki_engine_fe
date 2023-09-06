@@ -54,12 +54,11 @@ export function CreateArticleBar(props: ArticleBarProps) {
     handleOpenModal();
   };
 
-  const handleCreateArticle = (article: Article | null) => {
-    const values = getValues(); // TODO!!!
+  const handleCreateArticle = (article: Article | null, language: string) => {
     if (article) {
       toast('Article was successfully created', { type: 'success' });
 
-      router.push(ROUTES.articleLanguage(values.language, article.id));
+      router.push(ROUTES.articleLanguage(language, article.id));
     } else {
       toast('Failed to save article', { type: 'error' });
     }
@@ -93,7 +92,6 @@ export function CreateArticleBar(props: ArticleBarProps) {
         })
       );
     }
-    // createArticleLanguage
   };
 
   return (

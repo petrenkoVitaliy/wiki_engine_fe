@@ -1,4 +1,6 @@
-import { ArticleDto, LanguageDto } from './dto/article.dto';
+import { pickAndExtend } from '@/utils/utils';
+
+import { ArticleDto, ArticleLanguageDto, LanguageDto } from './dto/article.dto';
 import { Article, ArticleLanguage } from './types/article.types';
 
 class ApiMapper {
@@ -36,6 +38,26 @@ class ApiMapper {
       })) || [];
 
     return languageOptions;
+  }
+
+  public static addLanguageToArticle(
+    article: Article,
+    newArticleLanguage: ArticleLanguageDto
+  ): Article {
+    const languages = [...article.languages];
+    languages.push(newArticleLanguage);
+
+    const languagesMap = { ...article.languagesMap };
+    languagesMap[newArticleLanguage.language.code] = newArticleLanguage;
+
+    return pickAndExtend(
+      article,
+      ['id', 'enabled', 'archived', 'article_type', 'updated_at', 'created_at'],
+      {
+        languages,
+        languagesMap,
+      }
+    );
   }
 
   public static getAvailableLanguages(

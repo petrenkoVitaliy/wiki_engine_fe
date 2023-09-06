@@ -26,7 +26,6 @@ import {
 } from './types';
 
 import styles from './wysiwyg.module.scss';
-import { useParams } from 'next/navigation';
 
 const defaultValue: CustomElement[] = [
   {
@@ -38,26 +37,24 @@ const defaultValue: CustomElement[] = [
 type WysiwygProps = {
   editorHandler: EditorHandler;
   article: Article | null;
+  language: string | null;
   isEditMode: boolean;
 };
 
 export function Wysiwyg(props: WysiwygProps) {
-  const routeParams = useParams(); // TODO
   const dispatch = useAppDispatch();
-
-  const selectedLanguage = useMemo(() => routeParams.language as string, [routeParams]);
 
   const editorHandler = useMemo(() => props.editorHandler || new EditorHandler(), [props]);
 
   const initialValue = useMemo(() => {
-    const { article } = props;
+    const { article, language } = props;
 
-    if (!article) {
+    if (!article || !language) {
       return defaultValue;
     }
 
-    return JSON.parse(article.languagesMap[selectedLanguage].version.content.content);
-  }, [props.article, selectedLanguage]);
+    return JSON.parse(article.languagesMap[language].version.content.content);
+  }, [props.article, props.language]);
 
   useEffect(() => {
     updateHeading(initialValue);

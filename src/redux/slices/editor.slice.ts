@@ -6,13 +6,13 @@ import { Article, ArticleType } from '@/api/types/article.types';
 
 type EditorState = {
   headings: string[];
-  isEditMode: boolean;
+  isEditorEditMode: boolean;
   article: Article | null;
 };
 
 const initialState: EditorState = {
   headings: [],
-  isEditMode: false,
+  isEditorEditMode: false,
   article: null,
 };
 
@@ -26,7 +26,7 @@ const createArticleLanguage = createAsyncThunk(
     language: string;
     name: string;
     storedArticle: Article;
-    callback: (article: Article | null) => void;
+    callback: (article: Article | null, language: string) => void;
   }) => {
     const { content, name, language, callback, id, storedArticle } = params;
     const articleLanguageResponse = await apiHandler.createArticleLanguage(id, language, {
@@ -37,17 +37,10 @@ const createArticleLanguage = createAsyncThunk(
     let article: Article | null = null;
 
     if (articleLanguageResponse.status === 'ok') {
-      article = {
-        ...storedArticle,
-        languages: [...storedArticle.languages, articleLanguageResponse.result],
-        languagesMap: {
-          ...storedArticle.languagesMap,
-          [articleLanguageResponse.result.language.code]: articleLanguageResponse.result, // TODO optimize
-        },
-      };
+      article = ApiMapper.addLanguageToArticle(storedArticle, articleLanguageResponse.result);
     }
 
-    callback(article);
+    callback(article, language);
 
     return article;
   }
@@ -59,7 +52,7 @@ const createArticle = createAsyncThunk(
     content: string;
     language: string;
     name: string;
-    callback: (article: Article | null) => void;
+    callback: (article: Article | null, language: string) => void;
   }) => {
     const { content, name, language, callback } = params;
     const articleResponse = await apiHandler.createArticle({
@@ -75,7 +68,7 @@ const createArticle = createAsyncThunk(
       article = ApiMapper.mapArticleDtoToType(articleResponse.result);
     }
 
-    callback(article);
+    callback(article, language);
 
     return article;
   }
@@ -135,11 +128,11 @@ export const editorSlice = createSlice({
     },
 
     toggleEditMode: (state) => {
-      state.isEditMode = !state.isEditMode;
+      state.isEditorEditMode = !state.isEditorEditMode;
     },
 
     setEditMode: (state, action: PayloadAction<boolean>) => {
-      state.isEditMode = action.payload;
+      state.isEditorEditMode = action.payload;
     },
   },
   extraReducers: (builder) => {

@@ -32,12 +32,9 @@ export default async function ArticleLanguage(props: ArticleLanguageProps) {
   }
 
   const article = ApiMapper.mapArticleDtoToType(articleDto);
-  const availableLanguages = ApiMapper.getAvailableLanguages(articleDto, languages);
 
   return (
-    <ArticleContext.Provider
-      value={{ article, languages: availableLanguages, mode: ArticleEditMode.LanguageCreation }}
-    >
+    <ArticleContext.Provider value={{ article, languages, mode: ArticleEditMode.LanguageCreation }}>
       <main className={styles.mainWrapper}>
         <Navbar user={user} />
         <Article />
@@ -91,5 +88,3 @@ export async function generateStaticParams() {
   console.log(params);
   return params;
 }
-
-export const dynamicParams = false;

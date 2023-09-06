@@ -11,7 +11,7 @@ import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
 import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/routes/routes.handler';
 
 import { ApiMapper } from '@/api/api.mapper';
@@ -28,32 +28,30 @@ type FormValues = { language: string };
 type ArticleBarProps = {
   article: Article;
   isEditMode: boolean;
+  language: string;
   editorHandler: EditorHandler;
 };
 
 export function EditArticleBar(props: ArticleBarProps) {
-  const routeParams = useParams(); // TODO
   const router = useRouter();
   const dispatch = useAppDispatch();
-
-  const selectedLanguage = useMemo(() => routeParams.language as string, [routeParams]);
 
   const { isOpened, handleCloseModal, handleOpenModal } = useModalControls();
 
   const { register, handleSubmit } = useForm<FormValues>({
-    values: { language: selectedLanguage },
+    values: { language: props.language },
   });
 
   const articleOptions = useMemo(() => {
-    const { article } = props;
+    const { article, language } = props;
 
     const languageOptions = ApiMapper.getLanguageOptionsFromArticle(article);
 
     return {
       languageOptions,
-      articleName: article.languagesMap[selectedLanguage].name,
+      articleName: article.languagesMap[language].name,
     };
-  }, [props.article, selectedLanguage]);
+  }, [props.article, props.language]);
 
   const onLanguageChange = (data: FormValues) => {
     router.push(ROUTES.articleLanguage(data.language, props.article.id));
@@ -69,7 +67,7 @@ export function EditArticleBar(props: ArticleBarProps) {
   };
 
   const handleAddLanguage = () => {
-    router.push(ROUTES.addLanguage(props.article.id));
+    router.push(ROUTES.createLanguage(props.article.id));
   };
 
   const handleResponse = (article: Article | null) => {
@@ -83,7 +81,7 @@ export function EditArticleBar(props: ArticleBarProps) {
   const handleSaveArticle = () => {
     handleCloseModal();
 
-    const { article } = props;
+    const { article, language } = props;
 
     const content = JSON.stringify(props.editorHandler.editor.children);
 
@@ -91,7 +89,7 @@ export function EditArticleBar(props: ArticleBarProps) {
       editArticle({
         content: content,
         id: article.id,
-        language: selectedLanguage,
+        language: language,
         callback: handleResponse,
         storedArticle: article,
       })

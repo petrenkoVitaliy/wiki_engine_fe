@@ -27,6 +27,30 @@ export function getHeadingId(headingBlock: Descendant[]): string {
   return stringToHash(heading);
 }
 
+export function pick<T, U extends keyof T>(parent: T, keys: U[]): Pick<T, U> {
+  return keys.reduce<Partial<T>>((acc, key) => {
+    acc[key] = parent[key];
+
+    return acc;
+  }, {}) as Pick<T, U>;
+}
+
+export function pickAndExtend<
+  T,
+  U extends keyof T,
+  L extends keyof T,
+  K extends { [P in L]?: T[P] },
+  R extends Pick<T, U> & K = Pick<T, U> & K,
+>(parent: T, keys: U[], extraFields: K): R {
+  const pickedValues = pick(parent, keys);
+
+  return Object.keys(extraFields).reduce((acc, key) => {
+    acc[key as L] = extraFields[key as L] as unknown as R[L];
+
+    return acc;
+  }, pickedValues as R);
+}
+
 export function isUri(uri: string): boolean {
   const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
   const localhostDomainRE = /^localhost[:?\d]*(?:[^:?\d]\S*)?$/;

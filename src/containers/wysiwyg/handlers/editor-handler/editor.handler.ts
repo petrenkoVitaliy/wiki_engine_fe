@@ -17,13 +17,13 @@ export class EditorHandler {
   public blochHandler: BlockEditorHandler;
   public markHandler: MarkEditorHandler;
 
-  private headings: string[];
+  private headings: string[] | null;
   private prevState: Descendant[];
 
   constructor() {
     this.editor = withImage(withInline(withHistory(withReact(createEditor()))));
 
-    this.headings = [];
+    this.headings = null;
     this.prevState = [];
 
     this.blochHandler = new BlockEditorHandler(this.editor);
@@ -57,9 +57,16 @@ export class EditorHandler {
   public getUpdatedHeadings(values: Descendant[]): string[] | null {
     const updatedHeadings = this.getHeadings(values);
 
+    const previousHeadings = this.headings;
+    if (!previousHeadings) {
+      this.headings = updatedHeadings;
+
+      return this.headings;
+    }
+
     const isUpdatedHeadings =
-      updatedHeadings.length !== this.headings.length ||
-      updatedHeadings.some((heading, index) => heading !== this.headings[index]);
+      updatedHeadings.length !== previousHeadings.length ||
+      updatedHeadings.some((heading, index) => heading !== previousHeadings[index]);
 
     this.headings = updatedHeadings;
 

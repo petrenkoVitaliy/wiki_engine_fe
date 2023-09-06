@@ -2,7 +2,7 @@ export const ROUTES = {
   main: () => '/',
   login: () => '/login',
   createArticle: () => '/create',
-  addLanguage: (articleId: number) => `/${articleId}/add-language`,
+  createLanguage: (articleId: number) => `/create/${articleId}`,
   articleLanguage: (language: string, articleId: number) => `/${articleId}/${language}`,
 };
 

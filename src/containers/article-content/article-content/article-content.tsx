@@ -1,4 +1,7 @@
 import { useContext, useMemo } from 'react';
+import { useParams } from 'next/navigation';
+
+import { ApiMapper } from '@/api/api.mapper';
 
 import { Wysiwyg } from '@/containers/wysiwyg/wysiwyg';
 import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
@@ -14,7 +17,6 @@ import styles from './article-content.module.scss';
 
 export function ArticleContent() {
   const articleContext = useContext(ArticleContext);
-
   if (!articleContext) {
     return null;
   }
@@ -24,35 +26,44 @@ export function ArticleContent() {
     storeSelector: (store) => store.editorReducer.article,
   });
 
-  const isCreationMode = useMemo(
-    () => articleContext.mode !== ArticleEditMode.Edit,
+  const routeParams = useParams();
+  const language = useMemo(() => (routeParams.language || null) as string | null, [routeParams]);
+
+  const editorHandler = useMemo(() => new EditorHandler(), []);
+  const languages = useMemo(() => {
+    if (!article) {
+      return articleContext.languages || [];
+    }
+
+    return ApiMapper.getAvailableLanguages(article, articleContext.languages);
+  }, [articleContext.languages, article]);
+
+  const isEditorEditModeStore = useAppSelector((state) => state.editorReducer.isEditorEditMode);
+  const isArticleCreationMode = useMemo(
+    () =>
+      articleContext.mode === ArticleEditMode.Creation ||
+      articleContext.mode === ArticleEditMode.LanguageCreation,
     [articleContext.mode]
   );
 
-  const isEditModeStore = useAppSelector((state) => state.editorReducer.isEditMode);
-  const isEditMode = useMemo(
-    () =>
-      articleContext.mode === ArticleEditMode.Creation ||
-      articleContext.mode === ArticleEditMode.LanguageCreation ||
-      isEditModeStore,
-    [isEditModeStore, articleContext.mode]
-  );
-
-  const editorHandler = useMemo(() => new EditorHandler(), []);
-  const languages = useMemo(() => articleContext?.languages || [], [articleContext]);
-
   return (
     <section className={styles.articleContent}>
-      {article && !isCreationMode ? (
-        <EditArticleBar isEditMode={isEditMode} article={article} editorHandler={editorHandler} />
+      {article && language ? (
+        <EditArticleBar
+          isEditMode={isArticleCreationMode || isEditorEditModeStore}
+          article={article}
+          editorHandler={editorHandler}
+          language={language}
+        />
       ) : (
         <CreateArticleBar article={article} editorHandler={editorHandler} languages={languages} />
       )}
 
       <section className={styles.articleBody}>
         <Wysiwyg
-          isEditMode={isEditMode}
-          article={!isCreationMode ? article : null}
+          isEditMode={isArticleCreationMode || isEditorEditModeStore}
+          article={!isArticleCreationMode ? article : null}
+          language={language}
           editorHandler={editorHandler}
         />
       </section>
