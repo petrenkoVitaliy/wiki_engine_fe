@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
 import { Footer } from '@/containers/footer/footer';
@@ -10,7 +10,7 @@ import { ApiMapper } from '@/api/api.mapper';
 import { AuthHandler } from '@/auth/auth.handler';
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 
-import styles from './article-page.module.scss';
+import { ROUTES } from '@/routes/routes.handler';
 
 type ArticleLanguageProps = {
   params: ArticleLanguageParams;
@@ -28,15 +28,21 @@ export default async function ArticleLanguage(props: ArticleLanguageProps) {
     notFound();
   }
 
+  const isMatchedLanguage = articleDto.languages.some(
+    ({ language }) => language.code === props.params.language
+  );
+
+  if (!isMatchedLanguage) {
+    redirect(ROUTES.articleLanguage(articleDto.languages[0].language.code, articleDto.id));
+  }
+
   const article = ApiMapper.mapArticleDtoToType(articleDto);
 
   return (
     <ArticleContext.Provider value={{ article, languages: [], mode: ArticleEditMode.Edit }}>
-      <main className={styles.mainWrapper}>
-        <Navbar user={user} />
-        <Article />
-        <Footer />
-      </main>
+      <Navbar user={user} />
+      <Article />
+      <Footer />
     </ArticleContext.Provider>
   );
 }
@@ -75,6 +81,6 @@ export async function generateStaticParams() {
     });
   });
 
-  console.log(params);
+  // console.log(params);
   return params;
 }

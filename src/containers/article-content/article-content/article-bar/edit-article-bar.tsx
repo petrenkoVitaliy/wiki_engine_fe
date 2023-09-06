@@ -10,6 +10,7 @@ import { toggleEditMode, editArticle } from '@/redux/slices/editor.slice';
 import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
 import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
+import { Input } from '@/components/input/input';
 
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/routes/routes.handler';
@@ -23,7 +24,7 @@ import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/edit
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './article-bar.module.scss';
 
-type FormValues = { language: string };
+type FormValues = { language: string; name: string };
 
 type ArticleBarProps = {
   article: Article;
@@ -38,10 +39,6 @@ export function EditArticleBar(props: ArticleBarProps) {
 
   const { isOpened, handleCloseModal, handleOpenModal } = useModalControls();
 
-  const { register, handleSubmit } = useForm<FormValues>({
-    values: { language: props.language },
-  });
-
   const articleOptions = useMemo(() => {
     const { article, language } = props;
 
@@ -52,6 +49,13 @@ export function EditArticleBar(props: ArticleBarProps) {
       articleName: article.languagesMap[language].name,
     };
   }, [props.article, props.language]);
+
+  const { register, handleSubmit } = useForm<FormValues>({
+    values: {
+      language: props.language,
+      name: articleOptions.articleName,
+    },
+  });
 
   const onLanguageChange = (data: FormValues) => {
     router.push(ROUTES.articleLanguage(data.language, props.article.id));
@@ -99,7 +103,7 @@ export function EditArticleBar(props: ArticleBarProps) {
   return (
     <section className={styles.articleBar}>
       <div className={styles.headingWrapper}>
-        <p>{articleOptions.articleName}</p>
+        <Input formRegister={register('name')} disabled />
       </div>
 
       <div className={styles.controlPanel}>

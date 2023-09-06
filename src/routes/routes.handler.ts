@@ -2,8 +2,9 @@ export const ROUTES = {
   main: () => '/',
   login: () => '/login',
   createArticle: () => '/create',
-  createLanguage: (articleId: number) => `/create/${articleId}`,
-  articleLanguage: (language: string, articleId: number) => `/${articleId}/${language}`,
+  createLanguage: (articleId: string | number) => `/create/${articleId}`,
+  articleLanguage: (language: string | number, articleId: string | number) =>
+    `/${articleId}/${language}`,
 };
 
 export class RoutesHandler {

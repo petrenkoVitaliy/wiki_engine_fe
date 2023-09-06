@@ -10,8 +10,6 @@ import { ApiMapper } from '@/api/api.mapper';
 import { AuthHandler } from '@/auth/auth.handler';
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 
-import styles from './article-page.module.scss';
-
 type ArticleLanguageProps = {
   params: ArticleLanguageParams;
 };
@@ -35,11 +33,9 @@ export default async function ArticleLanguage(props: ArticleLanguageProps) {
 
   return (
     <ArticleContext.Provider value={{ article, languages, mode: ArticleEditMode.LanguageCreation }}>
-      <main className={styles.mainWrapper}>
-        <Navbar user={user} />
-        <Article />
-        <Footer />
-      </main>
+      <Navbar user={user} />
+      <Article />
+      <Footer />
     </ArticleContext.Provider>
   );
 }

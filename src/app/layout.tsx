@@ -15,8 +15,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='en'>
       <body className={styles.body}>
-        <Provider>{children}</Provider>
-        <ToastContainer />
+        <main className={styles.main}>
+          <Provider>{children}</Provider>
+          <ToastContainer />
+        </main>
       </body>
     </html>
   );

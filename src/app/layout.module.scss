@@ -6,4 +6,12 @@
   height: 100vh;
 
   font-family: helvetica, arial, sans-serif;
+
+  .main {
+    background: $backgroundMain;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
 }

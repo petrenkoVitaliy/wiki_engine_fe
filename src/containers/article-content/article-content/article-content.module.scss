@@ -4,16 +4,13 @@
   background: $backgroundMain;
   color: $fontMain;
 
-  width: 100%;
+  flex: 1;
 
   display: flex;
   flex-direction: column;
 
-  margin: 0 60px 0 0;
-
   .articleBody {
     border: 1px solid $backgroundSecondary;
-    width: 100%;
-    margin-bottom: 20px;
+    flex: 1;
   }
 }

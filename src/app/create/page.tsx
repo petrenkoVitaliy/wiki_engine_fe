@@ -9,8 +9,6 @@ import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 import { apiHandler } from '@/api/api-handler/api.handler';
 
-import styles from './create-article-page.module.scss';
-
 export default async function CreateArticle() {
   const [user, languages] = await Promise.all([getUser(), getLanguages()]);
 
@@ -20,11 +18,9 @@ export default async function CreateArticle() {
 
   return (
     <ArticleContext.Provider value={{ article: null, languages, mode: ArticleEditMode.Creation }}>
-      <main className={styles.mainWrapper}>
-        <Navbar user={user} />
-        <Article />
-        <Footer />
-      </main>
+      <Navbar user={user} />
+      <Article />
+      <Footer />
     </ArticleContext.Provider>
   );
 }
