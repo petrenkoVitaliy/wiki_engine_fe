@@ -21,6 +21,21 @@ export class BlockEditorHandler {
     this.editor = editor;
   }
 
+  public updateChildren(children: CustomElement[]) {
+    Transforms.delete(this.editor, {
+      at: {
+        anchor: Editor.start(this.editor, []),
+        focus: Editor.end(this.editor, []),
+      },
+    });
+
+    Transforms.removeNodes(this.editor, {
+      at: [0],
+    });
+
+    Transforms.insertNodes(this.editor, children);
+  }
+
   public isBlockActiveCheck(format: ElementFormat): boolean {
     const blockType: keyof CustomElement = TEXT_ALIGN_FORMATS_MAP[format] ? 'align' : 'type';
 

@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { User } from '@/api/types/user.types';
 import { AuthHandler } from '@/auth/auth.handler';
+import { createHandledAsyncThunk } from '../thunk';
 
 type UserState = {
   user: User | null;
@@ -13,7 +14,7 @@ const initialState: UserState = {
 
 const sliceName = 'user';
 
-const loginUser = createAsyncThunk(
+const loginUser = createHandledAsyncThunk(
   `${sliceName}/loginUser`,
   async (params: {
     credentials: { password: string; email: string };

@@ -1,7 +1,7 @@
 import { pickAndExtend } from '@/utils/utils';
 
-import { ArticleDto, ArticleLanguageDto, LanguageDto } from './dto/article.dto';
-import { Article, ArticleLanguage } from './types/article.types';
+import { ArticleDto, ArticleLanguageDto, LanguageDto } from '../api/dto/article.dto';
+import { Article, ArticleLanguage } from '../api/types/article.types';
 
 class ApiMapper {
   public static mapArticleDtoToType(articleDto: ArticleDto): Article {

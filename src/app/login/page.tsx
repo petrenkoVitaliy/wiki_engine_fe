@@ -4,8 +4,8 @@ import styles from './page.module.scss';
 
 export default async function Login() {
   return (
-    <main className={styles.main}>
+    <section className={styles.main}>
       <LoginForm />
-    </main>
+    </section>
   );
 }

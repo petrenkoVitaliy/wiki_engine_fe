@@ -1,9 +1,9 @@
 import { useContext, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 
-import { ApiMapper } from '@/api/api.mapper';
+import { ApiMapper } from '@/mappers/api.mapper';
 
-import { Wysiwyg } from '@/containers/wysiwyg/wysiwyg';
+import { WysiwygEditor } from '@/containers/wysiwyg/wysiwyg-editor';
 import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
 
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
@@ -60,7 +60,7 @@ export function ArticleContent() {
       )}
 
       <section className={styles.articleBody}>
-        <Wysiwyg
+        <WysiwygEditor
           isEditMode={isArticleCreationMode || isEditorEditModeStore}
           article={!isArticleCreationMode ? article : null}
           language={language}

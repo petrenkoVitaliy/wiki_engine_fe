@@ -15,7 +15,7 @@ import { Input } from '@/components/input/input';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/routes/routes.handler';
 
-import { ApiMapper } from '@/api/api.mapper';
+import { ApiMapper } from '@/mappers/api.mapper';
 import { Article } from '@/api/types/article.types';
 
 import { useModalControls } from '@/hooks/modal-controls.hook';
@@ -64,6 +64,10 @@ export function EditArticleBar(props: ArticleBarProps) {
   const onSubmit = () => {
     // TODO auth check
     handleOpenModal();
+  };
+
+  const handleHistoryClick = () => {
+    router.push(ROUTES.articleLanguageHistory(props.language, props.article.id));
   };
 
   const handleEditMode = () => {
@@ -120,6 +124,7 @@ export function EditArticleBar(props: ArticleBarProps) {
           </>
         ) : (
           <>
+            <Button onClick={handleHistoryClick} label='History' />
             <Button onClick={handleAddLanguage} label='Add language' />
             <Button onClick={handleEditMode} label='Edit' />
           </>
@@ -127,7 +132,7 @@ export function EditArticleBar(props: ArticleBarProps) {
       </div>
 
       <ConfirmationModal
-        isOpen={isOpened}
+        isOpened={isOpened}
         label='Are you sure you want to edit article?'
         cancelLabel='No'
         submitLabel='Yes'

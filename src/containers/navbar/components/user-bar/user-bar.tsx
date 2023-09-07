@@ -28,11 +28,11 @@ export function UserBar(props: UserBarProps) {
     storeSelector: (state) => state.userReducer.user,
   });
 
-  const onLoginClick = () => {
+  const handleLoginClick = () => {
     router.push(RoutesHandler.withQuery(ROUTES.login(), { from: pathname }));
   };
 
-  const onLogoutClick = () => {
+  const handleLogoutClick = () => {
     CookieHandler.removeAuthCookie();
     dispatch(setUser(null));
 
@@ -44,10 +44,10 @@ export function UserBar(props: UserBarProps) {
       {user ? (
         <>
           <p>{user.name}</p>
-          <Button label='logout' onClick={onLogoutClick} />
+          <Button label='logout' onClick={handleLogoutClick} />
         </>
       ) : (
-        <Button label='login' onClick={onLoginClick} />
+        <Button label='login' onClick={handleLoginClick} />
       )}
     </div>
   );

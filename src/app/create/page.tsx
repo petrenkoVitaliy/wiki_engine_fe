@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
 import { Footer } from '@/containers/footer/footer';
-import { Article } from '@/containers/article-content/article';
+import { ArticleSection } from '@/containers/article-section/article-section';
 
 import { AuthHandler } from '@/auth/auth.handler';
 import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
@@ -19,7 +19,7 @@ export default async function CreateArticle() {
   return (
     <ArticleContext.Provider value={{ article: null, languages, mode: ArticleEditMode.Creation }}>
       <Navbar user={user} />
-      <Article />
+      <ArticleSection />
       <Footer />
     </ArticleContext.Provider>
   );

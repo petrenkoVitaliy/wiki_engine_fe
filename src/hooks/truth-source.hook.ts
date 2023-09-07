@@ -5,7 +5,7 @@ import { RootState } from '@/redux/store';
 
 export function useTruthSource<T>(params: {
   propSource: T;
-  storeSelector: (state: RootState) => T;
+  storeSelector: (state: RootState) => T | null;
 }): T {
   const storeSource = useAppSelector(params.storeSelector);
 

@@ -50,7 +50,7 @@ export function CreateArticleBar(props: ArticleBarProps) {
     };
   }, [props.languages]);
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     handleOpenModal();
   };
 
@@ -103,11 +103,11 @@ export function CreateArticleBar(props: ArticleBarProps) {
       <div className={styles.controlPanel}>
         <Select formRegister={register('language')} options={articleOptions.languageOptions} />
 
-        <Button onClick={onSubmit} label='Save' />
+        <Button onClick={handleSubmit} label='Save' />
       </div>
 
       <ConfirmationModal
-        isOpen={isOpened}
+        isOpened={isOpened}
         label='Are you sure you want to create article?'
         cancelLabel='No'
         submitLabel='Yes'

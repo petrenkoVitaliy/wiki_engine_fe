@@ -29,6 +29,18 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
     BlockEditorHandler.updateImageSize(editor, element, direction);
   };
 
+  const handleIncreaseSize = () => {
+    handleChangeSize('increase');
+  };
+
+  const handleDecreaseSize = () => {
+    handleChangeSize('decrease');
+  };
+
+  const handleRemoveImage = () => {
+    BlockEditorHandler.removeNode(editor, element);
+  };
+
   return (
     <span
       {...attributes}
@@ -49,20 +61,16 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
         />
       </span>
       <span className={styles.controlsWrapper} contentEditable={false}>
-        <ControlButton
-          icon={ICONS.deleteIcon}
-          label='remove image'
-          handleClick={() => BlockEditorHandler.removeNode(editor, element)}
-        />
+        <ControlButton icon={ICONS.deleteIcon} label='remove image' onClick={handleRemoveImage} />
         <ControlButton
           icon={ICONS.plusIcon}
           label='increase image size'
-          handleClick={() => handleChangeSize('increase')}
+          onClick={handleIncreaseSize}
         />
         <ControlButton
           icon={ICONS.minusIcon}
           label='decrease image size'
-          handleClick={() => handleChangeSize('decrease')}
+          onClick={handleDecreaseSize}
         />
       </span>
     </span>

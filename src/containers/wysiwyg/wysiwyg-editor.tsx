@@ -41,7 +41,7 @@ type WysiwygProps = {
   isEditMode: boolean;
 };
 
-export function Wysiwyg(props: WysiwygProps) {
+export function WysiwygEditor(props: WysiwygProps) {
   const dispatch = useAppDispatch();
 
   const editorHandler = useMemo(() => props.editorHandler || new EditorHandler(), [props]);
@@ -53,7 +53,7 @@ export function Wysiwyg(props: WysiwygProps) {
       return defaultValue;
     }
 
-    return JSON.parse(article.languagesMap[language].version.content.content);
+    return JSON.parse(article.languagesMap[language].version.content.content) as CustomElement[];
   }, [props.article, props.language]);
 
   useEffect(() => {

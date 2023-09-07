@@ -4,7 +4,7 @@ import { Button } from '../button/button';
 import styles from './modal.module.scss';
 
 type ConfirmationModalProps = {
-  isOpen: boolean;
+  isOpened: boolean;
   handleClose: () => void;
   handleSubmit: () => void;
 
@@ -14,7 +14,7 @@ type ConfirmationModalProps = {
 };
 
 export function ConfirmationModal(props: ConfirmationModalProps) {
-  return props.isOpen ? (
+  return props.isOpened ? (
     <Modal handleClickOutside={props.handleClose}>
       <div className={styles.modalContent}>
         <div className={styles.heading}>{props.label}</div>

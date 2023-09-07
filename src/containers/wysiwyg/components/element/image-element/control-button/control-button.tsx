@@ -4,14 +4,14 @@ import Image from 'next/image';
 import styles from './control-button.module.scss';
 
 type ControlButtonProps = {
-  handleClick: () => void;
+  onClick: () => void;
   label: string;
   icon: StaticImport;
 };
 
-export function ControlButton({ handleClick, label, icon }: ControlButtonProps) {
+export function ControlButton({ onClick, label, icon }: ControlButtonProps) {
   return (
-    <button className={styles.buttonWrapper} onClick={handleClick} contentEditable={false}>
+    <button className={styles.buttonWrapper} onClick={onClick} contentEditable={false}>
       <Image src={icon} alt={label} />
     </button>
   );

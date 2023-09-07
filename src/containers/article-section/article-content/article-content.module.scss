@@ -1,0 +1,16 @@
+@import '../../../styles/variables.scss';
+
+.articleContent {
+  background: $backgroundMain;
+  color: $fontMain;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  .articleBody {
+    border: 1px solid $backgroundSecondary;
+    flex: 1;
+  }
+}

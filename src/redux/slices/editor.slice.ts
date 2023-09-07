@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
-import { ApiMapper } from '@/api/api.mapper';
+import { ApiMapper } from '@/mappers/api.mapper';
 import { Article, ArticleType } from '@/api/types/article.types';
+import { createHandledAsyncThunk } from '../thunk';
 
 type EditorState = {
   headings: string[];
@@ -18,7 +19,7 @@ const initialState: EditorState = {
 
 const sliceName = 'editor';
 
-const createArticleLanguage = createAsyncThunk(
+const createArticleLanguage = createHandledAsyncThunk(
   `${sliceName}/createArticleLanguage`,
   async (params: {
     id: number;
@@ -46,7 +47,7 @@ const createArticleLanguage = createAsyncThunk(
   }
 );
 
-const createArticle = createAsyncThunk(
+const createArticle = createHandledAsyncThunk(
   `${sliceName}/createArticle`,
   async (params: {
     content: string;
@@ -74,7 +75,7 @@ const createArticle = createAsyncThunk(
   }
 );
 
-const editArticle = createAsyncThunk(
+const editArticle = createHandledAsyncThunk(
   `${sliceName}/editArticle`,
   async (
     params: {
@@ -89,21 +90,29 @@ const editArticle = createAsyncThunk(
     thunkApi.dispatch(setEditMode(false));
 
     const { content, id, language, storedArticle, callback } = params;
-    const articleVersionResponse = await apiHandler.createArticleVersion(id, language, { content });
+    const articleVersionResponse = await apiHandler.createArticleVersion(id, language, {
+      content,
+    });
 
     let article: Article | null = null;
 
     if (articleVersionResponse.status === 'ok') {
       const updatedLanguagesMap = { ...storedArticle.languagesMap };
+
       const updatedArticleLanguages = storedArticle.languages.map((articleLanguage) => {
         if (articleLanguage.language.code !== language) {
           return articleLanguage;
         }
 
-        articleLanguage.version = articleVersionResponse.result;
-        updatedLanguagesMap[language].version = articleVersionResponse.result;
+        updatedLanguagesMap[language] = {
+          ...updatedLanguagesMap[language],
+          version: articleVersionResponse.result,
+        };
 
-        return articleLanguage;
+        return {
+          ...articleLanguage,
+          version: articleVersionResponse.result,
+        };
       });
 
       article = {

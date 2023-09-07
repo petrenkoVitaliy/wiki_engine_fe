@@ -3,6 +3,8 @@ export const ROUTES = {
   login: () => '/login',
   createArticle: () => '/create',
   createLanguage: (articleId: string | number) => `/create/${articleId}`,
+  articleLanguageHistory: (language: string | number, articleId: string | number) =>
+    `/${articleId}/${language}/history`,
   articleLanguage: (language: string | number, articleId: string | number) =>
     `/${articleId}/${language}`,
 };

@@ -2,10 +2,10 @@ import { notFound } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
 import { Footer } from '@/containers/footer/footer';
-import { Article } from '@/containers/article-content/article';
+import { ArticleSection } from '@/containers/article-section/article-section';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
-import { ApiMapper } from '@/api/api.mapper';
+import { ApiMapper } from '@/mappers/api.mapper';
 
 import { AuthHandler } from '@/auth/auth.handler';
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
@@ -18,9 +18,9 @@ type ArticleLanguageParams = {
   article: string;
 };
 
-export default async function ArticleLanguage(props: ArticleLanguageProps) {
+export default async function ArticleLanguage({ params }: ArticleLanguageProps) {
   const [articleDto, user, languages] = await Promise.all([
-    getArticleDto(props.params),
+    getArticleDto(params),
     getUser(),
     getLanguages(),
   ]);
@@ -34,7 +34,7 @@ export default async function ArticleLanguage(props: ArticleLanguageProps) {
   return (
     <ArticleContext.Provider value={{ article, languages, mode: ArticleEditMode.LanguageCreation }}>
       <Navbar user={user} />
-      <Article />
+      <ArticleSection />
       <Footer />
     </ArticleContext.Provider>
   );
@@ -81,6 +81,5 @@ export async function generateStaticParams() {
     });
   });
 
-  console.log(params);
   return params;
 }

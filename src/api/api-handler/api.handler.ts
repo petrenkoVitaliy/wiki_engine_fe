@@ -44,6 +44,18 @@ class ApiHandler extends FetchHandler {
     return articleResponse;
   }
 
+  public async getArticleVersions(id: string, language: string) {
+    const articleVersionsResponse = await this.fetchApi<ArticleVersionDto[]>(
+      `articles/${id}/language/${language}/version`,
+      {
+        method: 'get',
+        cache: 'no-store',
+      }
+    );
+
+    return articleVersionsResponse;
+  }
+
   public async createArticleVersion(
     id: number,
     language: string,

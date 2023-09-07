@@ -1,17 +1,17 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
 import { Footer } from '@/containers/footer/footer';
-import { ArticleSection } from '@/containers/article-section/article-section';
+import { ArticleHistory } from '@/containers/article-history/article-history';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
 import { ApiMapper } from '@/mappers/api.mapper';
 import { AuthHandler } from '@/auth/auth.handler';
-import { ROUTES } from '@/routes/routes.handler';
-import { ArticleContext, ArticleEditMode } from '@/context/article-context';
+import { ArticleVersionContext } from '@/context/article-version-context';
 
 type ArticleLanguageProps = {
   params: ArticleLanguageParams;
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
 type ArticleLanguageParams = {
@@ -19,29 +19,29 @@ type ArticleLanguageParams = {
   language: string;
 };
 
-export default async function ArticleLanguage({ params }: ArticleLanguageProps) {
-  const [articleDto, user] = await Promise.all([getArticleDto(params), getUser()]);
+export default async function ArticleLanguage({ params, searchParams }: ArticleLanguageProps) {
+  const [articleDto, versions, user] = await Promise.all([
+    getArticleDto(params),
+    getArticleVersionsDto(params),
+    getUser(),
+  ]);
 
   if (!articleDto) {
     notFound();
   }
 
-  const isMatchedLanguage = articleDto.languages.some(
-    ({ language }) => language.code === params.language
-  );
-
-  if (!isMatchedLanguage) {
-    redirect(ROUTES.articleLanguage(articleDto.languages[0].language.code, articleDto.id));
-  }
-
   const article = ApiMapper.mapArticleDtoToType(articleDto);
 
+  const selectedVersion = Number(searchParams?.['version'] as string) || null; // TODO
+
   return (
-    <ArticleContext.Provider value={{ article, languages: [], mode: ArticleEditMode.Edit }}>
+    <ArticleVersionContext.Provider
+      value={{ article, versions, selectedVersion, language: params.language }}
+    >
       <Navbar user={user} />
-      <ArticleSection />
+      <ArticleHistory />
       <Footer />
-    </ArticleContext.Provider>
+    </ArticleVersionContext.Provider>
   );
 }
 
@@ -53,6 +53,16 @@ async function getArticleDto(params: ArticleLanguageParams) {
   }
 
   return articleResponse.result;
+}
+
+async function getArticleVersionsDto(params: ArticleLanguageParams) {
+  const articleVersions = await apiHandler.getArticleVersions(params.article, params.language);
+
+  if (articleVersions.status === 'error') {
+    return [];
+  }
+
+  return articleVersions.result;
 }
 
 async function getUser() {
@@ -81,3 +91,5 @@ export async function generateStaticParams() {
 
   return params;
 }
+
+export const dynamicParams = false;
