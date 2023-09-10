@@ -10,7 +10,7 @@ import { Button } from '@/components/button/button';
 import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
 import { Input } from '@/components/input/input';
 
-import { createArticle, createArticleLanguage } from '@/redux/slices/editor.slice';
+import { createArticle, createArticleLanguage } from '@/redux/stores/editor';
 import { useAppDispatch } from '@/redux/hooks';
 
 import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
@@ -23,6 +23,7 @@ import { useModalControls } from '@/hooks/modal-controls.hook';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './article-bar.module.scss';
+import { CustomElement } from '@/containers/wysiwyg/types';
 
 type FormValues = { language: string; name: string };
 
@@ -58,7 +59,7 @@ export function CreateArticleBar(props: ArticleBarProps) {
     if (article) {
       toast('Article was successfully created', { type: 'success' });
 
-      router.push(ROUTES.articleLanguage(language, article.id));
+      router.push(ROUTES.articleLanguage(article.languagesMap[language].name_key, language));
     } else {
       toast('Failed to save article', { type: 'error' });
     }
@@ -69,13 +70,11 @@ export function CreateArticleBar(props: ArticleBarProps) {
 
     const values = getValues();
 
-    const content = JSON.stringify(props.editorHandler.editor.children);
-
     if (props.article) {
       dispatch(
         createArticleLanguage({
           id: props.article.id,
-          content: content,
+          elements: props.editorHandler.editor.children as CustomElement[],
           language: values.language,
           name: values.name,
           storedArticle: props.article,
@@ -85,7 +84,7 @@ export function CreateArticleBar(props: ArticleBarProps) {
     } else {
       dispatch(
         createArticle({
-          content: content,
+          elements: props.editorHandler.editor.children as CustomElement[],
           language: values.language,
           name: values.name,
           callback: handleCreateArticle,

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch } from '@/redux/hooks';
-import { toggleEditMode, editArticle } from '@/redux/slices/editor.slice';
+import { toggleEditMode, editArticle, updateArticleType } from '@/redux/stores/editor';
 
 import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
@@ -16,15 +16,17 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/routes/routes.handler';
 
 import { ApiMapper } from '@/mappers/api.mapper';
-import { Article } from '@/api/types/article.types';
+import { Article, ArticleType, articleTypesOptions } from '@/api/types/article.types';
 
 import { useModalControls } from '@/hooks/modal-controls.hook';
+
 import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
+import { CustomElement } from '@/containers/wysiwyg/types';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './article-bar.module.scss';
 
-type FormValues = { language: string; name: string };
+type FormValues = { language: string; name: string; articleType: ArticleType };
 
 type ArticleBarProps = {
   article: Article;
@@ -50,24 +52,38 @@ export function EditArticleBar(props: ArticleBarProps) {
     };
   }, [props.article, props.language]);
 
-  const { register, handleSubmit } = useForm<FormValues>({
+  const { register, handleSubmit, getValues } = useForm<FormValues>({
     values: {
       language: props.language,
       name: articleOptions.articleName,
+      articleType: props.article.article_type,
     },
   });
 
   const onLanguageChange = (data: FormValues) => {
-    router.push(ROUTES.articleLanguage(data.language, props.article.id));
+    router.push(
+      ROUTES.articleLanguage(props.article.languagesMap[data.language].name_key, data.language)
+    );
+  };
+
+  const onArticleTypeChange = (data: FormValues) => {
+    dispatch(
+      updateArticleType({
+        articleType: data.articleType,
+        storedArticle: props.article,
+        callback: handleResponse,
+      })
+    );
   };
 
   const onSubmit = () => {
-    // TODO auth check
     handleOpenModal();
   };
 
   const handleHistoryClick = () => {
-    router.push(ROUTES.articleLanguageHistory(props.language, props.article.id));
+    const { article, language } = props;
+
+    router.push(ROUTES.articleLanguageHistory(article.languagesMap[language].name_key, language));
   };
 
   const handleEditMode = () => {
@@ -75,7 +91,9 @@ export function EditArticleBar(props: ArticleBarProps) {
   };
 
   const handleAddLanguage = () => {
-    router.push(ROUTES.createLanguage(props.article.id));
+    const { language, article } = props;
+
+    router.push(ROUTES.createLanguage(article.languagesMap[language].name_key));
   };
 
   const handleResponse = (article: Article | null) => {
@@ -90,16 +108,18 @@ export function EditArticleBar(props: ArticleBarProps) {
     handleCloseModal();
 
     const { article, language } = props;
+    const { name } = getValues();
 
-    const content = JSON.stringify(props.editorHandler.editor.children);
+    const elements = props.editorHandler.editor.children as CustomElement[];
 
     dispatch(
       editArticle({
-        content: content,
+        elements,
         id: article.id,
         language: language,
         callback: handleResponse,
         storedArticle: article,
+        name: name !== articleOptions.articleName ? name : undefined,
       })
     );
   };
@@ -107,7 +127,7 @@ export function EditArticleBar(props: ArticleBarProps) {
   return (
     <section className={styles.articleBar}>
       <div className={styles.headingWrapper}>
-        <Input formRegister={register('name')} disabled />
+        <Input formRegister={register('name')} disabled={!props.isEditMode} />
       </div>
 
       <div className={styles.controlPanel}>
@@ -115,6 +135,12 @@ export function EditArticleBar(props: ArticleBarProps) {
           formRegister={register('language')}
           onChange={handleSubmit(onLanguageChange)}
           options={articleOptions.languageOptions}
+        />
+
+        <Select
+          formRegister={register('articleType')}
+          onChange={handleSubmit(onArticleTypeChange)}
+          options={articleTypesOptions}
         />
 
         {props.isEditMode ? (

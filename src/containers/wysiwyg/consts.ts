@@ -38,7 +38,7 @@ export const HOTKEYS: { [key: string]: (typeof MARK_FORMATS)[number] } = {
 };
 
 export const IMAGE_ELEMENT_SIZES = {
-  DEFAULT: 200,
+  DEFAULT_WIDTH: 200,
   MIN: 50,
   MAX: 1000,
   STEP: 50,

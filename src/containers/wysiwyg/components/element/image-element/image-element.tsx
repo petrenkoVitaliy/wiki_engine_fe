@@ -15,6 +15,7 @@ import { ControlButton } from './control-button/control-button';
 import { ICONS } from './icons';
 
 import styles from './image-element.module.scss';
+import { BACKGROUND_IMAGE } from './blur';
 
 type ImageProps = Omit<RenderElementProps, 'element'> & {
   element: ImageBlockElement;
@@ -47,17 +48,15 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
       className={`${styles.imageWrapper} ${selected && focused ? styles.selected : ''}`}
     >
       {children}
-      <span
-        className={styles.imageContainer}
-        contentEditable={false}
-        style={{ width: element.width }}
-      >
+      <span className={styles.imageContainer} contentEditable={false}>
         <Image
           src={element.url}
           alt='inner image'
-          style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
-          width={0}
-          height={0}
+          width={element.width}
+          height={element.height}
+          placeholder='blur'
+          blurDataURL={BACKGROUND_IMAGE}
+          quality={100}
         />
       </span>
       <span className={styles.controlsWrapper} contentEditable={false}>

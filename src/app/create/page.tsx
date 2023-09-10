@@ -10,15 +10,15 @@ import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 import { apiHandler } from '@/api/api-handler/api.handler';
 
 export default async function CreateArticle() {
-  const [user, languages] = await Promise.all([getUser(), getLanguages()]);
+  const [userDto, languages] = await Promise.all([getUser(), getLanguages()]);
 
-  if (!user) {
+  if (!userDto) {
     redirect(RoutesHandler.withQuery(ROUTES.login(), { from: ROUTES.createArticle() }));
   }
 
   return (
     <ArticleContext.Provider value={{ article: null, languages, mode: ArticleEditMode.Creation }}>
-      <Navbar user={user} />
+      <Navbar user={userDto.user} />
       <ArticleSection />
       <Footer />
     </ArticleContext.Provider>

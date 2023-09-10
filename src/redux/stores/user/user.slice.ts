@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { User } from '@/api/types/user.types';
-import { AuthHandler } from '@/auth/auth.handler';
-import { createHandledAsyncThunk } from '../thunk';
+
+import { loginUser } from './user.thunk';
 
 type UserState = {
   user: User | null;
@@ -12,25 +12,7 @@ const initialState: UserState = {
   user: null,
 };
 
-const sliceName = 'user';
-
-const loginUser = createHandledAsyncThunk(
-  `${sliceName}/loginUser`,
-  async (params: {
-    credentials: { password: string; email: string };
-    callback: (user: User | null) => void;
-  }) => {
-    const loginResponse = await AuthHandler.login(params.credentials);
-    let user: User | null = null;
-
-    if (loginResponse.status === 'ok') {
-      user = loginResponse.result.user;
-    }
-
-    params.callback(user);
-    return user;
-  }
-);
+export const sliceName = 'user';
 
 export const userSlice = createSlice({
   name: sliceName,
@@ -47,6 +29,5 @@ export const userSlice = createSlice({
   },
 });
 
-export { loginUser };
 export const { setUser } = userSlice.actions;
 export const userReducer = userSlice.reducer;

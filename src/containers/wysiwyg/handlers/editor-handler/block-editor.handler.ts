@@ -21,6 +21,26 @@ export class BlockEditorHandler {
     this.editor = editor;
   }
 
+  private toggleLink(url?: string): void {
+    if (!this.editor.selection) {
+      return;
+    }
+
+    if (this.isBlockActiveCheck('link')) {
+      this.unwrapLink();
+    } else {
+      if (url) {
+        BlockEditorHandler.wrapLink(this.editor, url);
+      }
+    }
+  }
+
+  private unwrapLink(): void {
+    Transforms.unwrapNodes(this.editor, {
+      match: (n) => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
+    });
+  }
+
   public updateChildren(children: CustomElement[]) {
     Transforms.delete(this.editor, {
       at: {
@@ -128,26 +148,6 @@ export class BlockEditorHandler {
     }
   }
 
-  private toggleLink(url?: string): void {
-    if (!this.editor.selection) {
-      return;
-    }
-
-    if (this.isBlockActiveCheck('link')) {
-      this.unwrapLink();
-    } else {
-      if (url) {
-        BlockEditorHandler.wrapLink(this.editor, url);
-      }
-    }
-  }
-
-  private unwrapLink(): void {
-    Transforms.unwrapNodes(this.editor, {
-      match: (n) => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
-    });
-  }
-
   public static wrapLink(editor: BaseEditor & ReactEditor, url: string): void {
     const isCollapsed = editor.selection && Range.isCollapsed(editor.selection);
 
@@ -167,11 +167,25 @@ export class BlockEditorHandler {
     Transforms.move(editor, { unit: 'offset' });
   }
 
-  public static insertImage(editor: BaseEditor & ReactEditor, url: string): void {
+  private static getImageSize(
+    naturalWidth: number,
+    naturalHeight: number
+  ): { width: number; height: number } {
+    return {
+      width: IMAGE_ELEMENT_SIZES.DEFAULT_WIDTH,
+      height: (IMAGE_ELEMENT_SIZES.DEFAULT_WIDTH * naturalHeight) / naturalWidth,
+    };
+  }
+
+  public static insertImage(
+    editor: BaseEditor & ReactEditor,
+    url: string,
+    { width, height }: { width: number; height: number }
+  ): void {
     const image: ImageBlockElement = {
+      ...this.getImageSize(width, height),
       type: 'image',
       url,
-      width: IMAGE_ELEMENT_SIZES.DEFAULT,
       children: [{ text: '' }],
     };
 
@@ -198,8 +212,14 @@ export class BlockEditorHandler {
         ? imageElement.width + IMAGE_ELEMENT_SIZES.STEP
         : imageElement.width - IMAGE_ELEMENT_SIZES.STEP;
 
+    const updatedHeight = (imageElement.height * updatedWidth) / imageElement.width;
+
     if (updatedWidth >= IMAGE_ELEMENT_SIZES.MIN && updatedWidth <= IMAGE_ELEMENT_SIZES.MAX) {
-      Transforms.setNodes(editor, { ...imageElement, width: updatedWidth }, { at: path });
+      Transforms.setNodes(
+        editor,
+        { ...imageElement, width: updatedWidth, height: updatedHeight },
+        { at: path }
+      );
     }
   }
 }

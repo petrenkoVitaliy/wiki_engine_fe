@@ -45,6 +45,7 @@ export type ImageBlockElement = BaseElement & {
   type: 'image';
   url: string;
   width: number;
+  height: number;
 };
 
 export type BlockElement = BaseElement & {

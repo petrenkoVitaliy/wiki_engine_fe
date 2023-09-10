@@ -15,6 +15,8 @@ export type ArticleDto = {
 export type ArticleLanguageDto = {
   id: number;
   name: string;
+  name_key: string;
+
   enabled: boolean;
   archived: boolean;
   updated_at?: string;
@@ -32,6 +34,7 @@ export type VersionContentDto = {
 export type ArticleVersionDto = {
   id: number;
   version: number;
+  name: string;
   enabled: boolean;
 
   content: VersionContentDto;

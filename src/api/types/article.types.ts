@@ -14,6 +14,7 @@ export type Article = {
 export type ArticleLanguage = {
   id: number;
   name: string;
+  name_key: string;
   enabled: boolean;
   archived: boolean;
   updated_at?: string;
@@ -32,6 +33,7 @@ export type ArticleVersion = {
   id: number;
   version: number;
   enabled: boolean;
+  name: string;
 
   content: VersionContent;
 
@@ -52,3 +54,8 @@ export enum ArticleType {
   Protected = 'Protected',
   Restricted = 'Restricted',
 }
+
+export const articleTypesOptions = [
+  { value: ArticleType.Public, label: ArticleType.Public },
+  { value: ArticleType.Protected, label: ArticleType.Protected },
+];

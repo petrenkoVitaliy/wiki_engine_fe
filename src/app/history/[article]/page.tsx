@@ -2,11 +2,10 @@ import { notFound } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
 import { Footer } from '@/containers/footer/footer';
-import { ArticleSection } from '@/containers/article-section/article-section';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
-import { ApiMapper } from '@/mappers/api.mapper';
 
+import { ApiMapper } from '@/mappers/api.mapper';
 import { AuthHandler } from '@/auth/auth.handler';
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 
@@ -18,12 +17,8 @@ type ArticleLanguageParams = {
   article: string;
 };
 
-export default async function ArticleLanguage({ params }: ArticleLanguageProps) {
-  const [articleDto, userDto, languages] = await Promise.all([
-    getArticleDto(params),
-    getUser(),
-    getLanguages(),
-  ]);
+export default async function ArticleLanguage(props: ArticleLanguageProps) {
+  const [articleDto, userDto] = await Promise.all([getArticleDto(props.params), getUser()]);
 
   if (!articleDto) {
     notFound();
@@ -32,9 +27,9 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
   const article = ApiMapper.mapArticleDtoToType(articleDto);
 
   return (
-    <ArticleContext.Provider value={{ article, languages, mode: ArticleEditMode.LanguageCreation }}>
+    <ArticleContext.Provider value={{ article, languages: [], mode: ArticleEditMode.Edit }}>
       <Navbar user={userDto?.user || null} />
-      <ArticleSection />
+      <section>History</section>
       <Footer />
     </ArticleContext.Provider>
   );
@@ -54,16 +49,6 @@ async function getUser() {
   const user = await AuthHandler.getUser({ isServerSide: true });
 
   return user;
-}
-
-async function getLanguages() {
-  const languages = await apiHandler.getSystemLanguages();
-
-  if (languages.status === 'error') {
-    return [];
-  }
-
-  return languages.result;
 }
 
 export async function generateStaticParams() {

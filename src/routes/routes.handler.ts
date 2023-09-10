@@ -1,12 +1,16 @@
 export const ROUTES = {
   main: () => '/',
   login: () => '/login',
+  signup: () => '/signup',
   createArticle: () => '/create',
-  createLanguage: (articleId: string | number) => `/create/${articleId}`,
-  articleLanguageHistory: (language: string | number, articleId: string | number) =>
-    `/${articleId}/${language}/history`,
-  articleLanguage: (language: string | number, articleId: string | number) =>
-    `/${articleId}/${language}`,
+
+  createLanguage: (articleLanguageKey: string) => `/create/${articleLanguageKey}`,
+
+  articleLanguageHistory: (articleLanguageKey: string, language: string | number) =>
+    `/${articleLanguageKey}/${language}/history`,
+
+  articleLanguage: (articleLanguageKey: string, language: string | number) =>
+    `/${articleLanguageKey}/${language}`,
 };
 
 export class RoutesHandler {

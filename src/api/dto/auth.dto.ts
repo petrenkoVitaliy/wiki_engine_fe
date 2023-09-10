@@ -6,13 +6,14 @@ export type LoginDto = {
 };
 
 export type UserDto = {
-  id: number;
   email: string;
   name: string;
-  active: boolean;
-
   role_id: number;
-  created_at: string;
-  updated_at?: string;
-  updated_by?: number;
+};
+
+export type ArticlePermission = 'Edit' | 'Patch';
+
+export type UserWithPermissionsDto = {
+  user: UserDto;
+  permissions: ArticlePermission[];
 };

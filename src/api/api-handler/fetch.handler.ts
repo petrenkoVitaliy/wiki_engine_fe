@@ -42,7 +42,7 @@ class FetchHandler {
       };
     }
 
-    const responseBody: T = await res.json();
+    const responseBody = (await res.json()) as T;
 
     return {
       status: 'ok',

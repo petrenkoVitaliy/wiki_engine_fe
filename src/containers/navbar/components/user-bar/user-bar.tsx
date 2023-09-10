@@ -9,7 +9,7 @@ import { CookieHandler } from '@/cookie/cookie.handler';
 import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
 import { useTruthSource } from '@/hooks/truth-source.hook';
 
-import { setUser } from '@/redux/slices/user.slice';
+import { setUser } from '@/redux/stores/user';
 import { useAppDispatch } from '@/redux/hooks';
 
 import styles from './user-bar.module.scss';

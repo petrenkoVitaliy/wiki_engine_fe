@@ -4,7 +4,7 @@ import { Editable, Slate, RenderLeafProps, RenderElementProps } from 'slate-reac
 import { useMemo, useCallback, useState, KeyboardEvent, useEffect } from 'react';
 import { Descendant } from 'slate';
 
-import { updateHeadings } from '@/redux/slices/editor.slice';
+import { updateHeadings } from '@/redux/stores/editor';
 import { useAppDispatch } from '@/redux/hooks';
 
 import { Toolbar } from './components/toolbar/toolbar';

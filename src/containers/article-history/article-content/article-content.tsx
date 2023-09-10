@@ -69,7 +69,7 @@ export function ArticleContent() {
         languages={languages}
         language={articleContext.language}
         article={article}
-        selectedVersion={selectedVersion}
+        selectedArticleVersion={selectedArticleVersion}
         setSelectedVersion={setSelectedVersion}
         latestVersion={latestVersion}
       />

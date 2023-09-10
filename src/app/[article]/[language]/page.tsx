@@ -20,7 +20,7 @@ type ArticleLanguageParams = {
 };
 
 export default async function ArticleLanguage({ params }: ArticleLanguageProps) {
-  const [articleDto, user] = await Promise.all([getArticleDto(params), getUser()]);
+  const [articleDto, userDto] = await Promise.all([getArticleDto(params), getUser(params)]);
 
   if (!articleDto) {
     notFound();
@@ -28,17 +28,23 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
 
   const isMatchedLanguage = articleDto.languages.some(
     ({ language }) => language.code === params.language
-  );
+  ); // TODO
 
   if (!isMatchedLanguage) {
-    redirect(ROUTES.articleLanguage(articleDto.languages[0].language.code, articleDto.id));
+    redirect(
+      ROUTES.articleLanguage(
+        articleDto.languages[0].name_key,
+        articleDto.languages[0].language.code
+      )
+    );
   }
 
   const article = ApiMapper.mapArticleDtoToType(articleDto);
 
+  console.log({ userDto });
   return (
     <ArticleContext.Provider value={{ article, languages: [], mode: ArticleEditMode.Edit }}>
-      <Navbar user={user} />
+      <Navbar user={userDto?.user || null} />
       <ArticleSection />
       <Footer />
     </ArticleContext.Provider>
@@ -46,7 +52,7 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
 }
 
 async function getArticleDto(params: ArticleLanguageParams) {
-  const articleResponse = await apiHandler.getArticle(params.article);
+  const articleResponse = await apiHandler.getArticleByKey(params.article);
 
   if (articleResponse.status === 'error') {
     return null;
@@ -55,8 +61,8 @@ async function getArticleDto(params: ArticleLanguageParams) {
   return articleResponse.result;
 }
 
-async function getUser() {
-  const user = await AuthHandler.getUser({ isServerSide: true });
+async function getUser(params: ArticleLanguageParams) {
+  const user = await AuthHandler.getUser({ isServerSide: true, articleId: params.article });
 
   return user;
 }
@@ -73,7 +79,7 @@ export async function generateStaticParams() {
   articlesListResponse.result.forEach((article) => {
     article.languages.forEach((articleLanguage) => {
       params.push({
-        article: String(article.id),
+        article: articleLanguage.name_key,
         language: articleLanguage.language.code,
       });
     });

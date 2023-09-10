@@ -23,7 +23,15 @@ export const withImage = (editor: BaseEditor & ReactEditor) => {
             const url = reader.result;
 
             if (url && typeof url === 'string') {
-              BlockEditorHandler.insertImage(editor, url);
+              const image = new Image();
+
+              image.src = url;
+
+              image.onload = function () {
+                const { width, height } = image;
+
+                BlockEditorHandler.insertImage(editor, url, { width, height });
+              };
             }
           });
 

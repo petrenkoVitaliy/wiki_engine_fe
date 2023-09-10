@@ -7,6 +7,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "evenBetterToml.formatter.alignComments": true,
-  "cSpell.words": ["consts"],
+  "cSpell.words": ["consts", "Signup"],
   "svg.preview.background": "editor"
 }

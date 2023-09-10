@@ -20,7 +20,7 @@ type ArticleLanguageParams = {
 };
 
 export default async function ArticleLanguage({ params, searchParams }: ArticleLanguageProps) {
-  const [articleDto, versions, user] = await Promise.all([
+  const [articleDto, versions, userDto] = await Promise.all([
     getArticleDto(params),
     getArticleVersionsDto(params),
     getUser(),
@@ -38,7 +38,7 @@ export default async function ArticleLanguage({ params, searchParams }: ArticleL
     <ArticleVersionContext.Provider
       value={{ article, versions, selectedVersion, language: params.language }}
     >
-      <Navbar user={user} />
+      <Navbar user={userDto?.user || null} />
       <ArticleHistory />
       <Footer />
     </ArticleVersionContext.Provider>
@@ -46,7 +46,7 @@ export default async function ArticleLanguage({ params, searchParams }: ArticleL
 }
 
 async function getArticleDto(params: ArticleLanguageParams) {
-  const articleResponse = await apiHandler.getArticle(params.article);
+  const articleResponse = await apiHandler.getArticleByKey(params.article);
 
   if (articleResponse.status === 'error') {
     return null;
@@ -56,7 +56,7 @@ async function getArticleDto(params: ArticleLanguageParams) {
 }
 
 async function getArticleVersionsDto(params: ArticleLanguageParams) {
-  const articleVersions = await apiHandler.getArticleVersions(params.article, params.language);
+  const articleVersions = await apiHandler.getArticleVersionsByKey(params.article);
 
   if (articleVersions.status === 'error') {
     return [];
@@ -83,7 +83,7 @@ export async function generateStaticParams() {
   articlesListResponse.result.forEach((article) => {
     article.languages.forEach((articleLanguage) => {
       params.push({
-        article: String(article.id),
+        article: articleLanguage.name_key,
         language: articleLanguage.language.code,
       });
     });

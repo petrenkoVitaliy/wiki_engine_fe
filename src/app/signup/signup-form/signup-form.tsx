@@ -7,22 +7,21 @@ import { toast } from 'react-toastify';
 import { LabeledInput } from '@/components/labeled-input/labeled-input';
 import { Button } from '@/components/button/button';
 
-import { loginUser } from '@/redux/stores/user';
+import { signUp } from '@/redux/stores/user';
 import { useAppDispatch } from '@/redux/hooks';
 
-import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
-import { User } from '@/api/types/user.types';
+import { ROUTES } from '@/routes/routes.handler';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './form.module.scss';
-import { BaseSyntheticEvent, MouseEvent } from 'react';
 
 type FormValues = {
   password: string;
   email: string;
+  name: string;
 };
 
-export function LoginForm() {
+export function SignupForm() {
   const {
     register,
     handleSubmit,
@@ -33,42 +32,37 @@ export function LoginForm() {
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
 
-  const handleLogin = (user: User | null) => {
-    if (user) {
-      const from = searchParams.get('from');
+  const handleSignup = (isSuccessful: boolean) => {
+    if (isSuccessful) {
+      toast('User was successfully created', { type: 'success' });
+      toast("We've sent you an email with confirmation,  please check it", {
+        type: 'info',
+        progress: 1,
+      });
 
-      if (from) {
-        router.push(from);
-      } else {
-        router.push(ROUTES.main());
-      }
+      router.push(ROUTES.main());
     } else {
-      toast('Invalid email or password', { type: 'error' });
+      toast('Cannot register new user', { type: 'error' });
     }
   };
 
-  const handleSignup = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
+  const onSubmit = async (formValues: FormValues) => {
     const from = searchParams.get('from');
 
-    router.push(RoutesHandler.withQuery(ROUTES.signup(), from ? { from } : {}));
-  };
-
-  const onSubmit = async (formValues: FormValues, e?: BaseSyntheticEvent) => {
-    e?.preventDefault();
+    console.log({ from });
 
     dispatch(
-      loginUser({
+      signUp({
+        from,
         credentials: formValues,
-        callback: handleLogin,
+        callback: handleSignup,
       })
     );
   };
 
   return (
     <section className={styles.section}>
-      <div className={styles.header}>Login</div>
+      <div className={styles.header}>Sign up</div>
       <form autoComplete='on'>
         <LabeledInput
           label='email'
@@ -78,16 +72,18 @@ export function LoginForm() {
         />
 
         <LabeledInput
+          label='name'
+          formRegister={register('name', { required: true })}
+          error={errors.email}
+        />
+
+        <LabeledInput
           label='password'
           formRegister={register('password', { required: true })}
           error={errors.password}
           type='password'
         />
-
-        <div>
-          <Button onClick={handleSignup} label='signup' />
-          <Button onClick={handleSubmit(onSubmit)} label='submit' />
-        </div>
+        <Button onClick={handleSubmit(onSubmit)} label='submit' />
       </form>
     </section>
   );
