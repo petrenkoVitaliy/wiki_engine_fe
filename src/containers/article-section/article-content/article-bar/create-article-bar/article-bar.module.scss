@@ -1,0 +1,55 @@
+@import '../../../../../styles/variables.scss';
+
+.articleBar {
+  background: $backgroundMain;
+  color: $fontMain;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 43px;
+
+  .headingWrapper {
+    display: flex;
+    align-items: center;
+    width: 300px;
+
+    .headingLabel {
+      font-size: 14px;
+      margin-right: 20px;
+    }
+  }
+
+  .controlPanel {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    flex: 1;
+
+    .selectsPanel,
+    .buttonsPanel {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      > * {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    position: initial;
+
+    height: 80px;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    .controlPanel {
+      width: 100%;
+    }
+  }
+}

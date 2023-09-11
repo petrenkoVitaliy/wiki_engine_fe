@@ -7,8 +7,8 @@ import styles from './layout.module.scss';
 import '../styles/reset.scss';
 
 export const metadata: Metadata = {
-  title: 'Wiki engine',
-  description: 'Wiki engine FE',
+  title: 'Wikifella',
+  description: 'Wikifella',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

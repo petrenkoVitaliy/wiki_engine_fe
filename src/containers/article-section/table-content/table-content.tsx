@@ -1,16 +1,22 @@
-import { useAppSelector } from '@/redux/hooks';
+import { useState } from 'react';
 
+import { useAppSelector } from '@/redux/hooks';
 import { stringToHash } from '@/utils/utils';
 
+import { ICONS } from './icons';
+
 import styles from './table-content.module.scss';
-import { useState } from 'react';
+import Image from 'next/image';
 
 const SCROLL_OFFSET = -80;
 
-export function TableContent() {
+type TableContentProps = {
+  isCreation?: boolean;
+};
+export function TableContent({ isCreation }: TableContentProps) {
   const headings = useAppSelector((state) => state.editorReducer.headings);
 
-  const [isOpened, setIsOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(false);
 
   const handleItemClick = (heading: string) => {
     const id = stringToHash(heading);
@@ -29,15 +35,24 @@ export function TableContent() {
   };
 
   return (
-    <section className={`${styles.tableContent} ${isOpened ? styles.open : ''}`}>
-      <h3 onClick={handleContainerClick}>Content</h3>
-      <ul className={styles.tableList}>
-        {headings.map((heading, index) => (
-          <li key={index} onClick={() => handleItemClick(heading)}>
-            {heading}
-          </li>
-        ))}
-      </ul>
+    <section
+      className={`${styles.tableContentWrapper} ${isCreation ? styles.creation : ''} ${
+        isOpened ? styles.open : ''
+      }`}
+    >
+      <div className={styles.tableContentHeader} onClick={handleContainerClick}>
+        <Image src={ICONS.contentIcon} alt='content' width={30} height={28} />
+        <div>content</div>
+      </div>
+      <div className={styles.tableContent}>
+        <ol className={styles.tableList}>
+          {headings.map((heading, index) => (
+            <li key={index} onClick={() => handleItemClick(heading)}>
+              {heading}
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   );
 }

@@ -10,15 +10,15 @@ import { ApiMapper } from '@/mappers/api.mapper';
 import { AuthHandler } from '@/auth/auth.handler';
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 
-type ArticleLanguageProps = {
-  params: ArticleLanguageParams;
+type ArticleLanguageCreationProps = {
+  params: ArticleLanguageCreationParams;
 };
 
-type ArticleLanguageParams = {
+type ArticleLanguageCreationParams = {
   article: string;
 };
 
-export default async function ArticleLanguage({ params }: ArticleLanguageProps) {
+export default async function ArticleLanguageCreation({ params }: ArticleLanguageCreationProps) {
   const [articleDto, userDto, languages] = await Promise.all([
     getArticleDto(params),
     getUser(),
@@ -34,13 +34,13 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
   return (
     <ArticleContext.Provider value={{ article, languages, mode: ArticleEditMode.LanguageCreation }}>
       <Navbar user={userDto?.user || null} />
-      <ArticleSection />
+      <ArticleSection isCreation />
       <Footer />
     </ArticleContext.Provider>
   );
 }
 
-async function getArticleDto(params: ArticleLanguageParams) {
+async function getArticleDto(params: ArticleLanguageCreationParams) {
   const articleResponse = await apiHandler.getArticleByKey(params.article);
 
   if (articleResponse.status === 'error') {
@@ -69,7 +69,7 @@ async function getLanguages() {
 export async function generateStaticParams() {
   const articlesListResponse = await apiHandler.getArticlesList();
 
-  const params: ArticleLanguageParams[] = [];
+  const params: ArticleLanguageCreationParams[] = [];
 
   if (articlesListResponse.status === 'error') {
     return params;

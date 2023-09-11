@@ -1,11 +1,12 @@
 @import '../styles/variables.scss';
 
 .body {
-  background: $backgroundMain;
-
   height: 100vh;
 
-  font-family: helvetica, arial, sans-serif;
+  background: $backgroundMain_;
+
+  font-family: 'Merriweather', serif;
+  font-size: 16px;
 
   .main {
     background: $backgroundMain;

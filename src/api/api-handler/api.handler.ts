@@ -186,7 +186,6 @@ class ApiHandler extends FetchHandler {
     contentBody: { email: string; name: string; password: string },
     from: string | null
   ) {
-    console.log(`auth/signup${from ? '?redirect_to=' + from : ''}`);
     const languagesResponse = await this.fetchApi<ResponseDto>(
       `auth/signup${from ? '?redirect_to=' + from : ''}`,
       {

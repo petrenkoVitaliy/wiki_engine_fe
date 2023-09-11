@@ -127,34 +127,38 @@ export function EditArticleBar(props: ArticleBarProps) {
   return (
     <section className={styles.articleBar}>
       <div className={styles.headingWrapper}>
-        <Input formRegister={register('name')} disabled={!props.isEditMode} />
+        <Input formRegister={register('name')} disabled={!props.isEditMode} highlighted />
       </div>
 
       <div className={styles.controlPanel}>
-        <Select
-          formRegister={register('language')}
-          onChange={handleSubmit(onLanguageChange)}
-          options={articleOptions.languageOptions}
-        />
+        <div className={styles.selectsPanel}>
+          <Select
+            formRegister={register('language')}
+            onChange={handleSubmit(onLanguageChange)}
+            options={articleOptions.languageOptions}
+          />
 
-        <Select
-          formRegister={register('articleType')}
-          onChange={handleSubmit(onArticleTypeChange)}
-          options={articleTypesOptions}
-        />
+          <Select
+            formRegister={register('articleType')}
+            onChange={handleSubmit(onArticleTypeChange)}
+            options={articleTypesOptions}
+          />
+        </div>
 
-        {props.isEditMode ? (
-          <>
-            <Button onClick={onSubmit} label='Save' />
-            <Button onClick={handleEditMode} label='Cancel' />
-          </>
-        ) : (
-          <>
-            <Button onClick={handleHistoryClick} label='History' />
-            <Button onClick={handleAddLanguage} label='Add language' />
-            <Button onClick={handleEditMode} label='Edit' />
-          </>
-        )}
+        <div className={styles.buttonsPanel}>
+          {props.isEditMode ? (
+            <>
+              <Button onClick={onSubmit} label='Save' />
+              <Button onClick={handleEditMode} label='Cancel' />
+            </>
+          ) : (
+            <>
+              <Button onClick={handleHistoryClick} label='History' />
+              <Button onClick={handleAddLanguage} label='Add language' />
+              <Button onClick={handleEditMode} label='Edit' />
+            </>
+          )}
+        </div>
       </div>
 
       <ConfirmationModal

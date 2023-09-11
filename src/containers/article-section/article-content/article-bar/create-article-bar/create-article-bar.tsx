@@ -96,13 +96,17 @@ export function CreateArticleBar(props: ArticleBarProps) {
   return (
     <section className={styles.articleBar}>
       <div className={styles.headingWrapper}>
-        <Input formRegister={register('name')} />
+        <Input formRegister={register('name')} placeholder='Title' />
       </div>
 
       <div className={styles.controlPanel}>
-        <Select formRegister={register('language')} options={articleOptions.languageOptions} />
+        <div className={styles.selectsPanel}>
+          <Select formRegister={register('language')} options={articleOptions.languageOptions} />
+        </div>
 
-        <Button onClick={handleSubmit} label='Save' />
+        <div className={styles.buttonsPanel}>
+          <Button onClick={handleSubmit} label='Save' />
+        </div>
       </div>
 
       <ConfirmationModal

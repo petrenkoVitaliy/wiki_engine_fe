@@ -15,9 +15,9 @@ export function Menu() {
 
   return (
     <div className={styles.menuWrapper}>
-      <p>Wiki engine</p>
+      <p>Wikifella</p>
 
-      <Button onClick={handleCreateNewArticle} label='create new' />
+      <Button onClick={handleCreateNewArticle} label='create' />
     </div>
   );
 }

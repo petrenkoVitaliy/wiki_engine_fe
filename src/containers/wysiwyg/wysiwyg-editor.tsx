@@ -108,17 +108,16 @@ export function WysiwygEditor(props: WysiwygProps) {
 
   return (
     <div className={styles.wysiwygWrapper}>
-      {props.isEditMode && (
-        <Toolbar
-          toggleMark={toggleMark}
-          toggleBlock={toggleBlock}
-          toggleVerboseBlock={toggleVerboseBlock}
-          markButtons={MarkButtons}
-          blockButtons={BlockButtons}
-          verboseBlockButtons={VerboseBlockButtons}
-          activeElements={activeElements}
-        />
-      )}
+      <Toolbar
+        toggleMark={toggleMark}
+        toggleBlock={toggleBlock}
+        toggleVerboseBlock={toggleVerboseBlock}
+        markButtons={MarkButtons}
+        blockButtons={BlockButtons}
+        verboseBlockButtons={VerboseBlockButtons}
+        activeElements={activeElements}
+        isHidden={!props.isEditMode}
+      />
 
       <Slate editor={editorHandler.editor} initialValue={initialValue} onChange={handleChange}>
         <Editable

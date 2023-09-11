@@ -1,45 +1,157 @@
 @import '../../../styles/variables.scss';
 
-.tableContent {
-  position: sticky;
-  top: 30px;
+.tableContentWrapper {
+  height: 100%;
 
-  height: fit-content;
+  position: absolute;
+  top: 0px;
+  left: 10px;
 
-  background: $backgroundMain;
-  color: $fontMain;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 250px;
+  z-index: map-get($z-indexes, small-1);
 
   &.open {
-    width: 100px;
+    height: auto;
 
-    .tableList {
-      display: none;
+    position: relative;
+    left: -170px;
+
+    .tableContent {
+      visibility: visible;
+      width: 80px;
     }
   }
 
-  .tableList {
-    margin-top: 10px;
-    padding: 0;
+  .tableContentHeader {
+    position: sticky;
+    top: 70px;
 
-    > li {
-      padding: 5px 0px;
+    width: 60px;
 
-      text-overflow: ellipsis;
-      overflow: hidden;
+    background: $backgroundSecondary_;
 
-      background: $backgroundMain;
-      color: $fontMain;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 
-      &:hover {
-        background: $backgroundSecondary;
-        color: $fontSecondary;
+    border: 1px solid $backgroundMain_;
 
+    user-select: none;
+    cursor: pointer;
+
+    font-size: 14px;
+
+    &:hover {
+      border: 1px solid $backgroundShadowMain_;
+      color: $backgroundShadowMain_;
+
+      > img {
+        filter: invert(0.25);
+      }
+    }
+  }
+
+  .tableContent {
+    visibility: hidden;
+    width: 0;
+
+    position: sticky;
+    top: 120px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    background: $backgroundSecondary_;
+    color: $fontSecondary_;
+
+    .tableList {
+      width: 250px;
+
+      padding: 0;
+      list-style-type: none;
+
+      > li {
+        padding: 5px;
         cursor: pointer;
+
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        &:hover {
+          background: $backgroundShadowSecondary_;
+
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    &.open {
+      left: -70px;
+
+      .tableContent {
+        width: 180px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    &.creation {
+      display: none;
+    }
+
+    height: calc(100% - 95px);
+    top: 57px;
+
+    left: 5px;
+
+    &.open {
+      left: 5px;
+      top: 56px;
+
+      position: absolute;
+      height: 100%;
+
+      .tableContentHeader {
+        border-bottom: 1px solid transparent;
+      }
+
+      .tableContent {
+        top: 118px;
+        width: 260px;
+
+        border: 1px solid $backgroundMain_;
+      }
+    }
+
+    .tableContentHeader {
+      top: 74px;
+    }
+
+    .tableContent {
+      top: 92px;
+    }
+  }
+
+  @media screen and (max-width: 670px) {
+    top: 97px;
+    &.open {
+      top: 96px;
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    top: 97px;
+
+    .tableContentHeader {
+      top: 98px;
+    }
+
+    &.open {
+      .tableContent {
+        top: 142px;
       }
     }
   }

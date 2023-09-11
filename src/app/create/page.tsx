@@ -19,7 +19,7 @@ export default async function CreateArticle() {
   return (
     <ArticleContext.Provider value={{ article: null, languages, mode: ArticleEditMode.Creation }}>
       <Navbar user={userDto.user} />
-      <ArticleSection />
+      <ArticleSection isCreation />
       <Footer />
     </ArticleContext.Provider>
   );

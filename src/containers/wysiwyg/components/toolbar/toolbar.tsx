@@ -9,6 +9,8 @@ import { ActiveElementsMap, ElementFormat, MarkFormat, VerboseBlockOptions } fro
 import styles from './toolbar.module.scss';
 
 type ToolbarProps = {
+  isHidden?: boolean;
+
   activeElements: ActiveElementsMap;
 
   markButtons: { label: string; format: MarkFormat; icon: StaticImport }[];
@@ -23,7 +25,7 @@ type ToolbarProps = {
 
 export function Toolbar(props: ToolbarProps) {
   return (
-    <div className={styles.toolbarWrapper}>
+    <div className={`${styles.toolbarWrapper} ${props.isHidden ? styles.hidden : ''}`}>
       {props.markButtons.map(({ label, format, icon }, i) => (
         <MarkButton
           icon={icon}

@@ -6,7 +6,17 @@
 
   flex: 1;
 
-  margin: 20px;
+  padding: 20px 180px;
 
   background: $backgroundMain;
+
+  position: relative;
+
+  @media screen and (max-width: 1200px) {
+    padding: 20px 80px !important;
+  }
+
+  @media screen and (max-width: 800px) {
+    padding: 20px 5px !important;
+  }
 }

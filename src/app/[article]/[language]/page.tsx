@@ -41,7 +41,6 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
 
   const article = ApiMapper.mapArticleDtoToType(articleDto);
 
-  console.log({ userDto });
   return (
     <ArticleContext.Provider value={{ article, languages: [], mode: ArticleEditMode.Edit }}>
       <Navbar user={userDto?.user || null} />

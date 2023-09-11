@@ -10,8 +10,8 @@ import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 import { useAppSelector } from '@/redux/hooks';
 import { useTruthSource } from '@/hooks/truth-source.hook';
 
-import { EditArticleBar } from './article-bar/edit-article-bar';
-import { CreateArticleBar } from './article-bar/create-article-bar';
+import { EditArticleBar } from './article-bar/edit-article-bar/edit-article-bar';
+import { CreateArticleBar } from './article-bar/create-article-bar/create-article-bar';
 
 import styles from './article-content.module.scss';
 

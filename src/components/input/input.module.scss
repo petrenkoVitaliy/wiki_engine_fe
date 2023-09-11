@@ -2,16 +2,30 @@
 
 .input {
   width: 100%;
-  height: 35px;
+  height: 30px;
 
-  border: 2px solid transparent;
+  font-family: 'Merriweather', serif;
+  font-size: 16px;
+
+  border: 1px solid transparent;
   outline: none;
 
+  background: $backgroundSecondary_;
+
+  &.highlighted {
+    border: 1px solid $backgroundMain_;
+  }
+
+  &:disabled {
+    color: $fontSecondary_;
+    border: 1px solid transparent !important;
+  }
+
   &:hover {
-    border: 2px solid $backgroundSecondary;
+    border: 1px solid $backgroundMain_;
   }
 
   &:focus {
-    border: 2px solid $backgroundSecondary;
+    border: 1px solid $backgroundMain_;
   }
 }

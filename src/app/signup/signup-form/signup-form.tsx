@@ -49,8 +49,6 @@ export function SignupForm() {
   const onSubmit = async (formValues: FormValues) => {
     const from = searchParams.get('from');
 
-    console.log({ from });
-
     dispatch(
       signUp({
         from,

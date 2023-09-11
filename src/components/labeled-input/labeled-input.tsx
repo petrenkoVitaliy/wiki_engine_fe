@@ -14,7 +14,6 @@ type InputProps<T extends string> = {
 
 export function LabeledInput<T extends string>(props: InputProps<T>) {
   const getErrorMessage = (error: FieldError | Merge<FieldError, FieldErrorsImpl<any>>): string => {
-    console.log(error);
     return error.message as string;
   };
 

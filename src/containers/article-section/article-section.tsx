@@ -5,10 +5,14 @@ import { TableContent } from './table-content/table-content';
 
 import styles from './article.module.scss';
 
-export function ArticleSection() {
+type ArticleSectionProps = {
+  isCreation?: boolean;
+};
+
+export function ArticleSection({ isCreation }: ArticleSectionProps) {
   return (
     <section className={styles.articleWrapper}>
-      <TableContent />
+      <TableContent isCreation={isCreation} />
       <ArticleContent />
     </section>
   );

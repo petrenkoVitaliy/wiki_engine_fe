@@ -4,15 +4,20 @@
   width: 100%;
 
   position: sticky;
-  top: 40px;
+  top: 50px;
   z-index: map-get($z-indexes, large-1);
 
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
 
   border-bottom: 1px solid $backgroundSecondary;
 
   background: $backgroundMain;
   color: $fontMain;
+
+  &.hidden {
+    display: none;
+  }
 }
