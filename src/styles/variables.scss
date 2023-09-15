@@ -1,21 +1,14 @@
-$backgroundMain_: #282829;
-$backgroundShadowMain_: #555556;
+$backgroundMain: #282829;
+$backgroundShadowMain: #555556;
 
-$backgroundSecondary_: #f7f8f8;
-$backgroundShadowSecondary_: #e7e8e8;
-
-$fontMain_: #f7f8f8;
-$fontSecondary_: #161410;
-
-$backgroundMain: #f7f8f8;
-$backgroundSecondary: #333a3c;
-$backgroundShadowed: #b4b4b4;
+$backgroundSecondary: #f7f8f8;
+$backgroundShadowSecondary: #e7e8e8;
 
 $fontMain: #161410;
 $fontSecondary: #f7f8f8;
+$fontSecondaryShadowed: #b0b0b0;
 
-$accentMain: #0057b8;
-$accentSecondary: #ffd700;
+$errorColor: #e80e0e;
 
 $z-indexes: (
   small-1: 1,

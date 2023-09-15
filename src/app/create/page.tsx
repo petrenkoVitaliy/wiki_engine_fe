@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
-import { Footer } from '@/containers/footer/footer';
 import { ArticleSection } from '@/containers/article-section/article-section';
 
 import { AuthHandler } from '@/auth/auth.handler';
@@ -20,7 +19,6 @@ export default async function CreateArticle() {
     <ArticleContext.Provider value={{ article: null, languages, mode: ArticleEditMode.Creation }}>
       <Navbar user={userDto.user} />
       <ArticleSection isCreation />
-      <Footer />
     </ArticleContext.Provider>
   );
 }

@@ -1,4 +1,5 @@
 import { HTMLInputTypeAttribute } from 'react';
+import clsx from 'clsx';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
 import styles from './input.module.scss';
@@ -9,6 +10,7 @@ type InputProps<T extends string> = {
   placeholder?: string;
 
   disabled?: boolean;
+  hoverBorder?: boolean;
   highlighted?: boolean;
 };
 
@@ -18,12 +20,17 @@ export function Input<T extends string>({
   disabled,
   placeholder,
   highlighted,
+  hoverBorder,
 }: InputProps<T>) {
   return (
     <input
       disabled={disabled}
       placeholder={placeholder}
-      className={`${styles.input} ${highlighted ? styles.highlighted : ''}`}
+      className={clsx({
+        [styles.input]: true,
+        [styles.highlighted]: highlighted,
+        [styles.hoverBorder]: hoverBorder,
+      })}
       {...formRegister}
       type={type}
     />

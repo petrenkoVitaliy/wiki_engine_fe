@@ -14,7 +14,7 @@ import { withImage } from './editor-hoc/with-image';
 export class EditorHandler {
   public editor: BaseEditor & ReactEditor;
 
-  public blochHandler: BlockEditorHandler;
+  public blockHandler: BlockEditorHandler;
   public markHandler: MarkEditorHandler;
 
   private headings: string[] | null;
@@ -26,7 +26,7 @@ export class EditorHandler {
     this.headings = null;
     this.prevState = [];
 
-    this.blochHandler = new BlockEditorHandler(this.editor);
+    this.blockHandler = new BlockEditorHandler(this.editor);
     this.markHandler = new MarkEditorHandler(this.editor);
   }
 
@@ -49,7 +49,7 @@ export class EditorHandler {
 
   public getActiveElements(): ActiveElementsMap {
     const activeMarks = this.editor.getMarks();
-    const activeBlocks = this.blochHandler.getActiveBlocks();
+    const activeBlocks = this.blockHandler.getActiveBlocks();
 
     return { activeMarks, activeBlocks };
   }

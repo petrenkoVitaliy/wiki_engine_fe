@@ -1,7 +1,6 @@
 import { notFound, redirect } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
-import { Footer } from '@/containers/footer/footer';
 import { ArticleSection } from '@/containers/article-section/article-section';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
@@ -28,7 +27,7 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
 
   const isMatchedLanguage = articleDto.languages.some(
     ({ language }) => language.code === params.language
-  ); // TODO
+  );
 
   if (!isMatchedLanguage) {
     redirect(
@@ -45,7 +44,6 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
     <ArticleContext.Provider value={{ article, languages: [], mode: ArticleEditMode.Edit }}>
       <Navbar user={userDto?.user || null} />
       <ArticleSection />
-      <Footer />
     </ArticleContext.Provider>
   );
 }

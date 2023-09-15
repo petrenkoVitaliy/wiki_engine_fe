@@ -1,12 +1,10 @@
 import { notFound } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
-import { Footer } from '@/containers/footer/footer';
 import { ArticleSection } from '@/containers/article-section/article-section';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
 import { ApiMapper } from '@/mappers/api.mapper';
-
 import { AuthHandler } from '@/auth/auth.handler';
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 
@@ -35,7 +33,6 @@ export default async function ArticleLanguageCreation({ params }: ArticleLanguag
     <ArticleContext.Provider value={{ article, languages, mode: ArticleEditMode.LanguageCreation }}>
       <Navbar user={userDto?.user || null} />
       <ArticleSection isCreation />
-      <Footer />
     </ArticleContext.Provider>
   );
 }

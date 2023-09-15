@@ -1,4 +1,4 @@
-@import '../../../../styles/variables.scss';
+@import '../../../styles/variables.scss';
 
 .menuWrapper {
   display: flex;
@@ -7,8 +7,11 @@
 
   padding: 15px;
 
-  color: $fontMain_;
   font-size: 18px;
+
+  > p {
+    color: $fontSecondary;
+  }
 
   > button {
     margin-left: 10px;

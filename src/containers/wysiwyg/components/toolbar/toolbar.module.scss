@@ -12,9 +12,9 @@
   align-items: center;
   flex-wrap: wrap;
 
-  border-bottom: 1px solid $backgroundSecondary;
+  border-bottom: 1px solid $backgroundMain;
 
-  background: $backgroundMain;
+  background: $backgroundSecondary;
   color: $fontMain;
 
   &.hidden {

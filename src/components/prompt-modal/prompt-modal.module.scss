@@ -4,18 +4,27 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+
+  width: 300px;
 
   .heading {
-    height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .promptWrapper {
+    width: 100%;
+
+    margin-bottom: 20px;
   }
 
   .controls {
     display: flex;
     width: 100%;
     justify-content: flex-end;
+
+    > button {
+      margin-left: 20px;
+    }
   }
 }

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import clsx from 'clsx';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 import { ElementFormat } from '@/containers/wysiwyg/types';
@@ -16,7 +17,10 @@ type BlockButtonProps = {
 export function BlockButton(props: BlockButtonProps) {
   return (
     <button
-      className={`${styles.blockButton} ${props.isBlockActive ? styles.active : ''}`}
+      className={clsx({
+        [styles.blockButton]: true,
+        [styles.active]: props.isBlockActive,
+      })}
       onMouseDown={(event) => {
         event.preventDefault();
         props.toggleBlock(props.format);

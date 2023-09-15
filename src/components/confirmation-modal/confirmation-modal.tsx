@@ -1,7 +1,7 @@
 import { Modal } from '../modal/modal';
 import { Button } from '../button/button';
 
-import styles from './modal.module.scss';
+import styles from './confirmation-modal.module.scss';
 
 type ConfirmationModalProps = {
   isOpened: boolean;

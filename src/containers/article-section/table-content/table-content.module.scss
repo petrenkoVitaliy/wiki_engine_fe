@@ -27,14 +27,14 @@
 
     width: 60px;
 
-    background: $backgroundSecondary_;
+    background: $backgroundSecondary;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
-    border: 1px solid $backgroundMain_;
+    border: 1px solid $backgroundMain;
 
     user-select: none;
     cursor: pointer;
@@ -42,8 +42,8 @@
     font-size: 14px;
 
     &:hover {
-      border: 1px solid $backgroundShadowMain_;
-      color: $backgroundShadowMain_;
+      border: 1px solid $backgroundShadowMain;
+      color: $backgroundShadowMain;
 
       > img {
         filter: invert(0.25);
@@ -62,8 +62,8 @@
     flex-direction: column;
     justify-content: flex-start;
 
-    background: $backgroundSecondary_;
-    color: $fontSecondary_;
+    background: $backgroundSecondary;
+    color: $fontMain;
 
     .tableList {
       width: 250px;
@@ -79,7 +79,7 @@
         overflow: hidden;
 
         &:hover {
-          background: $backgroundShadowSecondary_;
+          background: $backgroundShadowSecondary;
 
           cursor: pointer;
         }
@@ -122,7 +122,7 @@
         top: 118px;
         width: 260px;
 
-        border: 1px solid $backgroundMain_;
+        border: 1px solid $backgroundMain;
       }
     }
 

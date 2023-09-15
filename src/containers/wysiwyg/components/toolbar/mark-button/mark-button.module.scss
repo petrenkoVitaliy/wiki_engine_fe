@@ -11,19 +11,19 @@
 
   cursor: pointer;
 
-  background: $backgroundMain;
+  background: $backgroundSecondary;
   color: $fontMain;
 
   > img {
-    background: $backgroundMain;
+    background: $backgroundSecondary;
     color: $fontMain;
   }
 
   &.active {
-    background: $backgroundShadowed;
+    background: $fontSecondaryShadowed;
 
     > img {
-      background: $backgroundShadowed;
+      background: $fontSecondaryShadowed;
     }
   }
 }

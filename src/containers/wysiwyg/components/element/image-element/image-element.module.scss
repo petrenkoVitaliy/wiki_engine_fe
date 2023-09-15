@@ -12,7 +12,7 @@
 
   &.selected {
     .imageContainer {
-      border: 1px solid $backgroundShadowed;
+      border: 1px solid $fontSecondaryShadowed;
     }
   }
 
@@ -36,7 +36,7 @@
     display: flex;
     justify-content: space-between;
 
-    background: $backgroundMain;
+    background: $backgroundSecondary;
     opacity: 0;
   }
 }

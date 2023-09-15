@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import clsx from 'clsx';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 import { MarkFormat } from '@/containers/wysiwyg/types';
@@ -16,7 +17,10 @@ type MarkButtonProps = {
 export function MarkButton(props: MarkButtonProps) {
   return (
     <button
-      className={`${styles.markButton} ${props.isMarkActive ? styles.active : ''}`}
+      className={clsx({
+        [styles.markButton]: true,
+        [styles.active]: props.isMarkActive,
+      })}
       onMouseDown={(event) => {
         event.preventDefault();
         props.toggleMark(props.format);

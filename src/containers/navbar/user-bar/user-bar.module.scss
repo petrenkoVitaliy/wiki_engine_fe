@@ -1,14 +1,13 @@
-@import '../../../../styles/variables.scss';
+@import '../../../styles/variables.scss';
 
 .userBarWrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  color: $fontSecondary;
-
   > p {
     margin-right: 10px;
     font-size: 14px;
+    color: $fontSecondary;
   }
 }

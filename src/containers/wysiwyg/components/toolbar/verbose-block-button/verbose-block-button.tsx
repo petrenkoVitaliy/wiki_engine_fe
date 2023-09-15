@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react';
+import clsx from 'clsx';
 import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
@@ -9,9 +10,11 @@ import styles from './verbose-block-button.module.scss';
 type BlockButtonProps = {
   format: ElementFormat;
   label: string;
-  toggleVerboseBlock: (format: ElementFormat, options: VerboseBlockOptions) => void;
   isBlockActive: boolean;
   icon: StaticImport;
+
+  toggleVerboseBlock: (format: ElementFormat, options: VerboseBlockOptions) => void;
+  handleOpenVerbosePrompt: (params: { format: string }) => void;
 };
 
 export function VerboseBlockButton(props: BlockButtonProps) {
@@ -19,11 +22,9 @@ export function VerboseBlockButton(props: BlockButtonProps) {
     if (props.isBlockActive) {
       props.toggleVerboseBlock(props.format, {});
     } else {
-      const url = prompt('url?'); // TODO
-
-      if (url) {
-        props.toggleVerboseBlock(props.format, { url });
-      }
+      props.handleOpenVerbosePrompt({
+        format: props.format,
+      });
     }
 
     event.preventDefault();
@@ -31,7 +32,10 @@ export function VerboseBlockButton(props: BlockButtonProps) {
 
   return (
     <button
-      className={`${styles.verboseBlockButton} ${props.isBlockActive ? styles.active : ''}`}
+      className={clsx({
+        [styles.verboseBlockButton]: true,
+        [styles.active]: props.isBlockActive,
+      })}
       onMouseDown={handleClick}
     >
       <Image src={props.icon} alt={props.label} />

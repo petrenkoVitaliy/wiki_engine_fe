@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 import { useAppDispatch } from '@/redux/hooks';
 import { toggleEditMode, editArticle, updateArticleType } from '@/redux/stores/editor';
@@ -12,19 +13,16 @@ import { Button } from '@/components/button/button';
 import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
 import { Input } from '@/components/input/input';
 
-import { useRouter } from 'next/navigation';
-import { ROUTES } from '@/routes/routes.handler';
-
-import { ApiMapper } from '@/mappers/api.mapper';
-import { Article, ArticleType, articleTypesOptions } from '@/api/types/article.types';
-
-import { useModalControls } from '@/hooks/modal-controls.hook';
-
 import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
 import { CustomElement } from '@/containers/wysiwyg/types';
 
+import { ROUTES } from '@/routes/routes.handler';
+import { ApiMapper } from '@/mappers/api.mapper';
+import { Article, ArticleType, articleTypesOptions } from '@/api/types/article.types';
+import { useModalControls } from '@/hooks/modal-controls.hook';
+
 import 'react-toastify/dist/ReactToastify.css';
-import styles from './article-bar.module.scss';
+import styles from './edit-article-bar.module.scss';
 
 type FormValues = { language: string; name: string; articleType: ArticleType };
 
@@ -127,21 +125,27 @@ export function EditArticleBar(props: ArticleBarProps) {
   return (
     <section className={styles.articleBar}>
       <div className={styles.headingWrapper}>
-        <Input formRegister={register('name')} disabled={!props.isEditMode} highlighted />
+        <Input
+          hoverBorder
+          formRegister={register('name')}
+          disabled={!props.isEditMode}
+          highlighted
+        />
       </div>
 
       <div className={styles.controlPanel}>
         <div className={styles.selectsPanel}>
           <Select
-            formRegister={register('language')}
-            onChange={handleSubmit(onLanguageChange)}
-            options={articleOptions.languageOptions}
-          />
-
-          <Select
             formRegister={register('articleType')}
             onChange={handleSubmit(onArticleTypeChange)}
             options={articleTypesOptions}
+          />
+
+          <Select
+            formRegister={register('language')}
+            onChange={handleSubmit(onLanguageChange)}
+            options={articleOptions.languageOptions}
+            label='Language:'
           />
         </div>
 

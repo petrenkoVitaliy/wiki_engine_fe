@@ -7,18 +7,23 @@
   padding: 0 5px;
 
   cursor: pointer;
-
+  user-select: none;
   outline: none;
   border: none;
-  border-radius: 2px;
 
-  background: $backgroundMain_;
-  border: 1px solid $backgroundMain_;
+  border-radius: 2px;
+  background: $backgroundMain;
+  border: 1px solid $backgroundMain;
 
   font-size: 14px;
-  color: $fontMain_;
+  color: $fontSecondary;
+
+  &.primary {
+    height: 35px;
+    font-size: 16px;
+  }
 
   &:hover {
-    border: 1px solid $backgroundShadowMain_;
+    border: 1px solid $backgroundShadowMain;
   }
 }

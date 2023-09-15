@@ -1,7 +1,7 @@
 import { User } from '@/api/types/user.types';
 
-import { Menu } from './components/menu/menu';
-import { UserBar } from './components/user-bar/user-bar';
+import { Menu } from './menu/menu';
+import { UserBar } from './user-bar/user-bar';
 
 import styles from './navbar.module.scss';
 

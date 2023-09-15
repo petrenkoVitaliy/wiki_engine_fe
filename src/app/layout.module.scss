@@ -3,13 +3,12 @@
 .body {
   height: 100vh;
 
-  background: $backgroundMain_;
+  background: $backgroundMain;
 
-  font-family: 'Merriweather', serif;
   font-size: 16px;
 
   .main {
-    background: $backgroundMain;
+    background: $backgroundSecondary;
 
     display: flex;
     flex-direction: column;

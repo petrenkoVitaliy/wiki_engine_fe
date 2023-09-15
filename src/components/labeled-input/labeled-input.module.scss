@@ -2,32 +2,29 @@
 
 .inputWrapper {
   width: 100%;
-  padding: 0px 15px 25px 15px;
 
   position: relative;
 
   &.error {
     > input {
-      border: 3px solid red; // TODO
+      border: 2px solid $errorColor;
     }
   }
 
   .label {
-    font-size: 13px;
+    color: $fontSecondary;
+    font-size: 14px;
 
     padding: 5px;
   }
 
   .errorLabel {
-    height: 25px;
-
-    padding: 5px;
-
+    padding: 0 5px;
     position: absolute;
-    bottom: 0;
+    bottom: -20px;
 
-    font-size: 13px;
+    font-size: 12px;
 
-    color: red;
+    color: $errorColor;
   }
 }

@@ -1,16 +1,17 @@
 'use client';
-
+import { MouseEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import { LabeledInput } from '@/components/labeled-input/labeled-input';
-import { Button } from '@/components/button/button';
-
 import { signUp } from '@/redux/stores/user';
 import { useAppDispatch } from '@/redux/hooks';
 
-import { ROUTES } from '@/routes/routes.handler';
+import { LabeledInput } from '@/components/labeled-input/labeled-input';
+import { Button } from '@/components/button/button';
+import { EMAIL_PATTERN } from '@/components/input/consts';
+
+import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './form.module.scss';
@@ -58,31 +59,75 @@ export function SignupForm() {
     );
   };
 
+  const handleLoginClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const from = searchParams.get('from');
+
+    router.push(RoutesHandler.withQuery(ROUTES.login(), from ? { from } : {}));
+  };
+
+  const handleReturnBackClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const from = searchParams.get('from');
+
+    if (from) {
+      router.push(from);
+    } else {
+      router.back();
+    }
+  };
+
   return (
     <section className={styles.section}>
+      <div className={styles.preHeaderWrapper}>
+        <Button onClick={handleReturnBackClick} label='Return back' />
+      </div>
+
       <div className={styles.header}>Sign up</div>
       <form autoComplete='on'>
         <LabeledInput
           label='email'
-          formRegister={register('email', { required: true })}
+          formRegister={register('email', {
+            required: { value: true, message: 'field is mandatory' },
+            maxLength: { value: 30, message: 'should be less than 30 symbols' },
+            pattern: { value: EMAIL_PATTERN, message: 'invalid email format' },
+          })}
           error={errors.email}
           type='email'
         />
 
         <LabeledInput
           label='name'
-          formRegister={register('name', { required: true })}
-          error={errors.email}
+          formRegister={register('name', {
+            required: { value: true, message: 'field is mandatory' },
+            maxLength: { value: 30, message: 'should be less than 30 symbols' },
+            minLength: { value: 5, message: 'should be longer than 5 symbols' },
+          })}
+          error={errors.name}
         />
 
         <LabeledInput
           label='password'
-          formRegister={register('password', { required: true })}
+          formRegister={register('password', {
+            required: { value: true, message: 'field is mandatory' },
+            maxLength: { value: 30, message: 'should be less than 30 symbols' },
+            minLength: { value: 10, message: 'should be longer than 10 symbols' },
+          })}
           error={errors.password}
           type='password'
         />
-        <Button onClick={handleSubmit(onSubmit)} label='submit' />
+
+        <div className={styles.submitWrapper}>
+          <Button primary onClick={handleSubmit(onSubmit)} label='Sign Up' />
+        </div>
       </form>
+
+      <div className={styles.loginWrapper}>
+        <p>Already have an account?</p>
+        <Button onClick={handleLoginClick} label='Login' />
+      </div>
     </section>
   );
 }

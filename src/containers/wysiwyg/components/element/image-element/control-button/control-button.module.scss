@@ -14,19 +14,19 @@
 
   cursor: pointer;
 
-  background: $backgroundMain;
+  background: $backgroundSecondary;
   color: $fontMain;
 
   &:hover {
-    background: $backgroundShadowed;
+    background: $fontSecondaryShadowed;
 
     > img {
-      background: $backgroundShadowed;
+      background: $fontSecondaryShadowed;
     }
   }
 
   > img {
-    background: $backgroundMain;
+    background: $backgroundSecondary;
     color: $fontMain;
   }
 }

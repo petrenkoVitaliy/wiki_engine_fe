@@ -1,17 +1,18 @@
-import { useContext, useMemo, useState } from 'react';
+'use client';
 
-import { ApiMapper } from '@/mappers/api.mapper';
+import { useContext, useMemo, useState } from 'react';
 
 import { WysiwygViewer } from '@/containers/wysiwyg/wysiwyg-viewer';
 
 import { useTruthSource } from '@/hooks/truth-source.hook';
-
 import { ArticleVersionContext } from '@/context/article-version-context';
+import { ApiMapper } from '@/mappers/api.mapper';
+
+import { ArticleVersionDto } from '@/api/dto/article.dto';
 
 import { ArticleBar } from './article-bar/article-bar';
 
 import styles from './article-content.module.scss';
-import { ArticleVersionDto } from '@/api/dto/article.dto';
 
 export function ArticleContent() {
   const articleContext = useContext(ArticleVersionContext);

@@ -5,15 +5,16 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
+import { createArticle, createArticleLanguage } from '@/redux/stores/editor';
+import { useAppDispatch } from '@/redux/hooks';
+
 import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
 import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
 import { Input } from '@/components/input/input';
 
-import { createArticle, createArticleLanguage } from '@/redux/stores/editor';
-import { useAppDispatch } from '@/redux/hooks';
-
 import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
+import { CustomElement } from '@/containers/wysiwyg/types';
 
 import { LanguageDto } from '@/api/dto/article.dto';
 import { Article } from '@/api/types/article.types';
@@ -22,8 +23,7 @@ import { ROUTES } from '@/routes/routes.handler';
 import { useModalControls } from '@/hooks/modal-controls.hook';
 
 import 'react-toastify/dist/ReactToastify.css';
-import styles from './article-bar.module.scss';
-import { CustomElement } from '@/containers/wysiwyg/types';
+import styles from './create-article-bar.module.scss';
 
 type FormValues = { language: string; name: string };
 
@@ -96,7 +96,7 @@ export function CreateArticleBar(props: ArticleBarProps) {
   return (
     <section className={styles.articleBar}>
       <div className={styles.headingWrapper}>
-        <Input formRegister={register('name')} placeholder='Title' />
+        <Input hoverBorder formRegister={register('name')} placeholder='Title' />
       </div>
 
       <div className={styles.controlPanel}>

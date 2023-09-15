@@ -1,7 +1,7 @@
 @import '../../../styles/variables.scss';
 
 .articleContent {
-  background: $backgroundSecondary_;
+  background: $backgroundSecondary;
   color: $fontMain;
 
   flex: 1;
@@ -10,7 +10,7 @@
   flex-direction: column;
 
   .articleBody {
-    border: 1px solid $backgroundSecondary;
+    border: 1px solid $backgroundMain;
     flex: 1;
   }
 }

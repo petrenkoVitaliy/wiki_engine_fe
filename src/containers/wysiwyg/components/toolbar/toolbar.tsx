@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 import { MarkButton } from './mark-button/mark-button';
@@ -21,11 +22,45 @@ type ToolbarProps = {
 
   verboseBlockButtons: { label: string; format: ElementFormat; icon: StaticImport }[];
   toggleVerboseBlock: (format: ElementFormat, options: VerboseBlockOptions) => void;
+
+  handleOpenVerbosePrompt: (params: { format: string }) => void;
 };
 
 export function Toolbar(props: ToolbarProps) {
   return (
-    <div className={`${styles.toolbarWrapper} ${props.isHidden ? styles.hidden : ''}`}>
+    <div
+      className={clsx({
+        [styles.toolbarWrapper]: true,
+        [styles.hidden]: props.isHidden,
+      })}
+    >
+      <MarkButtonsList
+        markButtons={props.markButtons}
+        toggleMark={props.toggleMark}
+        activeElements={props.activeElements}
+      />
+
+      <BlockButtonsList
+        blockButtons={props.blockButtons}
+        toggleBlock={props.toggleBlock}
+        activeElements={props.activeElements}
+      />
+
+      <VerboseBlocksList
+        verboseBlockButtons={props.verboseBlockButtons}
+        toggleVerboseBlock={props.toggleVerboseBlock}
+        activeElements={props.activeElements}
+        handleOpenVerbosePrompt={props.handleOpenVerbosePrompt}
+      />
+    </div>
+  );
+}
+
+function MarkButtonsList(
+  props: Pick<ToolbarProps, 'markButtons' | 'toggleMark' | 'activeElements'>
+) {
+  return (
+    <>
       {props.markButtons.map(({ label, format, icon }, i) => (
         <MarkButton
           icon={icon}
@@ -36,28 +71,48 @@ export function Toolbar(props: ToolbarProps) {
           isMarkActive={!!props.activeElements.activeMarks?.[format]}
         />
       ))}
+    </>
+  );
+}
 
-      {props.blockButtons.map(({ label, format, icon }, i) => (
+function BlockButtonsList(
+  props: Pick<ToolbarProps, 'blockButtons' | 'toggleBlock' | 'activeElements'>
+) {
+  return (
+    <>
+      {props.blockButtons.map(({ label, format, icon }) => (
         <BlockButton
           icon={icon}
-          key={i}
+          key={label}
           label={label}
           format={format}
           toggleBlock={props.toggleBlock}
           isBlockActive={!!props.activeElements.activeBlocks[format]}
         />
       ))}
+    </>
+  );
+}
 
-      {props.verboseBlockButtons.map(({ label, format, icon }, i) => (
+function VerboseBlocksList(
+  props: Pick<
+    ToolbarProps,
+    'verboseBlockButtons' | 'toggleVerboseBlock' | 'activeElements' | 'handleOpenVerbosePrompt'
+  >
+) {
+  return (
+    <>
+      {props.verboseBlockButtons.map(({ label, format, icon }) => (
         <VerboseBlockButton
           icon={icon}
-          key={i}
+          key={label}
           label={label}
           format={format}
-          toggleVerboseBlock={props.toggleVerboseBlock}
           isBlockActive={!!props.activeElements.activeBlocks[format]}
+          toggleVerboseBlock={props.toggleVerboseBlock}
+          handleOpenVerbosePrompt={props.handleOpenVerbosePrompt}
         />
       ))}
-    </div>
+    </>
   );
 }

@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
-import { Footer } from '@/containers/footer/footer';
 import { ArticleHistory } from '@/containers/article-history/article-history';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
@@ -32,7 +31,7 @@ export default async function ArticleLanguage({ params, searchParams }: ArticleL
 
   const article = ApiMapper.mapArticleDtoToType(articleDto);
 
-  const selectedVersion = Number(searchParams?.['version'] as string) || null; // TODO
+  const selectedVersion = Number(searchParams?.['version'] as string) || null;
 
   return (
     <ArticleVersionContext.Provider
@@ -40,7 +39,6 @@ export default async function ArticleLanguage({ params, searchParams }: ArticleL
     >
       <Navbar user={userDto?.user || null} />
       <ArticleHistory />
-      <Footer />
     </ArticleVersionContext.Provider>
   );
 }

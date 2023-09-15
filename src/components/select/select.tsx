@@ -5,12 +5,14 @@ import styles from './select.module.scss';
 type SelectProps<T extends string> = {
   options: { label: string; value: string }[];
   formRegister: UseFormRegisterReturn<T>;
+  label?: string;
   onChange?: () => void;
 };
 
 export function Select<T extends string>(props: SelectProps<T>) {
   return (
     <div className={styles.selectWrapper} onChange={props.onChange}>
+      {props.label ? <div className={styles.label}>{props.label}</div> : null}
       <select {...props.formRegister}>
         {props.options.map(({ label, value }) => (
           <option value={value} key={value}>

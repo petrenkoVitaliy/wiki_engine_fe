@@ -31,7 +31,7 @@ export function WysiwygViewer(props: WysiwygProps) {
   useEffect(() => {
     const newChildren = JSON.parse(props.articleVersion.content.content) as CustomElement[];
 
-    editorHandler.blochHandler.updateChildren(newChildren);
+    editorHandler.blockHandler.updateChildren(newChildren);
   }, [props.articleVersion]);
 
   const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);

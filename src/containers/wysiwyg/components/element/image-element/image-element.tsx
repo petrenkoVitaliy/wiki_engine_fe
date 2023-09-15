@@ -5,6 +5,7 @@ import {
   useSelected,
   useSlateStatic,
 } from 'slate-react';
+import clsx from 'clsx';
 import Image from 'next/image';
 
 import { BlockEditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/block-editor.handler';
@@ -45,7 +46,10 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
   return (
     <span
       {...attributes}
-      className={`${styles.imageWrapper} ${selected && focused ? styles.selected : ''}`}
+      className={clsx({
+        [styles.imageWrapper]: true,
+        [styles.selected]: selected && focused,
+      })}
     >
       {children}
       <span className={styles.imageContainer} contentEditable={false}>

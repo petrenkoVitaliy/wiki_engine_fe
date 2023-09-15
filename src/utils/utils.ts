@@ -65,3 +65,13 @@ export function isUri(uri: string): boolean {
 
   return localhostDomainRE.test(urn) || nonLocalhostDomainRE.test(urn);
 }
+
+export function formatDateTime(timestamp: string | undefined): string {
+  if (!timestamp) {
+    return '';
+  }
+
+  const date = new Date(timestamp);
+
+  return date.toLocaleString();
+}

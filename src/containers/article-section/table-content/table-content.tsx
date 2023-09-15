@@ -1,4 +1,8 @@
+'use client';
+
 import { useState } from 'react';
+import clsx from 'clsx';
+import Image from 'next/image';
 
 import { useAppSelector } from '@/redux/hooks';
 import { stringToHash } from '@/utils/utils';
@@ -6,7 +10,6 @@ import { stringToHash } from '@/utils/utils';
 import { ICONS } from './icons';
 
 import styles from './table-content.module.scss';
-import Image from 'next/image';
 
 const SCROLL_OFFSET = -80;
 
@@ -36,9 +39,11 @@ export function TableContent({ isCreation }: TableContentProps) {
 
   return (
     <section
-      className={`${styles.tableContentWrapper} ${isCreation ? styles.creation : ''} ${
-        isOpened ? styles.open : ''
-      }`}
+      className={clsx({
+        [styles.tableContentWrapper]: true,
+        [styles.creation]: isCreation,
+        [styles.open]: isOpened,
+      })}
     >
       <div className={styles.tableContentHeader} onClick={handleContainerClick}>
         <Image src={ICONS.contentIcon} alt='content' width={30} height={28} />

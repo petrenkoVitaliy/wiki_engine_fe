@@ -26,6 +26,8 @@ import {
 } from './types';
 
 import styles from './wysiwyg.module.scss';
+import { PromptModal } from '@/components/prompt-modal/prompt-modal';
+import { usePromptModalControls } from '@/hooks/prompt-modal-controls.hook';
 
 const defaultValue: CustomElement[] = [
   {
@@ -43,6 +45,10 @@ type WysiwygProps = {
 
 export function WysiwygEditor(props: WysiwygProps) {
   const dispatch = useAppDispatch();
+
+  const { promptParams, handleOpenModal, handleCloseModal } = usePromptModalControls<{
+    format: string;
+  }>();
 
   const editorHandler = useMemo(() => props.editorHandler || new EditorHandler(), [props]);
 
@@ -91,13 +97,13 @@ export function WysiwygEditor(props: WysiwygProps) {
   );
 
   const toggleBlock = useCallback(
-    (format: ElementFormat) => editorHandler.blochHandler.toggleBlock(format),
+    (format: ElementFormat) => editorHandler.blockHandler.toggleBlock(format),
     []
   );
 
   const toggleVerboseBlock = useCallback(
     (format: ElementFormat, options: VerboseBlockOptions) =>
-      editorHandler.blochHandler.toggleVerboseBlock(format, options),
+      editorHandler.blockHandler.toggleVerboseBlock(format, options),
     []
   );
 
@@ -105,6 +111,14 @@ export function WysiwygEditor(props: WysiwygProps) {
     (event: KeyboardEvent<HTMLDivElement>) => editorHandler.handleHotKey(event),
     []
   );
+
+  const handleUrlSubmit = useCallback((params: { format: string }, url: string | null) => {
+    if (url) {
+      toggleVerboseBlock(params.format as ElementFormat, { url });
+    }
+
+    handleCloseModal();
+  }, []);
 
   return (
     <div className={styles.wysiwygWrapper}>
@@ -117,6 +131,7 @@ export function WysiwygEditor(props: WysiwygProps) {
         verboseBlockButtons={VerboseBlockButtons}
         activeElements={activeElements}
         isHidden={!props.isEditMode}
+        handleOpenVerbosePrompt={handleOpenModal}
       />
 
       <Slate editor={editorHandler.editor} initialValue={initialValue} onChange={handleChange}>
@@ -131,6 +146,16 @@ export function WysiwygEditor(props: WysiwygProps) {
           autoFocus
         />
       </Slate>
+
+      <PromptModal
+        promptParams={promptParams}
+        handleClose={handleCloseModal}
+        handleSubmit={handleUrlSubmit}
+        label='Please specify url:'
+        cancelLabel='Cancel'
+        submitLabel='Submit'
+        placeholder='https://'
+      />
     </div>
   );
 }
