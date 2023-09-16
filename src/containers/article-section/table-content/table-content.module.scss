@@ -1,23 +1,27 @@
 @import '../../../styles/variables.scss';
 
 .tableContentWrapper {
-  height: 100%;
-
   position: absolute;
+
   top: 0px;
-  left: 10px;
+  left: 20px;
+
+  height: 100%;
+  width: 0;
 
   z-index: map-get($z-indexes, small-1);
 
   &.open {
-    height: auto;
-
-    position: relative;
-    left: -170px;
+    width: auto;
 
     .tableContent {
-      visibility: visible;
-      width: 80px;
+      display: flex;
+    }
+
+    .tableContentHeader {
+      > img {
+        transform: rotate(180deg);
+      }
     }
   }
 
@@ -25,7 +29,9 @@
     position: sticky;
     top: 70px;
 
-    width: 60px;
+    width: 55px;
+    height: 35px;
+    padding-top: 3px;
 
     background: $backgroundSecondary;
 
@@ -52,23 +58,21 @@
   }
 
   .tableContent {
-    visibility: hidden;
-    width: 0;
-
-    position: sticky;
-    top: 120px;
-
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: flex-start;
+
+    position: sticky;
+    top: 105px;
 
     background: $backgroundSecondary;
     color: $fontMain;
 
     .tableList {
-      width: 250px;
+      width: 230px;
 
       padding: 0;
+      margin: 10px 0;
       list-style-type: none;
 
       > li {
@@ -87,72 +91,75 @@
     }
   }
 
-  @media screen and (max-width: 1200px) {
-    &.open {
-      left: -70px;
-
-      .tableContent {
-        width: 180px;
-      }
-    }
-  }
-
-  @media screen and (max-width: 800px) {
-    &.creation {
-      display: none;
-    }
-
+  @media screen and (max-width: map-get($media-sizes, size-large-1)) {
     height: calc(100% - 95px);
-    top: 57px;
 
-    left: 5px;
+    .tableContentHeader {
+      top: 115px;
+    }
 
     &.open {
-      left: 5px;
-      top: 56px;
-
       position: absolute;
       height: 100%;
 
       .tableContentHeader {
-        border-bottom: 1px solid transparent;
+        border-bottom: 1px solid $backgroundSecondary;
       }
 
       .tableContent {
-        top: 118px;
-        width: 260px;
+        top: 149px; // to replace headers bottom border
 
         border: 1px solid $backgroundMain;
       }
     }
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-2)) {
+    left: 5px;
+
+    top: 65px;
 
     .tableContentHeader {
       top: 74px;
     }
 
-    .tableContent {
-      top: 92px;
-    }
-  }
-
-  @media screen and (max-width: 670px) {
-    top: 97px;
     &.open {
-      top: 96px;
+      .tableContent {
+        top: 109px; // to replace headers bottom border
+      }
+    }
+
+    &.creation {
+      top: 65px;
+
+      .tableContentHeader {
+        top: 74px;
+        border-right: 1px solid $backgroundSecondary;
+      }
+
+      &.open {
+        .tableContent {
+          top: 109px; // to replace headers bottom border
+        }
+      }
     }
   }
 
-  @media screen and (max-width: 420px) {
-    top: 97px;
+  @media screen and (max-width: map-get($media-sizes, size-large-3)) {
+    left: 5px;
 
     .tableContentHeader {
-      top: 98px;
+      top: 105px;
     }
 
     &.open {
       .tableContent {
-        top: 142px;
+        top: 139px; // to replace headers bottom border
       }
+    }
+
+    &.creation {
+      display: none;
     }
   }
 }

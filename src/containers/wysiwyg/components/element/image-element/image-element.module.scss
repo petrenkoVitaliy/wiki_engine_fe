@@ -4,6 +4,12 @@
   position: relative;
   display: inline-block;
 
+  &:not([contenteditable]) {
+    .controlsWrapper {
+      opacity: 0 !important;
+    }
+  }
+
   &:hover {
     .controlsWrapper {
       opacity: 1;
