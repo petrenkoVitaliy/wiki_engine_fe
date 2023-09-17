@@ -12,14 +12,14 @@ class AuthHandler {
     return loginResponse;
   }
 
-  public static async getUser(options?: { isServerSide?: boolean; articleId?: string }) {
+  public static async getUser(options?: { isServerSide?: boolean; article?: string }) {
     const authToken = CookieHandler.getAuthCookie(options);
 
     if (!authToken) {
       return null;
     }
 
-    const userResponse = await apiHandler.getUser(authToken, options?.articleId);
+    const userResponse = await apiHandler.getUser(authToken, options?.article);
 
     if (userResponse.status === 'error') {
       CookieHandler.removeAuthCookie();

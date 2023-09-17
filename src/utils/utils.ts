@@ -2,7 +2,41 @@ import { Descendant } from 'slate';
 
 import { CustomText } from '@/containers/wysiwyg/types';
 
-export function stringToHash(str: string): string {
+export function scrollToElementWithId(hashId: string | null): boolean {
+  const SCROLL_OFFSET = -50;
+
+  if (!hashId) {
+    return false;
+  }
+
+  const element = document.getElementById(hashId);
+
+  if (!element) {
+    return false;
+  }
+
+  window.scrollTo({
+    behavior: 'smooth',
+    top: element.getBoundingClientRect().top + window.scrollY + SCROLL_OFFSET,
+  });
+
+  return true;
+}
+
+export function uriHashToHashId(hash: string | undefined): string | null {
+  if (!hash) {
+    return null;
+  }
+
+  const uriHashPointer = hash.split('#')[1];
+  const hashPointer = decodeURIComponent(uriHashPointer);
+
+  return stringToHashId(hashPointer);
+}
+
+export function stringToHashId(input: string): string {
+  const str = input.trim();
+
   let hash = 0;
 
   if (str.length == 0) {
@@ -17,14 +51,24 @@ export function stringToHash(str: string): string {
   return String(hash);
 }
 
-export function getHeadingId(headingBlock: Descendant[]): string {
+export function getHeadingParams(headingBlock: Descendant[]): {
+  heading: string;
+  hash: string;
+} {
   let heading = '';
 
   for (const headingElement of headingBlock as CustomText[]) {
     heading += headingElement.text;
   }
 
-  return stringToHash(heading);
+  return {
+    heading,
+    hash: stringToHashId(heading),
+  };
+}
+
+export function getUriWithFragment(fragment: string): string {
+  return `${window.location.origin}${window.location.pathname}#${encodeURIComponent(fragment)}`;
 }
 
 export function pick<T, U extends keyof T>(parent: T, keys: U[]): Pick<T, U> {

@@ -18,9 +18,9 @@ class ApiHandler extends FetchHandler {
     return loginResponse;
   }
 
-  public async getUser(authToken: string, articleId?: string) {
+  public async getUser(authToken: string, article?: string) {
     const userResponse = await this.fetchApi<UserWithPermissionsDto>(
-      `auth/user${articleId ? '?article_id=' + articleId : ''}`,
+      `auth/user${article ? '?article_code=' + article : ''}`,
       {
         method: 'get',
         cache: 'no-store',

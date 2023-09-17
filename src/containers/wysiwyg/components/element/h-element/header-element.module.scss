@@ -1,0 +1,16 @@
+@import '../../../../../styles/variables.scss';
+
+.headerWrapper {
+  position: relative;
+
+  &:hover {
+    .controlWrapper {
+      display: inline-block;
+    }
+  }
+
+  .controlWrapper {
+    display: none;
+    user-select: none;
+  }
+}

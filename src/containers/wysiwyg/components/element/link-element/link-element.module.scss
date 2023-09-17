@@ -1,0 +1,9 @@
+@import '../../../../../styles/variables.scss';
+
+.link {
+  color: $linkColor;
+
+  span {
+    color: $linkColor;
+  }
+}

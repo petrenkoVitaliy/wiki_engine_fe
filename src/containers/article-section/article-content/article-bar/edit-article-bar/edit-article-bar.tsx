@@ -19,7 +19,10 @@ import { CustomElement } from '@/containers/wysiwyg/types';
 import { ROUTES } from '@/routes/routes.handler';
 import { ApiMapper } from '@/mappers/api.mapper';
 import { Article, ArticleType, articleTypesOptions } from '@/api/types/article.types';
+import { ArticlePermission } from '@/api/dto/auth.dto';
 import { useModalControls } from '@/hooks/modal-controls.hook';
+import { PermissionControl } from '@/permission/permission-control.hoc';
+import { PermissionHandler } from '@/permission/permission.handler';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './edit-article-bar.module.scss';
@@ -31,7 +34,10 @@ type ArticleBarProps = {
   isEditMode: boolean;
   language: string;
   editorHandler: EditorHandler;
+  permissions: ArticlePermission[];
 };
+
+const ARTICLE_EDIT_PERMISSIONS: ArticlePermission[] = ['Edit'];
 
 export function EditArticleBar(props: ArticleBarProps) {
   const router = useRouter();
@@ -49,6 +55,13 @@ export function EditArticleBar(props: ArticleBarProps) {
       articleName: article.languagesMap[language].name,
     };
   }, [props.article, props.language]);
+
+  const isPatchEnabled = useMemo(() => {
+    return PermissionHandler.isPermissionMatch({
+      requiredPermissions: ['Patch'],
+      permissions: props.permissions,
+    });
+  }, [props.permissions]);
 
   const { register, handleSubmit, getValues } = useForm<FormValues>({
     values: {
@@ -139,6 +152,7 @@ export function EditArticleBar(props: ArticleBarProps) {
             formRegister={register('articleType')}
             onChange={handleSubmit(onArticleTypeChange)}
             options={articleTypesOptions}
+            disabled={!isPatchEnabled}
           />
 
           <Select
@@ -158,8 +172,13 @@ export function EditArticleBar(props: ArticleBarProps) {
           ) : (
             <>
               <Button onClick={handleHistoryClick} label='History' />
-              <Button onClick={handleAddLanguage} label='Add language' />
-              <Button onClick={handleEditMode} label='Edit' />
+              <PermissionControl
+                permissions={props.permissions}
+                requiredPermissions={ARTICLE_EDIT_PERMISSIONS}
+              >
+                <Button onClick={handleAddLanguage} label='Add language' />
+                <Button onClick={handleEditMode} label='Edit' />
+              </PermissionControl>
             </>
           )}
         </div>

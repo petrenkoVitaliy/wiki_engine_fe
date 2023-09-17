@@ -2,12 +2,19 @@ import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 
 import { BlockEditorHandler } from '../block-editor.handler';
+import { ElementFormat } from '@/containers/wysiwyg/types';
+
+const VOID_ELEMENTS: {
+  [type in ElementFormat]?: boolean;
+} = {
+  image: true,
+};
 
 export const withImage = (editor: BaseEditor & ReactEditor) => {
   const { insertData, isVoid } = editor;
 
   editor.isVoid = (element) => {
-    return element.type === 'image' ? true : isVoid(element);
+    return (element.type && VOID_ELEMENTS[element.type]) || isVoid(element);
   };
 
   editor.insertData = (data) => {

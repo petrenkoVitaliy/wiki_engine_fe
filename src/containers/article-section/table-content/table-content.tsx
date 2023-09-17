@@ -3,15 +3,14 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
+import { useRouter, usePathname } from 'next/navigation';
 
 import { useAppSelector } from '@/redux/hooks';
-import { stringToHash } from '@/utils/utils';
+import { scrollToElementWithId, stringToHashId } from '@/utils/utils';
 
 import { ICONS } from './icons';
 
 import styles from './table-content.module.scss';
-
-const SCROLL_OFFSET = -80;
 
 type TableContentProps = {
   isCreation?: boolean;
@@ -19,17 +18,18 @@ type TableContentProps = {
 export function TableContent({ isCreation }: TableContentProps) {
   const headings = useAppSelector((state) => state.editorReducer.headings);
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [isOpened, setIsOpened] = useState(false);
 
   const handleItemClick = (heading: string) => {
-    const id = stringToHash(heading);
-    const element = document.getElementById(id);
+    const id = stringToHashId(heading);
 
-    if (element) {
-      window.scrollTo({
-        behavior: 'smooth',
-        top: element.getBoundingClientRect().top + window.scrollY + SCROLL_OFFSET,
-      });
+    const isScrolled = scrollToElementWithId(id);
+
+    if (isScrolled) {
+      router.push(`${pathname}#${heading}`);
     }
   };
 

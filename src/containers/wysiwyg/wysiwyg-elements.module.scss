@@ -1,0 +1,31 @@
+@import '../../styles/variables.scss';
+
+blockquote {
+  border-left: 8px solid $backgroundShadowSecondaryDark;
+  padding-left: 10px;
+  margin-left: 20px;
+
+  color: $secondaryColor;
+  span {
+    color: inherit;
+  }
+}
+
+em {
+  color: $secondaryColor;
+
+  span {
+    color: inherit;
+    font-weight: inherit;
+  }
+}
+
+code {
+  font-family: var(--font-roboto-mono-flex);
+  background: $backgroundShadowSecondaryDark;
+  display: table-header-group;
+
+  span {
+    font-family: inherit;
+  }
+}

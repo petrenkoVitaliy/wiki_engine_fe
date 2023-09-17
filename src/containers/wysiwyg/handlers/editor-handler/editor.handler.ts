@@ -40,7 +40,7 @@ export class EditorHandler {
           heading += headingElement.text;
         }
 
-        headingsList.push(heading);
+        headingsList.push(heading.trim());
       }
     }
 
@@ -81,6 +81,10 @@ export class EditorHandler {
     return isChanged;
   }
 
+  public insertText(text: string): void {
+    this.editor.insertText(text);
+  }
+
   public handleHotKey(event: KeyboardEvent<HTMLDivElement>): void {
     if ((event.ctrlKey || event.metaKey) && event.key) {
       const format = HOTKEYS[event.key];
@@ -89,6 +93,16 @@ export class EditorHandler {
         this.markHandler.toggleMark(format);
         event.preventDefault();
       }
+
+      return;
+    }
+
+    if (event.key === 'Tab') {
+      event.preventDefault();
+
+      this.insertText('    ');
+
+      return;
     }
   }
 }

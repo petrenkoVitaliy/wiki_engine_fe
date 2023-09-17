@@ -1,8 +1,8 @@
 @import '../../../../../../styles/variables.scss';
 
 .buttonWrapper {
-  height: 21px;
-  width: 21px;
+  height: 22px;
+  width: 22px;
 
   padding: 0;
 
@@ -17,16 +17,16 @@
   background: $backgroundSecondary;
   color: $fontMain;
 
+  border-radius: 5px;
+
   &:hover {
-    background: $fontSecondaryShadowed;
+    background: $backgroundShadowSecondaryDark;
 
     > img {
-      background: $fontSecondaryShadowed;
+      // background: $fontSecondaryShadowed;
     }
   }
 
   > img {
-    background: $backgroundSecondary;
-    color: $fontMain;
   }
 }

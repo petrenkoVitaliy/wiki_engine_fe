@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 
 import { ApiMapper } from '@/mappers/api.mapper';
@@ -11,6 +11,7 @@ import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/edit
 import { ArticleContext, ArticleEditMode } from '@/context/article-context';
 import { useAppSelector } from '@/redux/hooks';
 import { useTruthSource } from '@/hooks/truth-source.hook';
+import { scrollToElementWithId, uriHashToHashId } from '@/utils/utils';
 
 import { EditArticleBar } from './article-bar/edit-article-bar/edit-article-bar';
 import { CreateArticleBar } from './article-bar/create-article-bar/create-article-bar';
@@ -23,13 +24,24 @@ export function ArticleContent() {
     return null;
   }
 
+  const routeParams = useParams();
+  const language = useMemo(() => (routeParams.language || null) as string | null, [routeParams]);
+
+  useEffect(() => {
+    const id = uriHashToHashId(window.location.hash);
+
+    scrollToElementWithId(id);
+  }, []);
+
   const article = useTruthSource({
     propSource: articleContext?.article || null,
     storeSelector: (store) => store.editorReducer.article,
   });
 
-  const routeParams = useParams();
-  const language = useMemo(() => (routeParams.language || null) as string | null, [routeParams]);
+  const editPermissions = useMemo(
+    () => articleContext.permissions || [],
+    [articleContext.permissions]
+  );
 
   const editorHandler = useMemo(() => new EditorHandler(), []);
   const languages = useMemo(() => {
@@ -56,6 +68,7 @@ export function ArticleContent() {
           article={article}
           editorHandler={editorHandler}
           language={language}
+          permissions={editPermissions}
         />
       ) : (
         <CreateArticleBar article={article} editorHandler={editorHandler} languages={languages} />

@@ -41,7 +41,14 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
   const article = ApiMapper.mapArticleDtoToType(articleDto);
 
   return (
-    <ArticleContext.Provider value={{ article, languages: [], mode: ArticleEditMode.Edit }}>
+    <ArticleContext.Provider
+      value={{
+        article,
+        languages: [],
+        mode: ArticleEditMode.Edit,
+        permissions: userDto?.permissions,
+      }}
+    >
       <Navbar user={userDto?.user || null} />
       <ArticleSection />
     </ArticleContext.Provider>
@@ -59,7 +66,7 @@ async function getArticleDto(params: ArticleLanguageParams) {
 }
 
 async function getUser(params: ArticleLanguageParams) {
-  const user = await AuthHandler.getUser({ isServerSide: true, articleId: params.article });
+  const user = await AuthHandler.getUser({ isServerSide: true, article: params.article });
 
   return user;
 }

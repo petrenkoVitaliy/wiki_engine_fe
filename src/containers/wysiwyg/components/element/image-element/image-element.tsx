@@ -14,9 +14,9 @@ import { ImageBlockElement } from '@/containers/wysiwyg/types';
 import { ControlButton } from './control-button/control-button';
 
 import { ICONS } from './icons';
+import { BACKGROUND_IMAGE } from './blur';
 
 import styles from './image-element.module.scss';
-import { BACKGROUND_IMAGE } from './blur';
 
 type ImageProps = Omit<RenderElementProps, 'element'> & {
   element: ImageBlockElement;
