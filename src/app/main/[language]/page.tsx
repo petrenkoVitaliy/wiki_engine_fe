@@ -59,17 +59,24 @@ async function getUser() {
 
 export async function generateStaticParams() {
   // TODO use languages
-  const articleResponse = await apiHandler.getArticleByKey(MAIN_ARTICLE_NAME_KEY);
+  // const articleResponse = await apiHandler.getArticleByKey(MAIN_ARTICLE_NAME_KEY);
 
-  const params: MainPageParams[] = [];
+  const params: MainPageParams[] = [
+    {
+      language: 'ua',
+    },
+    {
+      language: 'en',
+    },
+  ];
 
-  if (articleResponse.status === 'error') {
-    return params;
-  }
+  // if (articleResponse.status === 'error') {
+  //   return params;
+  // }
 
-  articleResponse.result.languages.forEach((articleLanguage) => {
-    params.push({ language: articleLanguage.language.code });
-  });
+  // articleResponse.result.languages.forEach((articleLanguage) => {
+  //   params.push({ language: articleLanguage.language.code });
+  // });
 
   return params;
 }
