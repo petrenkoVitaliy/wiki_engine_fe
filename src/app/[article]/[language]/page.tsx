@@ -82,10 +82,12 @@ export async function generateStaticParams() {
 
   articlesListResponse.result.forEach((article) => {
     article.languages.forEach((articleLanguage) => {
-      params.push({
-        article: articleLanguage.name_key,
-        language: articleLanguage.language.code,
-      });
+      if (!articleLanguage.name_key.includes('main')) {
+        params.push({
+          article: articleLanguage.name_key,
+          language: articleLanguage.language.code,
+        });
+      }
     });
   });
 

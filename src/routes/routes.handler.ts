@@ -1,5 +1,7 @@
+const DEFAULT_LANGUAGE = 'en';
+
 export const ROUTES = {
-  main: (articleLanguageKey?: string) => `/main/${articleLanguageKey || 'en'}`, // TODO use const
+  main: (articleLanguageKey?: string) => `/main/${articleLanguageKey || DEFAULT_LANGUAGE}`,
   login: () => '/login',
   signup: () => '/signup',
   createArticle: () => '/create',

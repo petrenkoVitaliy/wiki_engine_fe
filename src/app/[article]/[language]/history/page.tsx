@@ -69,28 +69,27 @@ async function getUser() {
   return user;
 }
 
-// export async function generateStaticParams() { TODO tmp
-//   const articlesListResponse = await apiHandler.getArticlesList();
+export async function generateStaticParams() {
+  const articlesListResponse = await apiHandler.getArticlesList();
 
-//   const params: ArticleLanguageParams[] = [];
+  const params: ArticleLanguageParams[] = [];
 
-//   if (articlesListResponse.status === 'error') {
-//     return params;
-//   }
+  if (articlesListResponse.status === 'error') {
+    return params;
+  }
 
-//   articlesListResponse.result.forEach((article) => {
-//     article.languages.forEach((articleLanguage) => {
-//       if (!articleLanguage.name_key.includes('main')) {
-//         // TODO
-//         params.push({
-//           article: articleLanguage.name_key,
-//           language: articleLanguage.language.code,
-//         });
-//       }
-//     });
-//   });
+  articlesListResponse.result.forEach((article) => {
+    article.languages.forEach((articleLanguage) => {
+      if (!articleLanguage.name_key.includes('main')) {
+        params.push({
+          article: articleLanguage.name_key,
+          language: articleLanguage.language.code,
+        });
+      }
+    });
+  });
 
-//   return params;
-// }
+  return params;
+}
 
 export const dynamicParams = true;

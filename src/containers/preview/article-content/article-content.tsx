@@ -1,25 +1,24 @@
 'use client';
 
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { WysiwygViewer } from '@/containers/wysiwyg/wysiwyg-viewer';
 
 import { useTruthSource } from '@/hooks/truth-source.hook';
 
 import styles from './article-content.module.scss';
-import { ArticlePreviewContext } from '@/context/article-preview-context';
 import { ArticleBar } from './article-bar/article-bar';
 import { ApiMapper } from '@/mappers/api.mapper';
+import { Article } from '@/api/types/article.types';
 
-export function ArticleContent() {
-  const articleContext = useContext(ArticlePreviewContext);
+type ArticleContentProps = {
+  article: Article;
+  language: string;
+};
 
-  if (!articleContext) {
-    return null;
-  }
-
+export function ArticleContent(props: ArticleContentProps) {
   const article = useTruthSource({
-    propSource: articleContext.article,
+    propSource: props.article,
     storeSelector: (store) => store.editorReducer.article,
   });
 
@@ -28,13 +27,13 @@ export function ArticleContent() {
   }, [article]);
 
   const selectedArticleVersion = useMemo(() => {
-    return article.languagesMap[articleContext.language].version;
-  }, [article, articleContext.language]);
+    return article.languagesMap[props.language].version;
+  }, [article, props.language]);
 
   return (
     <section className={styles.articleContent}>
       <section className={styles.articleBody}>
-        <ArticleBar article={article} languages={languages} language={articleContext.language} />
+        <ArticleBar article={article} languages={languages} language={props.language} />
         <WysiwygViewer articleVersion={selectedArticleVersion} />
       </section>
     </section>

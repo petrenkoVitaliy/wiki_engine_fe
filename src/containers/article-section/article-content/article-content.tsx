@@ -60,6 +60,12 @@ export function ArticleContent() {
     [articleContext.mode]
   );
 
+  const selectedArticleVersion = useMemo(
+    () =>
+      !isArticleCreationMode && article && language ? article.languagesMap[language].version : null,
+    [language, article]
+  );
+
   return (
     <section className={styles.articleContent}>
       {article && language ? (
@@ -77,9 +83,8 @@ export function ArticleContent() {
       <section className={styles.articleBody}>
         <WysiwygEditor
           isEditMode={isArticleCreationMode || isEditorEditModeStore}
-          article={!isArticleCreationMode ? article : null}
-          language={language}
           editorHandler={editorHandler}
+          articleVersion={selectedArticleVersion}
         />
       </section>
     </section>

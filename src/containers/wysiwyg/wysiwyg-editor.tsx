@@ -7,15 +7,14 @@ import { Descendant } from 'slate';
 import { updateHeadings } from '@/redux/stores/editor';
 import { useAppDispatch } from '@/redux/hooks';
 
+import { ArticleVersion } from '@/api/types/article.types';
+
 import { Toolbar } from './components/toolbar/toolbar';
 import { Leaf } from './components/leaf/leaf';
 import { Element } from './components/element/element';
 
 import { BlockButtons, MarkButtons, VerboseBlockButtons } from './elements';
-
 import { EditorHandler } from './handlers/editor-handler/editor.handler';
-
-import { Article } from '@/api/types/article.types';
 
 import {
   ActiveElementsMap,
@@ -38,9 +37,8 @@ const defaultValue: CustomElement[] = [
 
 type WysiwygProps = {
   editorHandler: EditorHandler;
-  article: Article | null;
-  language: string | null;
   isEditMode: boolean;
+  articleVersion: ArticleVersion | null;
 };
 
 export function WysiwygEditor(props: WysiwygProps) {
@@ -53,15 +51,14 @@ export function WysiwygEditor(props: WysiwygProps) {
   const editorHandler = useMemo(() => props.editorHandler || new EditorHandler(), [props]);
 
   const initialValue = useMemo(() => {
-    const { article, language } = props;
+    const { articleVersion } = props;
 
-    if (!article || !language) {
-      // TODO use articleVersion
+    if (!articleVersion) {
       return defaultValue;
     }
 
-    return JSON.parse(article.languagesMap[language].version.content.content) as CustomElement[];
-  }, [props.article, props.language]);
+    return JSON.parse(articleVersion.content.content) as CustomElement[];
+  }, [props.articleVersion]);
 
   useEffect(() => {
     updateHeading(initialValue);

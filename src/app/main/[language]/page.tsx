@@ -6,7 +6,6 @@ import { AuthHandler } from '@/auth/auth.handler';
 import { Navbar } from '@/containers/navbar/navbar';
 import { Preview } from '@/containers/preview/preview';
 
-import { ArticlePreviewContext } from '@/context/article-preview-context';
 import { ApiMapper } from '@/mappers/api.mapper';
 
 const MAIN_ARTICLE_NAME_KEY = 'main';
@@ -29,15 +28,10 @@ export default async function MainPage({ params }: MainPageProps) {
   const article = ApiMapper.mapArticleDtoToType(articleDto);
 
   return (
-    <ArticlePreviewContext.Provider
-      value={{
-        article,
-        language: params.language,
-      }}
-    >
+    <>
       <Navbar user={userDto?.user || null} />
-      <Preview />
-    </ArticlePreviewContext.Provider>
+      <Preview article={article} language={params.language} />
+    </>
   );
 }
 
@@ -58,25 +52,17 @@ async function getUser() {
 }
 
 export async function generateStaticParams() {
-  // TODO use languages
-  // const articleResponse = await apiHandler.getArticleByKey(MAIN_ARTICLE_NAME_KEY);
+  const articleResponse = await apiHandler.getArticleByKey(MAIN_ARTICLE_NAME_KEY);
 
-  const params: MainPageParams[] = [
-    {
-      language: 'ua',
-    },
-    {
-      language: 'en',
-    },
-  ];
+  const params: MainPageParams[] = [];
 
-  // if (articleResponse.status === 'error') {
-  //   return params;
-  // }
+  if (articleResponse.status === 'error') {
+    return params;
+  }
 
-  // articleResponse.result.languages.forEach((articleLanguage) => {
-  //   params.push({ language: articleLanguage.language.code });
-  // });
+  articleResponse.result.languages.forEach((articleLanguage) => {
+    params.push({ language: articleLanguage.language.code });
+  });
 
   return params;
 }
