@@ -1,0 +1,75 @@
+@import '../../../../../styles/variables.scss';
+
+.videoWrapper {
+  position: relative;
+  display: inline-block;
+
+  &:not([contenteditable]) {
+    .controlsWrapper {
+      opacity: 0 !important;
+    }
+  }
+
+  &:hover {
+    .controlsWrapper {
+      opacity: 1;
+    }
+  }
+
+  &.selected {
+    .videoContainer {
+      border: 2px solid $linkColor;
+    }
+  }
+
+  .videoContainer {
+    display: inline-block;
+    margin: 0 5px;
+
+    border: 2px solid transparent;
+
+    height: 225px;
+    width: 400px;
+
+    > iframe {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .controlsWrapper {
+    position: absolute;
+    top: 0;
+    left: 5px;
+
+    height: 22px;
+    width: 80px;
+
+    display: flex;
+    justify-content: space-between;
+
+    background: $backgroundSecondary;
+    opacity: 0;
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-2)) {
+    .videoContainer {
+      max-height: 450px !important;
+      max-width: 800px !important;
+    }
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-4)) {
+    .videoContainer {
+      max-height: 337px !important;
+      max-width: 600px !important;
+    }
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
+    .videoContainer {
+      max-height: 200px !important;
+      max-width: 330px !important;
+    }
+  }
+}

@@ -40,6 +40,14 @@ export type LinkBlockElement = BaseElement & {
   url: string;
 };
 
+export type YoutubeBlockElement = BaseElement & {
+  align?: TextAlignFormat;
+  type: 'youtube';
+  videoKey: string;
+  width: number;
+  height: number;
+};
+
 export type ImageBlockElement = BaseElement & {
   align?: TextAlignFormat;
   type: 'image';
@@ -53,7 +61,11 @@ export type BlockElement = BaseElement & {
   type?: BlockFormat;
 };
 
-export type CustomElement = BlockElement | LinkBlockElement | ImageBlockElement;
+export type CustomElement =
+  | BlockElement
+  | LinkBlockElement
+  | ImageBlockElement
+  | YoutubeBlockElement;
 
 export type ActiveElementsMap = {
   activeMarks: Omit<CustomText, 'text'> | null;

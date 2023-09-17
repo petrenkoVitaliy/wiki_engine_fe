@@ -96,7 +96,7 @@ export function ArticleBar(props: ArticleBarProps) {
           <div className={styles.infoBlock}>
             Title: <span>{selectedArticleVersion.name}</span>
           </div>
-          {/* <div className={styles.infoBlock}> TODO
+          {/* <div className={styles.infoBlock}> TODO add 
             Author:
             <span>Author</span>
           </div> */}

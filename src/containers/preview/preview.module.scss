@@ -1,0 +1,26 @@
+@import '../../styles/variables.scss';
+
+.articleWrapper {
+  display: flex;
+  justify-content: flex-start;
+
+  flex: 1;
+
+  padding: 20px 260px;
+
+  background: $backgroundSecondary;
+
+  position: relative;
+
+  @media screen and (max-width: map-get($media-sizes, size-large-1)) {
+    padding: 20px 100px;
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-2)) {
+    padding: 20px 60px !important;
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-3)) {
+    padding: 20px 5px !important;
+  }
+}

@@ -9,7 +9,7 @@ import { HOTKEYS } from '../../consts';
 import { BlockEditorHandler } from './block-editor.handler';
 import { MarkEditorHandler } from './mark-editor.handler';
 import { withInline } from './editor-hoc/with-inline';
-import { withImage } from './editor-hoc/with-image';
+import { withImage } from './editor-hoc/with-voids';
 
 export class EditorHandler {
   public editor: BaseEditor & ReactEditor;

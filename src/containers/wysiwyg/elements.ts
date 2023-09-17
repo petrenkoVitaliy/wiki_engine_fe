@@ -23,4 +23,5 @@ export const BlockButtons: { label: string; format: ElementFormat; icon: StaticI
 
 export const VerboseBlockButtons: { label: string; format: ElementFormat; icon: StaticImport }[] = [
   { icon: ICONS.linkIcon, format: 'link', label: 'link' },
+  { icon: ICONS.youtubeIcon, format: 'youtube', label: 'youtube' },
 ];

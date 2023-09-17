@@ -96,18 +96,31 @@ export function pickAndExtend<
 }
 
 export function isUri(uri: string): boolean {
-  const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
-  const localhostDomainRE = /^localhost[:?\d]*(?:[^:?\d]\S*)?$/;
-  const nonLocalhostDomainRE = /^[^\s.]+\.\S{2,}$/;
+  const protocolAndDomainRegex = /^(?:\w+:)?\/\/(\S+)$/;
+  const localhostDomainRegex = /^localhost[:?\d]*(?:[^:?\d]\S*)?$/;
+  const nonLocalhostDomainRegex = /^[^\s.]+\.\S{2,}$/;
 
-  const match = uri.match(protocolAndDomainRE);
+  const match = uri.match(protocolAndDomainRegex);
   if (!match?.[1]) {
     return false;
   }
 
   const urn = match[1];
 
-  return localhostDomainRE.test(urn) || nonLocalhostDomainRE.test(urn);
+  return localhostDomainRegex.test(urn) || nonLocalhostDomainRegex.test(urn);
+}
+
+export function getYoutubeVideoKeyFromUri(uri: string): string | null {
+  const youtubeRegex =
+    /^(?:(?:https?:)?\/\/)?(?:(?:www|m)\.)?(?:(?:youtube\.com|youtu.be))(?:\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(?:\S+)?$/;
+
+  const matchResult = uri.match(youtubeRegex);
+
+  if (!matchResult || !matchResult[1]) {
+    return null;
+  }
+
+  return matchResult[0];
 }
 
 export function formatDateTime(timestamp: string | undefined): string {

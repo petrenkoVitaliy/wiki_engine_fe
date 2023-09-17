@@ -24,7 +24,7 @@ const SIMPLE_BLOCK_FORMATS = [
   'block_quote',
 ] as const;
 
-export const VERBOSE_BLOCK_FORMATS = ['link', 'image'] as const;
+export const VERBOSE_BLOCK_FORMATS = ['link', 'image', 'youtube'] as const;
 
 export const BLOCK_FORMATS = [...SIMPLE_BLOCK_FORMATS, ...VERBOSE_BLOCK_FORMATS] as const;
 
@@ -39,7 +39,14 @@ export const HOTKEYS: { [key: string]: (typeof MARK_FORMATS)[number] } = {
 
 export const IMAGE_ELEMENT_SIZES = {
   DEFAULT_WIDTH: 200,
-  MIN: 50,
+  MIN: 100,
+  MAX: 1000,
+  STEP: 50,
+};
+
+export const VIDEO_ELEMENT_SIZES = {
+  DEFAULT_WIDTH: 400,
+  MIN: 300,
   MAX: 1000,
   STEP: 50,
 };

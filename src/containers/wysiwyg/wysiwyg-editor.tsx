@@ -56,6 +56,7 @@ export function WysiwygEditor(props: WysiwygProps) {
     const { article, language } = props;
 
     if (!article || !language) {
+      // TODO use articleVersion
       return defaultValue;
     }
 

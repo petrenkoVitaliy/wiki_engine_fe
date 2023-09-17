@@ -2,10 +2,11 @@ import { RenderElementProps } from 'slate-react';
 
 import { ImageElement } from './image-element/image-element';
 import { LinkElement } from './link-element/link-element';
-
-import { ImageBlockElement, LinkBlockElement } from '../../types';
 import { H1Element } from './h-element/h1-element';
 import { H2Element } from './h-element/h2-element';
+import { VideoElement } from './video-element/video-element';
+
+import { ImageBlockElement, LinkBlockElement, YoutubeBlockElement } from '../../types';
 
 type LeafProps = RenderElementProps;
 
@@ -19,6 +20,16 @@ export function Element({ attributes, children, element }: LeafProps) {
           attributes={attributes}
           children={children}
           element={element as ImageBlockElement}
+        />
+      );
+    }
+    case 'youtube': {
+      return (
+        <VideoElement
+          style={style}
+          attributes={attributes}
+          children={children}
+          element={element as YoutubeBlockElement}
         />
       );
     }

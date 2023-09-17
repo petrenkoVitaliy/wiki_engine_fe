@@ -8,6 +8,7 @@ const VOID_ELEMENTS: {
   [type in ElementFormat]?: boolean;
 } = {
   image: true,
+  youtube: true,
 };
 
 export const withImage = (editor: BaseEditor & ReactEditor) => {

@@ -1,0 +1,12 @@
+@import '../../../../styles/variables.scss';
+
+.articleBar {
+  position: relative;
+
+  .elementsWrapper {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: map-get($z-indexes, medium-1);
+  }
+}

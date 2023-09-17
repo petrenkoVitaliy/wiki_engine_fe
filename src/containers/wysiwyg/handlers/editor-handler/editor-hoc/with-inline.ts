@@ -1,7 +1,7 @@
 import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 
-import { isUri } from '@/utils/utils';
+import { getYoutubeVideoKeyFromUri, isUri } from '@/utils/utils';
 
 import { BlockEditorHandler } from '../block-editor.handler';
 import { ElementFormat } from '@/containers/wysiwyg/types';
@@ -11,18 +11,35 @@ const INLINE_ELEMENTS: {
 } = {
   link: true,
   image: true,
+  youtube: true,
+};
+
+const handleInsertUri = (editor: BaseEditor & ReactEditor, text: string): boolean => {
+  if (!text || !isUri(text)) {
+    return false;
+  }
+
+  const youtubeKey = getYoutubeVideoKeyFromUri(text);
+
+  if (youtubeKey) {
+    BlockEditorHandler.insertVideo(editor, text);
+  } else {
+    BlockEditorHandler.wrapLink(editor, text);
+  }
+
+  return true;
 };
 
 export const withInline = (editor: BaseEditor & ReactEditor) => {
-  const { insertData, insertText, isInline } = editor;
+  const { insertData, isInline, insertText } = editor;
 
   editor.isInline = (element) =>
     (element.type && INLINE_ELEMENTS[element.type]) || isInline(element);
 
   editor.insertText = (text) => {
-    if (text && isUri(text)) {
-      BlockEditorHandler.wrapLink(editor, text);
-    } else {
+    const isUriHandled = handleInsertUri(editor, text);
+
+    if (!isUriHandled) {
       insertText(text);
     }
   };
@@ -30,9 +47,9 @@ export const withInline = (editor: BaseEditor & ReactEditor) => {
   editor.insertData = (data) => {
     const text = data.getData('text/plain');
 
-    if (text && isUri(text)) {
-      BlockEditorHandler.wrapLink(editor, text);
-    } else {
+    const isUriHandled = handleInsertUri(editor, text);
+
+    if (!isUriHandled) {
       insertData(data);
     }
   };

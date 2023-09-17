@@ -9,8 +9,19 @@
 
   font-size: 18px;
 
-  > p {
+  .logo {
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     color: $fontSecondary;
+    user-select: none;
+    cursor: pointer;
+
+    &:hover {
+      border-bottom: 1px solid $backgroundShadowMain;
+    }
   }
 
   > button {

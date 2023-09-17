@@ -18,22 +18,24 @@
 
   &.selected {
     .imageContainer {
-      border: 1px solid $fontSecondaryShadowed;
+      border: 2px solid $linkColor;
     }
   }
 
   .imageContainer {
     display: inline-block;
-    position: relative;
+    margin: 0 5px;
 
-    margin: 5px;
+    border: 2px solid transparent;
 
-    border: 1px solid transparent;
+    > img {
+      display: block;
+    }
   }
 
   .controlsWrapper {
     position: absolute;
-    top: 5px;
+    top: 0;
     left: 5px;
 
     height: 22px;

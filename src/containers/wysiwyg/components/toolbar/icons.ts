@@ -12,6 +12,7 @@ import alignJustifyIcon from '@/icons/align-justify.svg';
 import alignLeftIcon from '@/icons/align-left.svg';
 import alignRightIcon from '@/icons/align-right.svg';
 import linkIcon from '@/icons/link.svg';
+import youtubeIcon from '@/icons/youtube.svg';
 
 export const ICONS = {
   boldIcon,
@@ -28,4 +29,5 @@ export const ICONS = {
   alignLeftIcon,
   alignRightIcon,
   linkIcon,
+  youtubeIcon,
 };

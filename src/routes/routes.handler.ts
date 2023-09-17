@@ -1,5 +1,5 @@
 export const ROUTES = {
-  main: () => '/',
+  main: (articleLanguageKey?: string) => `/main/${articleLanguageKey || 'en'}`, // TODO use const
   login: () => '/login',
   signup: () => '/signup',
   createArticle: () => '/create',

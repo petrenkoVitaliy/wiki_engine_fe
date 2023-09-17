@@ -182,15 +182,18 @@ export const editArticle = createHandledAsyncThunk(
           return articleLanguage;
         }
 
-        updatedLanguagesMap[language] = {
+        const name_key = articleVersionResponse.result.name.toLowerCase().replaceAll(' ', '_');
+
+        const updatedArticleLanguage = {
           ...updatedLanguagesMap[language],
+          name_key,
+          name: articleVersionResponse.result.name,
           version: articleVersionResponse.result,
         };
 
-        return {
-          ...articleLanguage,
-          version: articleVersionResponse.result,
-        };
+        updatedLanguagesMap[language] = updatedArticleLanguage;
+
+        return updatedArticleLanguage;
       });
 
       article = {

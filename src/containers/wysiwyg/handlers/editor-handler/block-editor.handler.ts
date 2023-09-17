@@ -10,15 +10,37 @@ import {
   VerboseBlockOptions,
   LinkBlockElement,
   ImageBlockElement,
+  YoutubeBlockElement,
 } from '../../types';
 
-import { TEXT_ALIGN_FORMATS_MAP, LIST_FORMATS_MAP, IMAGE_ELEMENT_SIZES } from '../../consts';
+import { getYoutubeVideoKeyFromUri } from '@/utils/utils';
+
+import {
+  TEXT_ALIGN_FORMATS_MAP,
+  LIST_FORMATS_MAP,
+  IMAGE_ELEMENT_SIZES,
+  VIDEO_ELEMENT_SIZES,
+} from '../../consts';
 
 export class BlockEditorHandler {
   private editor: BaseEditor & ReactEditor;
 
   constructor(editor: BaseEditor & ReactEditor) {
     this.editor = editor;
+  }
+
+  private toggleVideo(url?: string): void {
+    if (!this.editor.selection) {
+      return;
+    }
+
+    const videoKey = url ? getYoutubeVideoKeyFromUri(url) : null;
+
+    if (!videoKey) {
+      return;
+    }
+
+    BlockEditorHandler.insertVideo(this.editor, videoKey);
   }
 
   private toggleLink(url?: string): void {
@@ -145,6 +167,10 @@ export class BlockEditorHandler {
     switch (format) {
       case 'link':
         this.toggleLink(options.url);
+        break;
+      case 'youtube':
+        this.toggleVideo(options.url);
+        break;
     }
   }
 
@@ -160,11 +186,46 @@ export class BlockEditorHandler {
     if (isCollapsed) {
       Transforms.insertNodes(editor, link);
     } else {
-      Transforms.wrapNodes(editor, link, { split: true });
+      Transforms.wrapNodes(editor, link);
       Transforms.collapse(editor, { edge: 'end' });
     }
 
     Transforms.move(editor, { unit: 'offset' });
+  }
+
+  public static insertVideo(editor: BaseEditor & ReactEditor, videoKey: string): void {
+    const videoBlock: YoutubeBlockElement = {
+      type: 'youtube',
+      videoKey,
+      children: [{ text: '' }],
+      width: VIDEO_ELEMENT_SIZES.DEFAULT_WIDTH,
+      height: (VIDEO_ELEMENT_SIZES.DEFAULT_WIDTH * 9) / 16,
+    };
+
+    Transforms.insertNodes(editor, videoBlock);
+  }
+
+  public static updateVideoSize(
+    editor: BaseEditor & ReactEditor,
+    videoElement: YoutubeBlockElement,
+    direction: 'increase' | 'decrease'
+  ): void {
+    const path = ReactEditor.findPath(editor, videoElement);
+
+    const updatedWidth =
+      direction === 'increase'
+        ? videoElement.width + VIDEO_ELEMENT_SIZES.STEP
+        : videoElement.width - VIDEO_ELEMENT_SIZES.STEP;
+
+    const updatedHeight = (updatedWidth * 9) / 16;
+
+    if (updatedWidth >= VIDEO_ELEMENT_SIZES.MIN && updatedWidth <= VIDEO_ELEMENT_SIZES.MAX) {
+      Transforms.setNodes(
+        editor,
+        { ...videoElement, width: updatedWidth, height: updatedHeight },
+        { at: path }
+      );
+    }
   }
 
   private static getImageSize(
@@ -200,12 +261,10 @@ export class BlockEditorHandler {
 
   public static updateImageSize(
     editor: BaseEditor & ReactEditor,
-    element: CustomElement,
+    imageElement: ImageBlockElement,
     direction: 'increase' | 'decrease'
   ): void {
-    const path = ReactEditor.findPath(editor, element);
-
-    const imageElement = element as ImageBlockElement;
+    const path = ReactEditor.findPath(editor, imageElement);
 
     const updatedWidth =
       direction === 'increase'
