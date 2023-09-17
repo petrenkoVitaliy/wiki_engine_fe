@@ -22,7 +22,7 @@ const handleInsertUri = (editor: BaseEditor & ReactEditor, text: string): boolea
   const youtubeKey = getYoutubeVideoKeyFromUri(text);
 
   if (youtubeKey) {
-    BlockEditorHandler.insertVideo(editor, text);
+    BlockEditorHandler.insertVideo(editor, youtubeKey);
   } else {
     BlockEditorHandler.wrapLink(editor, text);
   }

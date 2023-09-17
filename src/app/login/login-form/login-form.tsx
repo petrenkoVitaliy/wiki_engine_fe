@@ -39,7 +39,7 @@ export function LoginForm() {
       const from = searchParams.get('from');
 
       if (from) {
-        router.push(from);
+        router.push(RoutesHandler.withQuery(from, { q: 'a' }));
       } else {
         router.push(ROUTES.main());
       }

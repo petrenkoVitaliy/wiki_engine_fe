@@ -6,11 +6,14 @@
   &:hover {
     .controlWrapper {
       display: inline-block;
+      position: absolute;
+      top: 4px;
     }
   }
 
   .controlWrapper {
     display: none;
+
     user-select: none;
   }
 }

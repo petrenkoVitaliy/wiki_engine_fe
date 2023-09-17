@@ -47,4 +47,34 @@
     background: $backgroundSecondary;
     opacity: 0;
   }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-2)) {
+    .imageContainer {
+      max-width: 800px !important;
+      overflow: scroll;
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: $backgroundMain;
+        height: 2px;
+      }
+
+      &::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 0px;
+      }
+    }
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-4)) {
+    .imageContainer {
+      max-width: 600px !important;
+    }
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
+    .imageContainer {
+      max-width: 330px !important;
+    }
+  }
 }

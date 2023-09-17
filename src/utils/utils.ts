@@ -120,7 +120,7 @@ export function getYoutubeVideoKeyFromUri(uri: string): string | null {
     return null;
   }
 
-  return matchResult[0];
+  return matchResult[1];
 }
 
 export function formatDateTime(timestamp: string | undefined): string {
