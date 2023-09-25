@@ -2,11 +2,13 @@
 
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import { Flip, Id, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 import { createArticle, createArticleLanguage } from '@/redux/stores/editor';
 import { useAppDispatch } from '@/redux/hooks';
+import { EDITOR_REQUEST_TOAST } from '@/redux/consts';
+import { ToastRequestOptions } from '@/redux/types';
 
 import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
@@ -55,13 +57,28 @@ export function CreateArticleBar(props: ArticleBarProps) {
     handleOpenModal();
   };
 
-  const handleCreateArticle = (article: Article | null, language: string) => {
+  const handleCreateArticle = (
+    article: Article | null,
+    language: string,
+    tostOptions: ToastRequestOptions,
+    toastId: Id
+  ) => {
     if (article) {
-      toast('Article was successfully created', { type: 'success' });
+      toast.update(toastId, {
+        render: tostOptions.message,
+        type: tostOptions.type,
+        isLoading: false,
+        transition: Flip,
+        autoClose: 2000,
+      });
 
       router.push(ROUTES.articleLanguage(article.languagesMap[language].name_key, language));
     } else {
-      toast('Failed to save article', { type: 'error' });
+      toast.update(toastId, {
+        render: tostOptions.message,
+        type: tostOptions.type,
+        isLoading: false,
+      });
     }
   };
 
@@ -69,6 +86,14 @@ export function CreateArticleBar(props: ArticleBarProps) {
     handleCloseModal();
 
     const values = getValues();
+
+    if (!values.name) {
+      toast('Name is mandatory', { type: 'error' });
+      return;
+    }
+
+    const toastOptions = EDITOR_REQUEST_TOAST.CREATING_ARTICLE;
+    const toastId = toast(toastOptions.message, { type: toastOptions.type, isLoading: true });
 
     if (props.article) {
       dispatch(
@@ -78,7 +103,8 @@ export function CreateArticleBar(props: ArticleBarProps) {
           language: values.language,
           name: values.name,
           storedArticle: props.article,
-          callback: handleCreateArticle,
+          callback: (article: Article | null, language: string, tostOptions: ToastRequestOptions) =>
+            handleCreateArticle(article, language, tostOptions, toastId),
         })
       );
     } else {
@@ -87,7 +113,8 @@ export function CreateArticleBar(props: ArticleBarProps) {
           elements: props.editorHandler.editor.children as CustomElement[],
           language: values.language,
           name: values.name,
-          callback: handleCreateArticle,
+          callback: (article: Article | null, language: string, tostOptions: ToastRequestOptions) =>
+            handleCreateArticle(article, language, tostOptions, toastId),
         })
       );
     }

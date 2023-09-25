@@ -6,10 +6,13 @@ import { Article, ArticleType } from '@/api/types/article.types';
 
 import { CustomElement } from '@/containers/wysiwyg/types';
 
-import { setEditMode, sliceName } from './editor.slice';
-import { createHandledAsyncThunk } from '../../thunk';
+import { EDITOR_REQUEST_TOAST } from '@/redux/consts';
+import { ToastRequestOptions } from '@/redux/types';
+import { createHandledAsyncThunk } from '@/redux/thunk';
 
-const CHUNK_SIZE = 9_437_184; // 9Mb
+import { setEditMode, sliceName } from './editor.slice';
+
+const CHUNK_SIZE = 14_680_064; // 14Mb
 
 const uploadImagesWithContentUpdate = async (elements: CustomElement[]) => {
   const { imagesToCreate, imagesToCreateMap, elementsCopy } =
@@ -48,14 +51,14 @@ export const createArticleLanguage = createHandledAsyncThunk(
     language: string;
     name: string;
     storedArticle: Article;
-    callback: (article: Article | null, language: string) => void;
+    callback: (article: Article | null, language: string, tostOptions: ToastRequestOptions) => void;
   }) => {
     const { name, elements, language, callback, id, storedArticle } = params;
 
     const content = await uploadImagesWithContentUpdate(elements);
 
     if (content === null) {
-      callback(null, language);
+      callback(null, language, EDITOR_REQUEST_TOAST.FAILED_TO_CREATE_IMAGES);
 
       return null;
     }
@@ -71,7 +74,11 @@ export const createArticleLanguage = createHandledAsyncThunk(
       article = ApiMapper.addLanguageToArticle(storedArticle, articleLanguageResponse.result);
     }
 
-    callback(article, language);
+    callback(
+      article,
+      language,
+      article ? EDITOR_REQUEST_TOAST.SUCCESSFUL_CREATION : EDITOR_REQUEST_TOAST.FAILED_TO_UPDATE
+    );
 
     return article;
   }
@@ -82,7 +89,7 @@ export const updateArticleType = createHandledAsyncThunk(
   async (params: {
     articleType: ArticleType;
     storedArticle: Article;
-    callback: (article: Article | null) => void;
+    callback: (article: Article | null, tostOptions: ToastRequestOptions) => void;
   }) => {
     const { articleType, storedArticle, callback } = params;
 
@@ -99,7 +106,10 @@ export const updateArticleType = createHandledAsyncThunk(
       };
     }
 
-    callback(article);
+    callback(
+      article,
+      article ? EDITOR_REQUEST_TOAST.SUCCESSFUL_UPDATE : EDITOR_REQUEST_TOAST.FAILED_TO_UPDATE
+    );
 
     return article;
   }
@@ -111,14 +121,14 @@ export const createArticle = createHandledAsyncThunk(
     elements: CustomElement[];
     language: string;
     name: string;
-    callback: (article: Article | null, language: string) => void;
+    callback: (article: Article | null, language: string, tostOptions: ToastRequestOptions) => void;
   }) => {
     const { elements, name, language, callback } = params;
 
     const content = await uploadImagesWithContentUpdate(elements);
 
     if (content === null) {
-      callback(null, language);
+      callback(null, language, EDITOR_REQUEST_TOAST.FAILED_TO_CREATE_IMAGES);
 
       return null;
     }
@@ -136,7 +146,11 @@ export const createArticle = createHandledAsyncThunk(
       article = ApiMapper.mapArticleDtoToType(articleResponse.result);
     }
 
-    callback(article, language);
+    callback(
+      article,
+      language,
+      article ? EDITOR_REQUEST_TOAST.SUCCESSFUL_CREATION : EDITOR_REQUEST_TOAST.FAILED_TO_UPDATE
+    );
 
     return article;
   }
@@ -150,7 +164,7 @@ export const editArticle = createHandledAsyncThunk(
       id: number;
       language: string;
       storedArticle: Article;
-      callback: (article: Article | null) => void;
+      callback: (article: Article | null, tostOptions: ToastRequestOptions) => void;
       name?: string;
     },
     thunkApi
@@ -162,7 +176,7 @@ export const editArticle = createHandledAsyncThunk(
     const content = await uploadImagesWithContentUpdate(elements);
 
     if (content === null) {
-      callback(null);
+      callback(null, EDITOR_REQUEST_TOAST.FAILED_TO_CREATE_IMAGES);
 
       return null;
     }
@@ -203,7 +217,10 @@ export const editArticle = createHandledAsyncThunk(
       };
     }
 
-    callback(article);
+    callback(
+      article,
+      article ? EDITOR_REQUEST_TOAST.SUCCESSFUL_UPDATE : EDITOR_REQUEST_TOAST.FAILED_TO_UPDATE
+    );
 
     return article;
   }

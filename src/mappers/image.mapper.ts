@@ -116,7 +116,9 @@ export class ImageMapper {
     const chunkDetails = imagesToCreate.reduce<{ chunk: ImageToCreate[]; size: number }>(
       (chunkDetails, imageToCreate) => {
         if (chunkDetails.size + imageToCreate.base64.length > chunkSize) {
-          imagesToCreateChunks.push(chunkDetails.chunk);
+          if (chunkDetails.chunk.length) {
+            imagesToCreateChunks.push(chunkDetails.chunk);
+          }
 
           return {
             chunk: [imageToCreate],

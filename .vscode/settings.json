@@ -7,6 +7,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "evenBetterToml.formatter.alignComments": true,
-  "cSpell.words": ["clsx", "consts", "Signup", "Toastify"],
+  "cSpell.words": ["clsx", "consts", "Signup", "Toastify", "Wїkifella"],
   "svg.preview.background": "editor"
 }

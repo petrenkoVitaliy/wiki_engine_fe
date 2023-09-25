@@ -1,7 +1,7 @@
 'use client';
 
 import { Editable, Slate, RenderLeafProps, RenderElementProps } from 'slate-react';
-import { useMemo, useCallback, useState, KeyboardEvent, useEffect } from 'react';
+import { useMemo, useCallback, useState, KeyboardEvent, useEffect, useRef } from 'react';
 import { Descendant } from 'slate';
 
 import { updateHeadings } from '@/redux/stores/editor';
@@ -42,6 +42,7 @@ type WysiwygProps = {
 };
 
 export function WysiwygEditor(props: WysiwygProps) {
+  const initialValueRef = useRef<CustomElement[]>(defaultValue);
   const dispatch = useAppDispatch();
 
   const { promptParams, handleOpenModal, handleCloseModal } = usePromptModalControls<{
@@ -53,11 +54,17 @@ export function WysiwygEditor(props: WysiwygProps) {
   const initialValue = useMemo(() => {
     const { articleVersion } = props;
 
-    if (!articleVersion) {
-      return defaultValue;
+    const initialValue = articleVersion
+      ? (JSON.parse(articleVersion.content.content) as CustomElement[])
+      : defaultValue;
+
+    if (articleVersion && initialValueRef.current !== defaultValue) {
+      editorHandler.blockHandler.updateChildren(initialValue);
     }
 
-    return JSON.parse(articleVersion.content.content) as CustomElement[];
+    initialValueRef.current = initialValue;
+
+    return initialValue;
   }, [props.articleVersion]);
 
   useEffect(() => {

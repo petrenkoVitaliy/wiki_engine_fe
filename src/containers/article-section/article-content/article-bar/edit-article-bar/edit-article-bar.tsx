@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 
 import { useAppDispatch } from '@/redux/hooks';
 import { toggleEditMode, editArticle, updateArticleType } from '@/redux/stores/editor';
+import { EDITOR_REQUEST_TOAST } from '@/redux/consts';
+import { ToastRequestOptions } from '@/redux/types';
 
 import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
@@ -97,11 +99,15 @@ export function EditArticleBar(props: ArticleBarProps) {
     router.push(ROUTES.createLanguage(article.languagesMap[language].name_key));
   };
 
-  const handleResponse = (article: Article | null, toastId: Id) => {
+  const handleResponse = (
+    article: Article | null,
+    tostOptions: ToastRequestOptions,
+    toastId: Id
+  ) => {
     if (article) {
       toast.update(toastId, {
-        render: 'Article was successfully updated',
-        type: 'success',
+        render: tostOptions.message,
+        type: tostOptions.type,
         isLoading: false,
         transition: Flip,
         autoClose: 2000,
@@ -113,21 +119,23 @@ export function EditArticleBar(props: ArticleBarProps) {
       }
     } else {
       toast.update(toastId, {
-        render: 'Failed to save article',
-        type: 'error',
+        render: tostOptions.message,
+        type: tostOptions.type,
         isLoading: false,
       });
     }
   };
 
   const onArticleTypeChange = (data: FormValues) => {
-    const toastId = toast('Updating article...', { type: 'info', isLoading: true });
+    const toastOptions = EDITOR_REQUEST_TOAST.UPDATING_ARTICLE;
+    const toastId = toast(toastOptions.message, { type: toastOptions.type, isLoading: true });
 
     dispatch(
       updateArticleType({
         articleType: data.articleType,
         storedArticle: props.article,
-        callback: (article: Article | null) => handleResponse(article, toastId),
+        callback: (article: Article | null, tostOptions: ToastRequestOptions) =>
+          handleResponse(article, tostOptions, toastId),
       })
     );
   };
@@ -140,14 +148,16 @@ export function EditArticleBar(props: ArticleBarProps) {
 
     const elements = props.editorHandler.editor.children as CustomElement[];
 
-    const toastId = toast('Updating article...', { type: 'info', isLoading: true });
+    const toastOptions = EDITOR_REQUEST_TOAST.UPDATING_ARTICLE;
+    const toastId = toast(toastOptions.message, { type: toastOptions.type, isLoading: true });
 
     dispatch(
       editArticle({
         elements,
         id: article.id,
         language: language,
-        callback: (article: Article | null) => handleResponse(article, toastId),
+        callback: (article: Article | null, tostOptions: ToastRequestOptions) =>
+          handleResponse(article, tostOptions, toastId),
         storedArticle: article,
         name: name !== articleOptions.articleName ? name : undefined,
       })
