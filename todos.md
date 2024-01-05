@@ -2,4 +2,7 @@ Tooltips
 prompt('url?') -> Popup
 font & font sizes & colors
 
-handle / onSmth
+404
+main editable width
+search
+starred & owned

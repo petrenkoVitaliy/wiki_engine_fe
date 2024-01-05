@@ -11,6 +11,8 @@ import clsx from 'clsx';
 export const metadata: Metadata = {
   title: 'Wikїfella',
   description: 'Wikїfella',
+  manifest: '/manifest.json',
+  themeColor: [{ media: '(prefers-color-scheme: dark)', color: '#282829' }],
 };
 
 const robotoFont = Roboto_Flex({
