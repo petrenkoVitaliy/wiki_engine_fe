@@ -22,13 +22,13 @@ export function H1Element({ style, attributes, children, element }: H1ElementPro
   return (
     <h1 style={style} className={styles.headerWrapper} id={headingParams.hash} {...attributes}>
       {children}
-      <div className={styles.controlWrapper}>
+      <span className={styles.controlWrapper}>
         <ControlButton
           icon={ICONS.verticalLinkIcon}
-          label='decrease image size'
+          label='copy header link'
           onClick={handleCopyClick}
         />
-      </div>
+      </span>
     </h1>
   );
 }

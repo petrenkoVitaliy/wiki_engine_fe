@@ -44,10 +44,10 @@ export function UserBar(props: UserBarProps) {
       {user ? (
         <>
           <p>{user.name}</p>
-          <Button label='logout' onClick={handleLogoutClick} />
+          <Button label='Logout' onClick={handleLogoutClick} />
         </>
       ) : (
-        <Button label='login' onClick={handleLoginClick} />
+        <Button label='Login' onClick={handleLoginClick} />
       )}
     </div>
   );

@@ -62,7 +62,7 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
           height={element.height}
           placeholder='blur'
           blurDataURL={BLUR_BACKGROUND_IMAGE}
-          quality={100}
+          quality={80}
         />
       </span>
       <span className={styles.controlsWrapper} contentEditable={false}>

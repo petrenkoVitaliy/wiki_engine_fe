@@ -1,29 +1,6 @@
 @import '../../../../../styles/variables.scss';
+@import '../../../../../styles/common.scss';
 
 .blockButton {
-  height: 24px;
-  width: 24px;
-
-  padding: 3px;
-  margin: 0 5px 0 0;
-
-  border: none;
-
-  cursor: pointer;
-
-  background: $backgroundSecondary;
-  color: $fontMain;
-
-  > img {
-    background: $backgroundSecondary;
-    color: $fontMain;
-  }
-
-  &.active {
-    background: $fontSecondaryShadowed;
-
-    > img {
-      background: $fontSecondaryShadowed;
-    }
-  }
+  @include _styledIconButton;
 }

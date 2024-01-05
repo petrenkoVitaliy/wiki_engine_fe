@@ -173,7 +173,7 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
                 height={photo.height}
                 placeholder='blur'
                 blurDataURL={BLUR_BACKGROUND_IMAGE}
-                quality={100}
+                quality={75}
               />
               <span className={styles.photoControlsWrapper} contentEditable={false}>
                 <ControlButton

@@ -1,6 +1,9 @@
 @import '../../../../../styles/variables.scss';
+@import '../../../../../styles/common.scss';
 
 .articleBar {
+  @include _editableArticleBar;
+
   background: $backgroundSecondary;
   color: $fontMain;
 

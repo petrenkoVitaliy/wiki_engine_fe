@@ -24,7 +24,7 @@ export function Menu() {
         Wikїfella
       </div>
 
-      <Button onClick={handleCreateNewArticle} label='create' />
+      <Button onClick={handleCreateNewArticle} label='Create article' />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 @import '../../../../../styles/variables.scss';
+@import '../../../../../styles/common.scss';
 
 .tweetWrapper {
   position: relative;
@@ -6,16 +7,16 @@
 
   &:not([contenteditable]) {
     .videoControlsWrapper {
-      opacity: 0 !important;
+      display: none;
     }
 
     .controlsWrapper {
-      opacity: 0 !important;
+      display: none;
     }
 
     .photoContainer {
       .photoControlsWrapper {
-        opacity: 0 !important;
+        display: none;
       }
     }
   }
@@ -23,17 +24,17 @@
   &.selected {
     .tweetContainer {
       .videoControlsWrapper {
-        opacity: 1;
+        display: inline-flex;
       }
 
       .controlsWrapper {
-        opacity: 1;
+        display: inline-flex;
       }
 
       .photosWrapper {
         .photoContainer {
           .photoControlsWrapper {
-            opacity: 1;
+            display: inline-flex;
           }
         }
       }
@@ -53,11 +54,11 @@
 
     &:hover {
       .videoControlsWrapper {
-        opacity: 1;
+        display: inline-flex;
       }
 
       .controlsWrapper {
-        opacity: 1;
+        display: inline-flex;
       }
     }
 
@@ -77,7 +78,7 @@
 
         &:hover {
           .photoControlsWrapper {
-            opacity: 1;
+            display: inline-flex;
           }
         }
 
@@ -88,18 +89,7 @@
         }
 
         .photoControlsWrapper {
-          position: absolute;
-          top: 0;
-          left: 0;
-          padding: 3px 5px;
-
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          background: $backgroundSecondary;
-          border: 2px solid $linkColor;
-          opacity: 0;
+          @include _controlsWrapper;
         }
       }
     }
@@ -126,31 +116,15 @@
     }
 
     .controlsWrapper {
-      position: absolute;
+      @include _controlsWrapper;
       top: 5px;
-      left: 5px;
-      padding: 3px 5px;
-
-      background: $backgroundSecondary;
-      border: 2px solid $linkColor;
-      opacity: 0;
     }
 
     .videoControlsWrapper {
-      position: absolute;
-      top: 0;
+      @include _controlsWrapper;
+
       left: 0;
-      padding: 3px;
-
       width: 250px;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      background: $backgroundSecondary;
-      border: 2px solid $linkColor;
-      opacity: 0;
 
       .videoControlsButtons {
         display: flex;

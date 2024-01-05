@@ -1,8 +1,8 @@
 @import '../../styles/variables.scss';
 
 .buttonWrapper {
-  height: 24px;
-  width: 24px;
+  height: 32px;
+  width: 32px;
 
   padding: 0;
 
@@ -20,6 +20,10 @@
   border-radius: 5px;
 
   &:hover {
+    background: $backgroundShadowSecondary;
+  }
+
+  &:active {
     background: $backgroundShadowSecondaryDark;
   }
 }

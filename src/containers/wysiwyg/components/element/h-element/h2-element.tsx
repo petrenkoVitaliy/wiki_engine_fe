@@ -20,15 +20,20 @@ export function H2Element({ style, attributes, children, element }: H2ElementPro
   };
 
   return (
-    <h2 style={style} className={styles.headerWrapper} id={headingParams.hash} {...attributes}>
+    <h2
+      style={style}
+      className={`${styles.subheader} ${styles.headerWrapper}`}
+      id={headingParams.hash}
+      {...attributes}
+    >
       {children}
-      <div className={styles.controlWrapper}>
+      <span className={styles.controlWrapper}>
         <ControlButton
           icon={ICONS.verticalLinkIcon}
-          label='decrease image size'
+          label='copy subheader link'
           onClick={handleCopyClick}
         />
-      </div>
+      </span>
     </h2>
   );
 }

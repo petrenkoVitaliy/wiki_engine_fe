@@ -22,16 +22,18 @@ export class BlockEditorHandler {
   }
 
   public updateChildren(children: CustomElement[]) {
-    Transforms.delete(this.editor, {
-      at: {
-        anchor: Editor.start(this.editor, []),
-        focus: Editor.end(this.editor, []),
-      },
-    });
+    if (this.editor.children.length) {
+      Transforms.delete(this.editor, {
+        at: {
+          anchor: Editor.start(this.editor, []),
+          focus: Editor.end(this.editor, []),
+        },
+      });
 
-    Transforms.removeNodes(this.editor, {
-      at: [0],
-    });
+      Transforms.removeNodes(this.editor, {
+        at: [0],
+      });
+    }
 
     Transforms.insertNodes(this.editor, children);
   }
