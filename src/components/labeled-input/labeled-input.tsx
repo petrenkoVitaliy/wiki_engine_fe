@@ -29,7 +29,12 @@ export function LabeledInput<T extends string>(props: InputProps<T>) {
       })}
     >
       <p className={styles.label}>{props.label}</p>
-      <Input formRegister={props.formRegister} type={props.type} hoverBorder={props.hoverBorder} />
+      <Input
+        formRegister={props.formRegister}
+        type={props.type}
+        hoverBorder={props.hoverBorder}
+        name={props.label}
+      />
       {props.error && <p className={styles.errorLabel}>{getErrorMessage(props.error)}</p>}
     </div>
   );

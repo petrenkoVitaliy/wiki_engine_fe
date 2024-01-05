@@ -110,17 +110,8 @@ export function isUri(uri: string): boolean {
   return localhostDomainRegex.test(urn) || nonLocalhostDomainRegex.test(urn);
 }
 
-export function getYoutubeVideoKeyFromUri(uri: string): string | null {
-  const youtubeRegex =
-    /^(?:(?:https?:)?\/\/)?(?:(?:www|m)\.)?(?:(?:youtube\.com|youtu.be))(?:\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(?:\S+)?$/;
-
-  const matchResult = uri.match(youtubeRegex);
-
-  if (!matchResult || !matchResult[1]) {
-    return null;
-  }
-
-  return matchResult[1];
+export function getTweetToken(tweetId: string): string {
+  return ((Number(tweetId) / 1e15) * Math.PI).toString(6 ** 2).replace(/(0+|\.)/g, '');
 }
 
 export function formatDateTime(timestamp: string | undefined): string {

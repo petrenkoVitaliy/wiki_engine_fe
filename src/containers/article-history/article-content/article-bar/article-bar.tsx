@@ -113,6 +113,7 @@ export function ArticleBar(props: ArticleBarProps) {
               onChange={handleSubmit(onLanguageChange)}
               options={languages}
               label='Language:'
+              name='language'
             />
 
             <Button onClick={handleEditClick} label='Return to article' />

@@ -123,12 +123,21 @@ export function CreateArticleBar(props: ArticleBarProps) {
   return (
     <section className={styles.articleBar}>
       <div className={styles.headingWrapper}>
-        <Input hoverBorder formRegister={register('name')} placeholder='Title' />
+        <Input
+          hoverBorder
+          formRegister={register('name')}
+          placeholder='Title'
+          name='article title'
+        />
       </div>
 
       <div className={styles.controlPanel}>
         <div className={styles.selectsPanel}>
-          <Select formRegister={register('language')} options={articleOptions.languageOptions} />
+          <Select
+            formRegister={register('language')}
+            options={articleOptions.languageOptions}
+            name='language'
+          />
         </div>
 
         <div className={styles.buttonsPanel}>

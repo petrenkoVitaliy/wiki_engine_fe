@@ -84,14 +84,17 @@ export function WysiwygEditor(props: WysiwygProps) {
     }
   };
 
-  const handleChange = (values: Descendant[]) => {
-    setActiveElements(editorHandler.getActiveElements());
+  const handleChange = useCallback(
+    (values: Descendant[]) => {
+      setActiveElements(editorHandler.getActiveElements());
 
-    const isChanged = editorHandler.hasChanged(values);
-    if (isChanged) {
-      updateHeading(values);
-    }
-  };
+      const isChanged = editorHandler.hasChanged(values);
+      if (isChanged) {
+        updateHeading(values);
+      }
+    },
+    [editorHandler]
+  );
 
   const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);
   const renderElement = useCallback((props: RenderElementProps) => <Element {...props} />, []);

@@ -8,13 +8,18 @@ import {
   useSlateStatic,
 } from 'slate-react';
 
+import { BlockEditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/block-editor.handler';
+import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
+
+import { ControlButton } from '@/components/control-button/control-button';
+
+import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
+
 import { YoutubeBlockElement } from '../../../types';
 
-import styles from './video-element.module.scss';
-import { ControlButton } from '../image-element/control-button/control-button';
-import { BlockEditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/block-editor.handler';
 import { ICONS } from './icons';
-import { BACKGROUND_IMAGE } from './blur';
+
+import styles from './video-element.module.scss';
 
 type VideoElementProps = { style: CSSProperties } & Omit<RenderElementProps, 'element'> & {
     element: YoutubeBlockElement;
@@ -28,7 +33,7 @@ export function VideoElement({ style, attributes, children, element }: VideoElem
   const focused = useFocused();
 
   const handleChangeSize = (direction: 'increase' | 'decrease') => {
-    BlockEditorHandler.updateVideoSize(editor, element, direction);
+    VerboseBlockService.blockHandler['youtube'].updateVideoSize(editor, element, direction);
   };
 
   const handleIncreaseSize = () => {
@@ -62,7 +67,7 @@ export function VideoElement({ style, attributes, children, element }: VideoElem
       >
         <iframe
           style={{
-            backgroundImage: `url('${BACKGROUND_IMAGE}')`,
+            backgroundImage: `url('${BLUR_BACKGROUND_IMAGE}')`,
             backgroundSize: 'cover',
           }}
           allow='fullscreen;'

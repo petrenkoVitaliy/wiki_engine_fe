@@ -46,6 +46,7 @@ export function ArticleBar(props: ArticleBarProps) {
           onChange={handleSubmit(onLanguageChange)}
           options={languages}
           label='Language:'
+          name='language'
         />
       </div>
     </section>

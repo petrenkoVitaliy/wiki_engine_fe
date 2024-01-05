@@ -6,6 +6,7 @@ import styles from './input.module.scss';
 
 type InputProps<T extends string> = {
   formRegister: UseFormRegisterReturn<T>;
+  name: string;
   type?: HTMLInputTypeAttribute;
   placeholder?: string;
 
@@ -21,6 +22,7 @@ export function Input<T extends string>({
   placeholder,
   highlighted,
   hoverBorder,
+  name,
 }: InputProps<T>) {
   return (
     <input
@@ -33,6 +35,8 @@ export function Input<T extends string>({
       })}
       {...formRegister}
       type={type}
+      autoComplete={name}
+      aria-label={name}
     />
   );
 }

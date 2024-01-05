@@ -5,8 +5,14 @@ import { LinkElement } from './link-element/link-element';
 import { H1Element } from './h-element/h1-element';
 import { H2Element } from './h-element/h2-element';
 import { VideoElement } from './video-element/video-element';
+import { TweetElement } from './tweet-element/tweet-element';
 
-import { ImageBlockElement, LinkBlockElement, YoutubeBlockElement } from '../../types';
+import {
+  ImageBlockElement,
+  LinkBlockElement,
+  TwitterBlockElement,
+  YoutubeBlockElement,
+} from '../../types';
 
 type LeafProps = RenderElementProps;
 
@@ -30,6 +36,16 @@ export function Element({ attributes, children, element }: LeafProps) {
           attributes={attributes}
           children={children}
           element={element as YoutubeBlockElement}
+        />
+      );
+    }
+    case 'twitter': {
+      return (
+        <TweetElement
+          style={style}
+          attributes={attributes}
+          children={children}
+          element={element as TwitterBlockElement}
         />
       );
     }

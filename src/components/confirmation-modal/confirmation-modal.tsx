@@ -14,8 +14,8 @@ type ConfirmationModalProps = {
 };
 
 export function ConfirmationModal(props: ConfirmationModalProps) {
-  return props.isOpened ? (
-    <Modal handleClickOutside={props.handleClose}>
+  return (
+    <Modal handleClickOutside={props.handleClose} isOpened={props.isOpened}>
       <div className={styles.modalContent}>
         <div className={styles.heading}>{props.label}</div>
 
@@ -25,5 +25,5 @@ export function ConfirmationModal(props: ConfirmationModalProps) {
         </div>
       </div>
     </Modal>
-  ) : null;
+  );
 }

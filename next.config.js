@@ -7,7 +7,19 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: ['storage.googleapis.com'],
+    domains: ['storage.googleapis.com', 'pbs.twimg.com'],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://cdn.syndication.twimg.com/:path*',
+      },
+      {
+        source: '/api/:path*',
+        destination: 'https://pbs.twimg.com/:path*',
+      },
+    ];
   },
 };
 

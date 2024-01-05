@@ -1,10 +1,10 @@
 import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 
-import { getYoutubeVideoKeyFromUri, isUri } from '@/utils/utils';
+import { isUri } from '@/utils/utils';
 
-import { BlockEditorHandler } from '../block-editor.handler';
 import { ElementFormat } from '@/containers/wysiwyg/types';
+import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
 const INLINE_ELEMENTS: {
   [type in ElementFormat]?: boolean;
@@ -12,6 +12,7 @@ const INLINE_ELEMENTS: {
   link: true,
   image: true,
   youtube: true,
+  twitter: true,
 };
 
 const handleInsertUri = (editor: BaseEditor & ReactEditor, text: string): boolean => {
@@ -19,13 +20,7 @@ const handleInsertUri = (editor: BaseEditor & ReactEditor, text: string): boolea
     return false;
   }
 
-  const youtubeKey = getYoutubeVideoKeyFromUri(text);
-
-  if (youtubeKey) {
-    BlockEditorHandler.insertVideo(editor, youtubeKey);
-  } else {
-    BlockEditorHandler.wrapLink(editor, text);
-  }
+  VerboseBlockService.insertVerboseUri(editor, text);
 
   return true;
 };

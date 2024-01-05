@@ -9,8 +9,8 @@ import '../styles/reset.scss';
 import clsx from 'clsx';
 
 export const metadata: Metadata = {
-  title: 'Wikifella',
-  description: 'Wikifella',
+  title: 'Wikїfella',
+  description: 'Wikїfella',
 };
 
 const robotoFont = Roboto_Flex({
@@ -38,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className={styles.main}>
           <Provider>{children}</Provider>
           <ToastContainer />
+          <div id='popup_root' />
         </main>
       </body>
     </html>

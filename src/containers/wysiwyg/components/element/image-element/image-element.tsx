@@ -6,15 +6,17 @@ import {
   useSlateStatic,
 } from 'slate-react';
 import clsx from 'clsx';
-import Image from 'next/image';
 
 import { BlockEditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/block-editor.handler';
 import { ImageBlockElement } from '@/containers/wysiwyg/types';
+import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
 
-import { ControlButton } from './control-button/control-button';
+import { ControlButton } from '@/components/control-button/control-button';
+import { ModalImage } from '@/components/modal-image/modal-image';
+
+import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
 import { ICONS } from './icons';
-import { BACKGROUND_IMAGE } from './blur';
 
 import styles from './image-element.module.scss';
 
@@ -28,7 +30,7 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
   const focused = useFocused();
 
   const handleChangeSize = (direction: 'increase' | 'decrease') => {
-    BlockEditorHandler.updateImageSize(editor, element, direction);
+    VerboseBlockService.blockHandler['image'].updateImageSize(editor, element, direction);
   };
 
   const handleIncreaseSize = () => {
@@ -53,13 +55,13 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
     >
       {children}
       <span className={styles.imageContainer} contentEditable={false}>
-        <Image
-          src={element.url}
+        <ModalImage
+          url={element.url}
           alt='inner image'
           width={element.width}
           height={element.height}
           placeholder='blur'
-          blurDataURL={BACKGROUND_IMAGE}
+          blurDataURL={BLUR_BACKGROUND_IMAGE}
           quality={100}
         />
       </span>

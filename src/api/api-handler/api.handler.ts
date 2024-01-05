@@ -5,9 +5,12 @@ import { LoginDto, UserWithPermissionsDto } from '../dto/auth.dto';
 import { ResponseDto } from '../dto/response.dto';
 import { ArticleType } from '../types/article.types';
 
+import { InternalApiHandler } from './internal/internal-api.handler';
 import { FetchHandler } from './fetch.handler';
 
 class ApiHandler extends FetchHandler {
+  public internalApi = new InternalApiHandler();
+
   public async login(credentials: { password: string; email: string }) {
     const loginResponse = await this.fetchApi<LoginDto>('auth/login', {
       method: 'post',

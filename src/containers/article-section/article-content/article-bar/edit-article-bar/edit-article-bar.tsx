@@ -171,6 +171,7 @@ export function EditArticleBar(props: ArticleBarProps) {
           hoverBorder
           formRegister={register('name')}
           disabled={!props.isEditMode}
+          name='article title'
           highlighted
         />
       </div>
@@ -182,6 +183,7 @@ export function EditArticleBar(props: ArticleBarProps) {
             onChange={handleSubmit(onArticleTypeChange)}
             options={articleTypesOptions}
             disabled={!isPatchEnabled}
+            name='article type'
           />
 
           <Select
@@ -189,6 +191,7 @@ export function EditArticleBar(props: ArticleBarProps) {
             onChange={handleSubmit(onLanguageChange)}
             options={articleOptions.languageOptions}
             label='Language:'
+            name='language'
           />
         </div>
 

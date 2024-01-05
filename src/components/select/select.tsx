@@ -3,8 +3,9 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 import styles from './select.module.scss';
 
 type SelectProps<T extends string> = {
-  options: { label: string; value: string }[];
+  options: { label: string; value: string | number }[];
   formRegister: UseFormRegisterReturn<T>;
+  name: string;
   label?: string;
   onChange?: () => void;
   disabled?: boolean;
@@ -12,15 +13,15 @@ type SelectProps<T extends string> = {
 
 export function Select<T extends string>(props: SelectProps<T>) {
   return (
-    <div className={styles.selectWrapper} onChange={props.onChange}>
-      {props.label ? <div className={styles.label}>{props.label}</div> : null}
-      <select {...props.formRegister} disabled={props.disabled}>
+    <span className={styles.selectWrapper} onChange={props.onChange}>
+      {props.label ? <span className={styles.label}>{props.label}</span> : null}
+      <select {...props.formRegister} disabled={props.disabled} aria-label={props.name}>
         {props.options.map(({ label, value }) => (
           <option value={value} key={value}>
             {label}
           </option>
         ))}
       </select>
-    </div>
+    </span>
   );
 }

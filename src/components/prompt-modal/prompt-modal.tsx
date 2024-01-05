@@ -32,13 +32,18 @@ export function PromptModal<T>(props: PromptModalProps<T>) {
     }
   };
 
-  return props.promptParams ? (
-    <Modal handleClickOutside={props.handleClose}>
+  return (
+    <Modal handleClickOutside={props.handleClose} isOpened={!!props.promptParams}>
       <div className={styles.modalContent}>
         <div className={styles.heading}>{props.label}</div>
 
         <div className={styles.promptWrapper}>
-          <Input formRegister={register('response')} highlighted placeholder={props.placeholder} />
+          <Input
+            formRegister={register('response')}
+            highlighted
+            placeholder={props.placeholder}
+            name={props.label}
+          />
         </div>
 
         <div className={styles.controls}>
@@ -47,5 +52,5 @@ export function PromptModal<T>(props: PromptModalProps<T>) {
         </div>
       </div>
     </Modal>
-  ) : null;
+  );
 }

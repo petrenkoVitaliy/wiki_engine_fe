@@ -1,14 +1,15 @@
 import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 
-import { BlockEditorHandler } from '../block-editor.handler';
 import { ElementFormat } from '@/containers/wysiwyg/types';
+import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
 const VOID_ELEMENTS: {
   [type in ElementFormat]?: boolean;
 } = {
   image: true,
   youtube: true,
+  twitter: true,
 };
 
 export const withImage = (editor: BaseEditor & ReactEditor) => {
@@ -38,7 +39,10 @@ export const withImage = (editor: BaseEditor & ReactEditor) => {
               image.onload = function () {
                 const { width, height } = image;
 
-                BlockEditorHandler.insertImage(editor, url, { width, height });
+                VerboseBlockService.blockHandler['image'].insertImage(editor, url, {
+                  width,
+                  height,
+                });
               };
             }
           });

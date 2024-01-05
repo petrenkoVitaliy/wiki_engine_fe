@@ -21,7 +21,7 @@ export function Menu() {
   return (
     <div className={styles.menuWrapper}>
       <div className={styles.logo} onClick={handleRedirectToMainPage}>
-        Wikifella
+        Wikїfella
       </div>
 
       <Button onClick={handleCreateNewArticle} label='create' />

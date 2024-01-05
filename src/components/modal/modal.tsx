@@ -1,14 +1,25 @@
-import { MouseEvent, useRef } from 'react';
+import { MouseEvent, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import clsx from 'clsx';
 
 import styles from './modal.module.scss';
 
 type ModalProps = {
+  fullScreen?: boolean;
+  isOpened: boolean;
   children: React.ReactNode;
   handleClickOutside: () => void;
 };
 
+const PORTAL_SELECTOR = '#popup_root';
+
 export function Modal(props: ModalProps) {
   const overlayRef = useRef(null);
+  const portalRef = useRef<Element | null>(null);
+
+  useEffect(() => {
+    portalRef.current = document.querySelector(PORTAL_SELECTOR);
+  }, []);
 
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === overlayRef.current) {
@@ -16,9 +27,19 @@ export function Modal(props: ModalProps) {
     }
   };
 
-  return (
-    <div className={styles.overlay} ref={overlayRef} onClick={handleClick}>
-      <div className={styles.container}>{props.children}</div>
-    </div>
-  );
+  return props.isOpened && portalRef.current
+    ? createPortal(
+        <div
+          className={clsx({
+            [styles.overlay]: true,
+            [styles.fullScreen]: props.fullScreen,
+          })}
+          ref={overlayRef}
+          onClick={handleClick}
+        >
+          <div className={styles.container}>{props.children}</div>
+        </div>,
+        portalRef.current
+      )
+    : null;
 }

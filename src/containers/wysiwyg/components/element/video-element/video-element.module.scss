@@ -20,6 +20,10 @@
     .videoContainer {
       border: 2px solid $linkColor;
     }
+
+    .controlsWrapper {
+      opacity: 1;
+    }
   }
 
   .videoContainer {
@@ -42,13 +46,15 @@
     top: 0;
     left: 5px;
 
-    height: 22px;
-    width: 80px;
+    padding: 3px;
+
+    width: 90px;
 
     display: flex;
     justify-content: space-between;
 
     background: $backgroundSecondary;
+    border: 2px solid $linkColor;
     opacity: 0;
   }
 

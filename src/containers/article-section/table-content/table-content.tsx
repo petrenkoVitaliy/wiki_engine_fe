@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { useAppSelector } from '@/redux/hooks';
 import { scrollToElementWithId, stringToHashId } from '@/utils/utils';
@@ -18,7 +18,7 @@ type TableContentProps = {
 export function TableContent({ isCreation }: TableContentProps) {
   const headings = useAppSelector((state) => state.editorReducer.headings);
 
-  const router = useRouter();
+  // const router = useRouter();
   const pathname = usePathname();
 
   const [isOpened, setIsOpened] = useState(false);
@@ -29,7 +29,8 @@ export function TableContent({ isCreation }: TableContentProps) {
     const isScrolled = scrollToElementWithId(id);
 
     if (isScrolled) {
-      router.push(`${pathname}#${heading}`);
+      // router.replace(`${pathname}#${heading}`); TODO
+      window.history.pushState({}, '', `${pathname}#${heading}`);
     }
   };
 
@@ -46,7 +47,7 @@ export function TableContent({ isCreation }: TableContentProps) {
       })}
     >
       <div className={styles.tableContentHeader} onClick={handleContainerClick}>
-        <Image src={ICONS.contentIcon} alt='content' width={20} height={18} />
+        <Image src={ICONS.contentIcon} alt='content' width={20} />
         <div>content</div>
       </div>
       <div className={styles.tableContent}>

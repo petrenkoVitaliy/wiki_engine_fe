@@ -48,6 +48,27 @@ export type YoutubeBlockElement = BaseElement & {
   height: number;
 };
 
+export type TwitterBlockElement = BaseElement & {
+  align?: TextAlignFormat;
+  type: 'twitter';
+  message: string;
+  source: string;
+  author: string;
+  selectedVideoIndex: number | null;
+  videoWidth: number;
+  videoVariants: {
+    qualityWidth: number;
+    qualityHeight: number;
+    url: string;
+    type: string;
+  }[];
+  photos: {
+    width: number;
+    height: number;
+    url: string;
+  }[];
+};
+
 export type ImageBlockElement = BaseElement & {
   align?: TextAlignFormat;
   type: 'image';
@@ -65,7 +86,8 @@ export type CustomElement =
   | BlockElement
   | LinkBlockElement
   | ImageBlockElement
-  | YoutubeBlockElement;
+  | YoutubeBlockElement
+  | TwitterBlockElement;
 
 export type ActiveElementsMap = {
   activeMarks: Omit<CustomText, 'text'> | null;

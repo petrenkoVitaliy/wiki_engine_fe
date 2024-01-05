@@ -13,6 +13,8 @@ import alignLeftIcon from '@/icons/align-left.svg';
 import alignRightIcon from '@/icons/align-right.svg';
 import linkIcon from '@/icons/link.svg';
 import youtubeIcon from '@/icons/youtube.svg';
+import twitterIcon from '@/icons/twitter.svg';
+import closeIcon from '@/icons/close.svg';
 
 export const ICONS = {
   boldIcon,
@@ -30,4 +32,6 @@ export const ICONS = {
   alignRightIcon,
   linkIcon,
   youtubeIcon,
+  twitterIcon,
+  closeIcon,
 };

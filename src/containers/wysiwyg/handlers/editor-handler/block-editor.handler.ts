@@ -1,4 +1,4 @@
-import { Editor, BaseEditor, Element, Transforms, Range, Path } from 'slate';
+import { Editor, BaseEditor, Element, Transforms, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 
 import {
@@ -8,59 +8,17 @@ import {
   BlockFormat,
   ListFormat,
   VerboseBlockOptions,
-  LinkBlockElement,
-  ImageBlockElement,
-  YoutubeBlockElement,
 } from '../../types';
 
-import { getYoutubeVideoKeyFromUri } from '@/utils/utils';
+import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
-import {
-  TEXT_ALIGN_FORMATS_MAP,
-  LIST_FORMATS_MAP,
-  IMAGE_ELEMENT_SIZES,
-  VIDEO_ELEMENT_SIZES,
-} from '../../consts';
+import { TEXT_ALIGN_FORMATS_MAP, LIST_FORMATS_MAP } from '../../consts';
 
 export class BlockEditorHandler {
   private editor: BaseEditor & ReactEditor;
 
   constructor(editor: BaseEditor & ReactEditor) {
     this.editor = editor;
-  }
-
-  private toggleVideo(url?: string): void {
-    if (!this.editor.selection) {
-      return;
-    }
-
-    const videoKey = url ? getYoutubeVideoKeyFromUri(url) : null;
-
-    if (!videoKey) {
-      return;
-    }
-
-    BlockEditorHandler.insertVideo(this.editor, videoKey);
-  }
-
-  private toggleLink(url?: string): void {
-    if (!this.editor.selection) {
-      return;
-    }
-
-    if (this.isBlockActiveCheck('link')) {
-      this.unwrapLink();
-    } else {
-      if (url) {
-        BlockEditorHandler.wrapLink(this.editor, url);
-      }
-    }
-  }
-
-  private unwrapLink(): void {
-    Transforms.unwrapNodes(this.editor, {
-      match: (n) => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
-    });
   }
 
   public updateChildren(children: CustomElement[]) {
@@ -76,27 +34,6 @@ export class BlockEditorHandler {
     });
 
     Transforms.insertNodes(this.editor, children);
-  }
-
-  public isBlockActiveCheck(format: ElementFormat): boolean {
-    const blockType: keyof CustomElement = TEXT_ALIGN_FORMATS_MAP[format] ? 'align' : 'type';
-
-    const { selection } = this.editor;
-
-    if (!selection) {
-      return false;
-    }
-
-    const [match] = Array.from(
-      Editor.nodes(this.editor, {
-        at: Editor.unhangRange(this.editor, selection),
-        match: (n) => {
-          return !Editor.isEditor(n) && Element.isElement(n) && n[blockType] === format;
-        },
-      })
-    );
-
-    return !!match;
   }
 
   public getActiveBlocks(): { [key in ElementFormat]?: boolean } {
@@ -166,119 +103,41 @@ export class BlockEditorHandler {
   public toggleVerboseBlock(format: ElementFormat, options: VerboseBlockOptions): void {
     switch (format) {
       case 'link':
-        this.toggleLink(options.url);
+        VerboseBlockService.blockHandler['link'].toggleLink(this.editor, options.url);
         break;
       case 'youtube':
-        this.toggleVideo(options.url);
+        VerboseBlockService.blockHandler['youtube'].toggleVideo(this.editor, options.url);
+        break;
+      case 'twitter':
+        VerboseBlockService.blockHandler['twitter'].toggleTweet(this.editor, options.url);
         break;
     }
   }
 
-  public static wrapLink(editor: BaseEditor & ReactEditor, url: string): void {
-    const isCollapsed = editor.selection && Range.isCollapsed(editor.selection);
+  private isBlockActiveCheck(format: ElementFormat): boolean {
+    const blockType: keyof CustomElement = TEXT_ALIGN_FORMATS_MAP[format] ? 'align' : 'type';
 
-    const link: LinkBlockElement = {
-      type: 'link',
-      url,
-      children: isCollapsed ? [{ text: url }] : [],
-    };
+    const { selection } = this.editor;
 
-    if (isCollapsed) {
-      Transforms.insertNodes(editor, link);
-    } else {
-      Transforms.wrapNodes(editor, link);
-      Transforms.collapse(editor, { edge: 'end' });
+    if (!selection) {
+      return false;
     }
 
-    Transforms.move(editor, { unit: 'offset' });
-  }
+    const [match] = Array.from(
+      Editor.nodes(this.editor, {
+        at: Editor.unhangRange(this.editor, selection),
+        match: (n) => {
+          return !Editor.isEditor(n) && Element.isElement(n) && n[blockType] === format;
+        },
+      })
+    );
 
-  public static insertVideo(editor: BaseEditor & ReactEditor, videoKey: string): void {
-    const videoBlock: YoutubeBlockElement = {
-      type: 'youtube',
-      videoKey,
-      children: [{ text: '' }],
-      width: VIDEO_ELEMENT_SIZES.DEFAULT_WIDTH,
-      height: (VIDEO_ELEMENT_SIZES.DEFAULT_WIDTH * 9) / 16,
-    };
-
-    Transforms.insertNodes(editor, videoBlock);
-  }
-
-  public static updateVideoSize(
-    editor: BaseEditor & ReactEditor,
-    videoElement: YoutubeBlockElement,
-    direction: 'increase' | 'decrease'
-  ): void {
-    const path = ReactEditor.findPath(editor, videoElement);
-
-    const updatedWidth =
-      direction === 'increase'
-        ? videoElement.width + VIDEO_ELEMENT_SIZES.STEP
-        : videoElement.width - VIDEO_ELEMENT_SIZES.STEP;
-
-    const updatedHeight = (updatedWidth * 9) / 16;
-
-    if (updatedWidth >= VIDEO_ELEMENT_SIZES.MIN && updatedWidth <= VIDEO_ELEMENT_SIZES.MAX) {
-      Transforms.setNodes(
-        editor,
-        { ...videoElement, width: updatedWidth, height: updatedHeight },
-        { at: path }
-      );
-    }
-  }
-
-  private static getImageSize(
-    naturalWidth: number,
-    naturalHeight: number
-  ): { width: number; height: number } {
-    return {
-      width: IMAGE_ELEMENT_SIZES.DEFAULT_WIDTH,
-      height: (IMAGE_ELEMENT_SIZES.DEFAULT_WIDTH * naturalHeight) / naturalWidth,
-    };
-  }
-
-  public static insertImage(
-    editor: BaseEditor & ReactEditor,
-    url: string,
-    { width, height }: { width: number; height: number }
-  ): void {
-    const image: ImageBlockElement = {
-      ...this.getImageSize(width, height),
-      type: 'image',
-      url,
-      children: [{ text: '' }],
-    };
-
-    Transforms.insertNodes(editor, image);
+    return !!match;
   }
 
   public static removeNode(editor: BaseEditor & ReactEditor, element: CustomElement): void {
     const path = ReactEditor.findPath(editor, element);
 
     Transforms.removeNodes(editor, { at: path });
-  }
-
-  public static updateImageSize(
-    editor: BaseEditor & ReactEditor,
-    imageElement: ImageBlockElement,
-    direction: 'increase' | 'decrease'
-  ): void {
-    const path = ReactEditor.findPath(editor, imageElement);
-
-    const updatedWidth =
-      direction === 'increase'
-        ? imageElement.width + IMAGE_ELEMENT_SIZES.STEP
-        : imageElement.width - IMAGE_ELEMENT_SIZES.STEP;
-
-    const updatedHeight = (imageElement.height * updatedWidth) / imageElement.width;
-
-    if (updatedWidth >= IMAGE_ELEMENT_SIZES.MIN && updatedWidth <= IMAGE_ELEMENT_SIZES.MAX) {
-      Transforms.setNodes(
-        editor,
-        { ...imageElement, width: updatedWidth, height: updatedHeight },
-        { at: path }
-      );
-    }
   }
 }

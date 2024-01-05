@@ -1,0 +1,30 @@
+@import '../../styles/variables.scss';
+
+.modalContent {
+  width: 90vw;
+  height: 90vh;
+
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  > img {
+    object-fit: contain;
+  }
+}
+
+.image {
+  cursor: pointer;
+}
+
+.controls {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+
+  > button {
+    width: 30px;
+    height: 30px;
+  }
+}
