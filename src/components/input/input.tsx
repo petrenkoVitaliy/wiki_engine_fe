@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute } from 'react';
+import { CSSProperties, HTMLInputTypeAttribute } from 'react';
 import clsx from 'clsx';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
@@ -7,8 +7,10 @@ import styles from './input.module.scss';
 type InputProps<T extends string> = {
   formRegister: UseFormRegisterReturn<T>;
   name: string;
+
   type?: HTMLInputTypeAttribute;
   placeholder?: string;
+  style?: CSSProperties;
 
   disabled?: boolean;
   hoverBorder?: boolean;
@@ -23,6 +25,7 @@ export function Input<T extends string>({
   highlighted,
   hoverBorder,
   name,
+  style,
 }: InputProps<T>) {
   return (
     <input
@@ -37,6 +40,7 @@ export function Input<T extends string>({
       type={type}
       autoComplete={name}
       aria-label={name}
+      style={style}
     />
   );
 }

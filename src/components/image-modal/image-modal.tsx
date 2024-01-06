@@ -8,7 +8,7 @@ import { useWindowSizeRelation } from '@/hooks/window-size.hook';
 import { Modal } from '../modal/modal';
 import { ControlButton } from '../control-button/control-button';
 
-import styles from './modal-image.module.scss';
+import styles from './image-modal.module.scss';
 
 type ModalImageProps = {
   url: string;
@@ -22,7 +22,7 @@ type ModalImageProps = {
 
 const FULL_SIZE_RELATION = 90;
 
-export function ModalImage(props: ModalImageProps) {
+export function ImageModal(props: ModalImageProps) {
   const [isOpened, setIsOpened] = useState(false);
 
   const isAlbumOrientation = useWindowSizeRelation(props.width, props.height);

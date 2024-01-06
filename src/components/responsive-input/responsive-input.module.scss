@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+
+.responsiveInputWrapper {
+  position: relative;
+
+  > input {
+    padding: 0 5px;
+  }
+
+  .invisibleInputCopy {
+    width: fit-content;
+    position: absolute;
+    opacity: 0;
+    top: -20px;
+  }
+}

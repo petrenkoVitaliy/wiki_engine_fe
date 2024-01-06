@@ -7,7 +7,7 @@
 
   &:not([contenteditable]) {
     .controlsWrapper {
-      display: none;
+      display: none !important;
     }
   }
 

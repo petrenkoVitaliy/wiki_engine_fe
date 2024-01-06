@@ -11,5 +11,9 @@
   justify-content: space-between;
 
   background: $backgroundMain;
-  padding-right: 10px;
+  padding: 0 15px;
+
+  @media screen and (max-width: map-get($media-sizes, size-small-1)) {
+    padding: 0 5px;
+  }
 }

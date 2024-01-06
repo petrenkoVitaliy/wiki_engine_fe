@@ -5,8 +5,6 @@
   justify-content: space-between;
   align-items: center;
 
-  padding: 15px;
-
   font-size: 18px;
 
   .logo {
@@ -24,7 +22,18 @@
     }
   }
 
-  > button {
+  .controlsWrapper {
     margin-left: 10px;
+
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-small-1)) {
+    .controlsWrapper {
+      > button {
+        min-width: 75px;
+      }
+    }
   }
 }

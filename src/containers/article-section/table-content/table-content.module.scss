@@ -1,5 +1,16 @@
 @import '../../../styles/variables.scss';
 
+$barRowHeight: 30px;
+$barRowSpaceHeight: 10px;
+
+$borderSize: 1px;
+
+$basicHeaderTop: 70px;
+$headerHeight: 40px;
+$headerWidth: 60px;
+
+$contentShift: 20px;
+
 .tableContentWrapper {
   position: absolute;
 
@@ -14,41 +25,39 @@
   &.open {
     width: auto;
 
-    .tableContent {
-      display: flex;
-    }
-
     .tableContentHeader {
       > img {
         transform: rotate(180deg);
       }
     }
+
+    .tableContent {
+      display: flex;
+    }
   }
 
   .tableContentHeader {
     position: sticky;
-    top: 70px;
+    top: $basicHeaderTop;
 
-    width: 55px;
-    height: 35px;
-    padding-top: 3px;
-
-    background: $backgroundSecondary;
+    width: $headerWidth;
+    height: $headerHeight;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 
-    border: 1px solid $backgroundMain;
+    border: $borderSize solid $backgroundMain;
+    background: $backgroundSecondary;
 
     user-select: none;
     cursor: pointer;
 
-    font-size: 14px;
+    font-size: 14px; // TODO 16?
 
     &:hover {
-      border: 1px solid $backgroundShadowMain;
+      border: $borderSize solid $backgroundShadowMain;
       color: $backgroundShadowMain;
 
       > img {
@@ -59,17 +68,18 @@
 
   .tableContent {
     display: none;
-    flex-direction: column;
-    justify-content: flex-start;
 
     position: sticky;
-    top: 105px;
+    top: $basicHeaderTop + $headerHeight;
+
+    flex-direction: column;
+    justify-content: flex-start;
 
     background: $backgroundSecondary;
     color: $fontMain;
 
     .tableList {
-      width: 230px;
+      width: 230px; // TODO const
 
       padding: 0;
       margin: 10px 0;
@@ -92,10 +102,12 @@
   }
 
   @media screen and (max-width: map-get($media-sizes, size-large-1)) {
-    height: calc(100% - 95px);
+    $headerTop: $basicHeaderTop + $barRowHeight + $barRowSpaceHeight + $borderSize;
+
+    z-index: map-get($z-indexes, large-2);
 
     .tableContentHeader {
-      top: 115px;
+      top: $headerTop;
     }
 
     &.open {
@@ -103,44 +115,32 @@
       height: 100%;
 
       .tableContentHeader {
-        border-bottom: 1px solid $backgroundSecondary;
+        border-bottom: $borderSize solid $backgroundSecondary;
       }
 
       .tableContent {
-        top: 149px; // to replace headers bottom border
+        top: $headerTop + $headerHeight - $borderSize;
 
-        border: 1px solid $backgroundMain;
+        border: $borderSize solid $backgroundMain;
       }
     }
   }
 
   @media screen and (max-width: map-get($media-sizes, size-large-2)) {
-    left: 5px;
-
-    top: 65px;
+    left: 0;
 
     .tableContentHeader {
-      top: 74px;
+      width: $headerWidth + $borderSize;
+      border-left: $borderSize solid $backgroundSecondary;
+    }
+
+    .tableContent {
+      margin-left: $contentShift;
     }
 
     &.open {
-      .tableContent {
-        top: 109px; // to replace headers bottom border
-      }
-    }
-
-    &.creation {
-      top: 65px;
-
       .tableContentHeader {
-        top: 74px;
-        border-right: 1px solid $backgroundSecondary;
-      }
-
-      &.open {
-        .tableContent {
-          top: 109px; // to replace headers bottom border
-        }
+        border: $borderSize solid $backgroundMain;
       }
     }
   }
@@ -149,17 +149,8 @@
     left: 5px;
 
     .tableContentHeader {
-      top: 105px;
-    }
-
-    &.open {
-      .tableContent {
-        top: 139px; // to replace headers bottom border
-      }
-    }
-
-    &.creation {
-      display: none;
+      width: $headerWidth;
+      border: $borderSize solid $backgroundMain;
     }
   }
 }

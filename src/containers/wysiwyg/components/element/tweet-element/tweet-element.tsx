@@ -15,7 +15,7 @@ import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
 
 import { Select } from '@/components/select/select';
 import { ControlButton } from '@/components/control-button/control-button';
-import { ModalImage } from '@/components/modal-image/modal-image';
+import { ImageModal } from '@/components/image-modal/image-modal';
 
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
@@ -166,7 +166,7 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
         <span className={styles.photosWrapper}>
           {element.photos.map((photo, index) => (
             <span className={styles.photoContainer} key={index}>
-              <ModalImage
+              <ImageModal
                 url={photo.url}
                 alt='tweet image'
                 width={photo.width}

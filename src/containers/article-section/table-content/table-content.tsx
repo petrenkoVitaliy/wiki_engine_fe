@@ -48,7 +48,7 @@ export function TableContent({ isCreation }: TableContentProps) {
     >
       <div className={styles.tableContentHeader} onClick={handleContainerClick}>
         <Image src={ICONS.contentIcon} alt='content' width={20} />
-        <div>content</div>
+        <span>content</span>
       </div>
       <div className={styles.tableContent}>
         <ol className={styles.tableList}>

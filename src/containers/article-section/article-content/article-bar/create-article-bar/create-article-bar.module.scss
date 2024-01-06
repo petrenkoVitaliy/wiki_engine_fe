@@ -4,43 +4,8 @@
 .articleBar {
   @include _editableArticleBar;
 
-  background: $backgroundSecondary;
-  color: $fontMain;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  height: 45px;
-
   .headingWrapper {
-    display: flex;
-    align-items: center;
     width: 300px;
-
-    .headingLabel {
-      font-size: 14px;
-      margin-right: 20px;
-    }
-  }
-
-  .controlPanel {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    flex: 1;
-
-    .selectsPanel,
-    .buttonsPanel {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      > * {
-        margin-left: 20px;
-      }
-    }
   }
 
   @media screen and (max-width: map-get($media-sizes, size-medium-1)) {

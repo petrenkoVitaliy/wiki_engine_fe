@@ -2,50 +2,86 @@
 @import '../../../../../styles/common.scss';
 
 .articleBar {
-  @include _editableArticleBar;
+  // @include _editableArticleBar; TODO
+  background: $backgroundSecondary;
+  color: $fontMain;
 
-  @media screen and (max-width: map-get($media-sizes, size-large-3)) {
-    position: initial;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 
-    height: 80px;
+  height: 70px;
+
+  margin-bottom: 10px;
+
+  .headingContainer {
+    height: 100%;
+
+    display: flex;
 
     flex-direction: column;
     align-items: flex-start;
+    justify-content: space-between;
 
-    .controlPanel {
-      width: 100%;
+    .selectsWrapper {
+      display: flex;
+
+      > * {
+        margin-right: 10px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  .controlsContainer {
+    display: flex;
+
+    > * {
+      margin-left: 10px;
+    }
+
+    &:last-child {
+      margin-left: 0;
+    }
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-2)) {
+    .headingContainer {
+      .selectsWrapper {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-3)) {
+    .headingContainer {
+      .selectsWrapper {
+        margin-left: 65px;
+      }
     }
   }
 
   @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
-    height: 120px;
+    height: 110px;
 
     flex-direction: column;
-    align-items: flex-start;
+    align-items: normal;
 
-    .controlPanel {
-      width: 100%;
+    .headingContainer {
+      justify-content: space-between;
+      height: 70px;
 
-      display: flex;
-      flex-direction: column-reverse;
-
-      justify-content: space-around;
-      align-items: flex-start;
-
-      .buttonsPanel {
+      .selectsWrapper {
         width: 100%;
-        align-items: flex-end;
-
-        > * {
-          margin-right: 0px;
-          margin-left: 10px !important;
-        }
+        justify-content: flex-end;
       }
+    }
 
-      .selectsPanel {
-        width: 100%;
-        align-items: flex-end;
-      }
+    .controlsContainer {
+      justify-content: flex-end;
     }
   }
 }

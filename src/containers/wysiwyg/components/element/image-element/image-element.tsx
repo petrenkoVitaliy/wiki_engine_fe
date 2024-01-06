@@ -12,7 +12,7 @@ import { ImageBlockElement } from '@/containers/wysiwyg/types';
 import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
 
 import { ControlButton } from '@/components/control-button/control-button';
-import { ModalImage } from '@/components/modal-image/modal-image';
+import { ImageModal } from '@/components/image-modal/image-modal';
 
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
@@ -55,7 +55,7 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
     >
       {children}
       <span className={styles.imageContainer} contentEditable={false}>
-        <ModalImage
+        <ImageModal
           url={element.url}
           alt='inner image'
           width={element.width}

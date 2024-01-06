@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+
+.modalContent {
+  display: flex;
+  justify-content: center;
+
+  .searchWrapper {
+    width: 600px;
+
+    .responseContainer {
+      padding: 5px;
+
+      .responseItem {
+        height: 30px;
+        padding: 0 10px;
+
+        display: flex;
+        align-items: center;
+
+        border-radius: 5px;
+
+        &:hover {
+          background: $backgroundShadowSecondary;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

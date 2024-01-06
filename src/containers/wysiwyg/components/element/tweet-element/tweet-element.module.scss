@@ -7,16 +7,16 @@
 
   &:not([contenteditable]) {
     .videoControlsWrapper {
-      display: none;
+      display: none !important;
     }
 
     .controlsWrapper {
-      display: none;
+      display: none !important;
     }
 
     .photoContainer {
       .photoControlsWrapper {
-        display: none;
+        display: none !important;
       }
     }
   }

@@ -10,4 +10,14 @@
     font-size: 14px;
     color: $fontSecondary;
   }
+
+  @media screen and (max-width: map-get($media-sizes, size-small-1)) {
+    > button {
+      min-width: 75px;
+    }
+
+    > p {
+      display: none;
+    }
+  }
 }

@@ -13,7 +13,7 @@ import { ToastRequestOptions } from '@/redux/types';
 import { Select } from '@/components/select/select';
 import { Button } from '@/components/button/button';
 import { ConfirmationModal } from '@/components/confirmation-modal/confirmation-modal';
-import { Input } from '@/components/input/input';
+import { ResponsiveInput } from '@/components/responsive-input/responsive-input';
 
 import { EditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/editor.handler';
 import { CustomElement } from '@/containers/wysiwyg/types';
@@ -29,7 +29,7 @@ import { PermissionHandler } from '@/permission/permission.handler';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './edit-article-bar.module.scss';
 
-type FormValues = { language: string; name: string; articleType: ArticleType };
+type FormValues = { language: string; title: string; articleType: ArticleType };
 
 type ArticleBarProps = {
   article: Article;
@@ -65,13 +65,15 @@ export function EditArticleBar(props: ArticleBarProps) {
     });
   }, [props.permissions]);
 
-  const { register, handleSubmit, getValues } = useForm<FormValues>({
+  const { register, handleSubmit, getValues, watch } = useForm<FormValues>({
     values: {
       language: props.language,
-      name: articleOptions.articleName,
+      title: articleOptions.articleName,
       articleType: props.article.article_type,
     },
   });
+
+  const titleWatch = watch('title');
 
   const onLanguageChange = (data: FormValues) => {
     router.push(
@@ -144,7 +146,7 @@ export function EditArticleBar(props: ArticleBarProps) {
     handleCloseModal();
 
     const { article, language } = props;
-    const { name } = getValues();
+    const { title } = getValues();
 
     const elements = props.editorHandler.editor.children as CustomElement[];
 
@@ -159,31 +161,33 @@ export function EditArticleBar(props: ArticleBarProps) {
         callback: (article: Article | null, tostOptions: ToastRequestOptions) =>
           handleResponse(article, tostOptions, toastId),
         storedArticle: article,
-        name: name !== articleOptions.articleName ? name : undefined,
+        name: title !== articleOptions.articleName ? title : undefined,
       })
     );
   };
 
   return (
     <section className={styles.articleBar}>
-      <div className={styles.headingWrapper}>
-        <Input
-          hoverBorder
-          formRegister={register('name')}
+      <div className={styles.headingContainer}>
+        <ResponsiveInput
+          formRegister={register('title')}
           disabled={!props.isEditMode}
           name='article title'
+          value={titleWatch}
           highlighted
+          minWidth={80}
+          maxWidth={350}
+          placeholder='Title...'
         />
-      </div>
 
-      <div className={styles.controlPanel}>
-        <div className={styles.selectsPanel}>
+        <div className={styles.selectsWrapper}>
           <Select
             formRegister={register('articleType')}
             onChange={handleSubmit(onArticleTypeChange)}
             options={articleTypesOptions}
             disabled={!isPatchEnabled}
             name='article type'
+            label='Type:'
           />
 
           <Select
@@ -194,26 +198,26 @@ export function EditArticleBar(props: ArticleBarProps) {
             name='language'
           />
         </div>
+      </div>
 
-        <div className={styles.buttonsPanel}>
-          {props.isEditMode ? (
-            <>
-              <Button onClick={onSubmit} label='Save' />
-              <Button onClick={handleEditMode} label='Cancel' />
-            </>
-          ) : (
-            <>
-              <Button onClick={handleHistoryClick} label='History' />
-              <PermissionControl
-                permissions={props.permissions}
-                requiredPermissions={ARTICLE_EDIT_PERMISSIONS}
-              >
-                <Button onClick={handleAddLanguage} label='Add language' />
-                <Button onClick={handleEditMode} label='Edit' />
-              </PermissionControl>
-            </>
-          )}
-        </div>
+      <div className={styles.controlsContainer}>
+        {props.isEditMode ? (
+          <>
+            <Button onClick={onSubmit} label='Save' />
+            <Button onClick={handleEditMode} label='Cancel' />
+          </>
+        ) : (
+          <>
+            <Button onClick={handleHistoryClick} label='History' />
+            <PermissionControl
+              permissions={props.permissions}
+              requiredPermissions={ARTICLE_EDIT_PERMISSIONS}
+            >
+              <Button onClick={handleAddLanguage} label='Add language' />
+              <Button onClick={handleEditMode} label='Edit' />
+            </PermissionControl>
+          </>
+        )}
       </div>
 
       <ConfirmationModal
