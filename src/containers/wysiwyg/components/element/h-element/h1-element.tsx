@@ -24,7 +24,7 @@ export function H1Element({ style, attributes, children, element }: H1ElementPro
       {children}
       <span className={styles.controlWrapper}>
         <ControlButton
-          icon={ICONS.verticalLinkIcon}
+          icon={ICONS.VERBOSE.verticalLinkIcon}
           label='copy header link'
           onClick={handleCopyClick}
         />

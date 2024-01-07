@@ -47,6 +47,7 @@ export function WysiwygEditor(props: WysiwygProps) {
 
   const { promptParams, handleOpenModal, handleCloseModal } = usePromptModalControls<{
     format: string;
+    placeholder: string;
   }>();
 
   const editorHandler = useMemo(() => props.editorHandler || new EditorHandler(), [props]);
@@ -162,7 +163,6 @@ export function WysiwygEditor(props: WysiwygProps) {
         label='Please specify url:'
         cancelLabel='Cancel'
         submitLabel='Submit'
-        placeholder='https://'
       />
     </div>
   );

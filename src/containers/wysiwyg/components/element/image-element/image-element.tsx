@@ -65,14 +65,18 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
         />
       </span>
       <span className={styles.controlsWrapper} contentEditable={false}>
-        <ControlButton icon={ICONS.deleteIcon} label='remove image' onClick={handleRemoveImage} />
         <ControlButton
-          icon={ICONS.plusIcon}
+          icon={ICONS.VERBOSE.deleteIcon}
+          label='remove image'
+          onClick={handleRemoveImage}
+        />
+        <ControlButton
+          icon={ICONS.VERBOSE.plusIcon}
           label='increase image size'
           onClick={handleIncreaseSize}
         />
         <ControlButton
-          icon={ICONS.minusIcon}
+          icon={ICONS.VERBOSE.minusIcon}
           label='decrease image size'
           onClick={handleDecreaseSize}
         />

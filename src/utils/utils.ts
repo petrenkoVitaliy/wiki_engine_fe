@@ -2,6 +2,13 @@ import { Descendant } from 'slate';
 
 import { CustomText } from '@/containers/wysiwyg/types';
 
+export function scrollToBeginning(): void {
+  window.scrollTo({
+    behavior: 'smooth',
+    top: 0,
+  });
+}
+
 export function scrollToElementWithId(hashId: string | null): boolean {
   const SCROLL_OFFSET = -50;
 

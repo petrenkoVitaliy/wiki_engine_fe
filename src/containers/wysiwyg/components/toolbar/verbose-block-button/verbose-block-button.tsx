@@ -6,6 +6,7 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import { ElementFormat, VerboseBlockOptions } from '@/containers/wysiwyg/types';
 
 import styles from './verbose-block-button.module.scss';
+import { VerboseBlockPlaceholders } from '@/containers/wysiwyg/elements';
 
 type BlockButtonProps = {
   format: ElementFormat;
@@ -14,7 +15,7 @@ type BlockButtonProps = {
   icon: StaticImport;
 
   toggleVerboseBlock: (format: ElementFormat, options: VerboseBlockOptions) => void;
-  handleOpenVerbosePrompt: (params: { format: string }) => void;
+  handleOpenVerbosePrompt: (params: { format: string; placeholder: string }) => void;
 };
 
 export function VerboseBlockButton(props: BlockButtonProps) {
@@ -24,6 +25,7 @@ export function VerboseBlockButton(props: BlockButtonProps) {
     } else {
       props.handleOpenVerbosePrompt({
         format: props.format,
+        placeholder: VerboseBlockPlaceholders[props.format] || 'https://...',
       });
     }
 

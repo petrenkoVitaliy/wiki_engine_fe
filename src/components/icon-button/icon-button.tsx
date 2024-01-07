@@ -11,6 +11,7 @@ type IconButtonProps = {
   icon: StaticImport;
 
   collapsable?: boolean;
+  simple?: boolean;
 
   type?: 'submit' | 'reset' | 'button';
   size?: number;
@@ -30,6 +31,7 @@ export function IconButton({
   icon,
   size,
   collapsable,
+  simple,
   className,
 }: IconButtonProps) {
   return (
@@ -41,6 +43,7 @@ export function IconButton({
         [styles.button]: true,
         [styles.primary]: primary,
         [styles.collapsable]: collapsable,
+        [styles.simple]: simple,
       })}
     >
       <span className={styles.label}>{label}</span>

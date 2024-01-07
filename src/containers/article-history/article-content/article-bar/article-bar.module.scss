@@ -16,17 +16,19 @@
   }
 
   .elementsWrapper {
-    width: 100%;
-    margin-bottom: 5px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    width: 100%;
+    margin-bottom: 10px;
 
     .infoWrapper {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+
+      height: 30px;
 
       .infoBlock {
         font-size: 14px;
@@ -53,23 +55,20 @@
 
       .inputsWrapper {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
 
         > button {
-          margin-left: 20px;
+          margin-left: 10px;
         }
       }
 
       .versionControlsWrapper {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
 
-        border: 1px solid $backgroundMain;
-        border-radius: 3px;
-
-        margin-left: 40px;
+        margin-left: 10px;
 
         .versionBlock {
           width: 50px;
@@ -77,6 +76,17 @@
           display: flex;
           justify-content: center;
           align-items: center;
+
+          height: 30px;
+          border: 1px solid $backgroundMain;
+        }
+
+        .leftArrow {
+          border-radius: 2px 0 0 2px;
+        }
+
+        .rightArrow {
+          border-radius: 0 2px 2px 0;
         }
       }
     }
@@ -91,25 +101,19 @@
       .infoWrapper {
         margin-bottom: 10px;
       }
-    }
-  }
-
-  @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
-    .elementsWrapper {
-      .infoWrapper {
-        flex-wrap: wrap;
-
-        .infoBlock {
-          margin-bottom: 5px;
-        }
-      }
 
       .controlsWrapper {
-        flex-wrap: wrap;
-        justify-content: flex-end;
+        .backArrow {
+          min-width: 50px;
+        }
 
-        .inputsWrapper {
-          margin-bottom: 5px;
+        .versionControlsWrapper {
+          .leftArrow {
+            min-width: 50px;
+          }
+          .rightArrow {
+            min-width: 50px;
+          }
         }
       }
     }

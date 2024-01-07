@@ -56,8 +56,6 @@ $headerWidth: 50px;
     user-select: none;
     cursor: pointer;
 
-    font-size: 14px; // TODO 16?
-
     &:hover {
       border: $borderSize solid $backgroundShadowMain;
       color: $backgroundShadowMain;
@@ -100,6 +98,11 @@ $headerWidth: 50px;
           cursor: pointer;
         }
       }
+
+      > span {
+        color: $secondaryColor;
+        padding: 5px;
+      }
     }
   }
 
@@ -134,7 +137,6 @@ $headerWidth: 50px;
 
     .tableContentHeader {
       width: $headerWidth + $borderSize;
-      border-left: $borderSize solid $backgroundSecondary;
     }
 
     .tableContent {

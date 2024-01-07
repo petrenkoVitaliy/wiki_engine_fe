@@ -38,6 +38,18 @@
     border: 1px solid $backgroundShadowMain;
   }
 
+  &.simple {
+    justify-content: center;
+
+    .label {
+      display: none;
+    }
+
+    .image {
+      margin-left: 0;
+    }
+  }
+
   &.collapsable {
     @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
       justify-content: center;

@@ -74,7 +74,7 @@ export function ImageModal(props: ModalImageProps) {
             quality={100}
           />
           <div className={styles.controls}>
-            <ControlButton label='Close' onClick={handleClose} icon={ICONS.closeIcon} />
+            <ControlButton label='Close' onClick={handleClose} icon={ICONS.VERBOSE.closeIcon} />
           </div>
         </div>
       </Modal>

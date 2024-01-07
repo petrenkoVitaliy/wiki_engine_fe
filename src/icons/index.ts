@@ -1,24 +1,26 @@
-import boldIcon from './svg/bold.svg';
-import codeIcon from './svg/code.svg';
-import headingH1Icon from './svg/heading-h1.svg';
-import headingH2Icon from './svg/heading-h2.svg';
-import italicIcon from './svg/italic.svg';
-import quoteIcon from './svg/quote.svg';
-import bulletListIcon from './svg/list-bulleted.svg';
-import numberListIcon from './svg/list-numbered.svg';
-import underlineIcon from './svg/underline.svg';
-import alignCenterIcon from './svg/align-center.svg';
-import alignJustifyIcon from './svg/align-justify.svg';
-import alignLeftIcon from './svg/align-left.svg';
-import alignRightIcon from './svg/align-right.svg';
-import linkIcon from './svg/link.svg';
-import youtubeIcon from './svg/youtube.svg';
-import twitterIcon from './svg/twitter.svg';
-import closeIcon from './svg/close.svg';
-import plusIcon from './svg/plus.svg';
-import minusIcon from './svg/minus.svg';
-import deleteIcon from './svg/delete.svg';
-import verticalLinkIcon from './svg/link-vertical.svg';
+import headingH1Icon from './svg/wysiwyg/heading-h1.svg';
+import headingH2Icon from './svg/wysiwyg/heading-h2.svg';
+import italicIcon from './svg/wysiwyg/italic.svg';
+import quoteIcon from './svg/wysiwyg/quote.svg';
+import bulletListIcon from './svg/wysiwyg/list-bulleted.svg';
+import numberListIcon from './svg/wysiwyg/list-numbered.svg';
+import underlineIcon from './svg/wysiwyg/underline.svg';
+import boldIcon from './svg/wysiwyg/bold.svg';
+import codeIcon from './svg/wysiwyg/code.svg';
+import linkIcon from './svg/wysiwyg/link.svg';
+import youtubeIcon from './svg/wysiwyg/youtube.svg';
+import twitterIcon from './svg/wysiwyg/twitter.svg';
+import alignCenterIcon from './svg/wysiwyg/align-center.svg';
+import alignJustifyIcon from './svg/wysiwyg/align-justify.svg';
+import alignLeftIcon from './svg/wysiwyg/align-left.svg';
+import alignRightIcon from './svg/wysiwyg/align-right.svg';
+
+import closeIcon from './svg/verbose/close.svg';
+import plusIcon from './svg/verbose/plus.svg';
+import minusIcon from './svg/verbose/minus.svg';
+import deleteIcon from './svg/verbose/delete.svg';
+import verticalLinkIcon from './svg/verbose/link-vertical.svg';
+
 import scrollIcon from './svg/scroll.svg';
 import contentIcon from './svg/content.svg';
 
@@ -31,31 +33,40 @@ import addIcon from './svg/button/add.svg';
 import createIcon from './svg/button/create.svg';
 import loginIcon from './svg/button/login.svg';
 import logoutIcon from './svg/button/logout.svg';
+import leftIcon from './svg/button/left.svg';
+import rightIcon from './svg/button/right.svg';
 
 export const ICONS = {
-  boldIcon,
-  codeIcon,
-  headingH1Icon,
-  headingH2Icon,
-  italicIcon,
-  underlineIcon,
-  quoteIcon,
-  bulletListIcon,
-  numberListIcon,
-  alignCenterIcon,
-  alignJustifyIcon,
-  alignLeftIcon,
-  alignRightIcon,
-  linkIcon,
-  youtubeIcon,
-  twitterIcon,
-  closeIcon,
-  plusIcon,
-  minusIcon,
-  deleteIcon,
-  verticalLinkIcon,
   contentIcon,
   scrollIcon,
+
+  WYSIWYG: {
+    boldIcon,
+    codeIcon,
+    headingH1Icon,
+    headingH2Icon,
+    italicIcon,
+    underlineIcon,
+    quoteIcon,
+    bulletListIcon,
+    numberListIcon,
+    alignCenterIcon,
+    alignJustifyIcon,
+    alignLeftIcon,
+    alignRightIcon,
+    linkIcon,
+    youtubeIcon,
+    twitterIcon,
+  },
+
+  VERBOSE: {
+    verticalLinkIcon,
+    deleteIcon,
+    closeIcon,
+    plusIcon,
+    minusIcon,
+  },
+
   BUTTON: {
     searchIcon,
     cancelIcon,
@@ -66,5 +77,7 @@ export const ICONS = {
     createIcon,
     loginIcon,
     logoutIcon,
+    leftIcon,
+    rightIcon,
   },
 };

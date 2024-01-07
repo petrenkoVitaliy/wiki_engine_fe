@@ -29,7 +29,7 @@ export function H2Element({ style, attributes, children, element }: H2ElementPro
       {children}
       <span className={styles.controlWrapper}>
         <ControlButton
-          icon={ICONS.verticalLinkIcon}
+          icon={ICONS.VERBOSE.verticalLinkIcon}
           label='copy subheader link'
           onClick={handleCopyClick}
         />

@@ -121,7 +121,7 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
 
       <span className={styles.tweetContainer}>
         <span className={styles.labelWrapper}>
-          <Image src={ICONS.twitterIcon} alt={'tweet'} />
+          <Image src={ICONS.WYSIWYG.twitterIcon} alt={'tweet'} />
           <span className={styles.label}>Author:</span>
           <span className={styles.link}>
             <a href={element.source} target='_blank'>{`@${element.author}`}</a>
@@ -139,12 +139,12 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
             <span className={styles.videoControlsWrapper} contentEditable={false}>
               <span className={styles.videoControlsButtons}>
                 <ControlButton
-                  icon={ICONS.plusIcon}
+                  icon={ICONS.VERBOSE.plusIcon}
                   label='increase video size'
                   onClick={handleIncreaseVideoSize}
                 />
                 <ControlButton
-                  icon={ICONS.minusIcon}
+                  icon={ICONS.VERBOSE.minusIcon}
                   label='decrease video size'
                   onClick={handleDecreaseVideoSize}
                 />
@@ -175,12 +175,12 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
               />
               <span className={styles.photoControlsWrapper} contentEditable={false}>
                 <ControlButton
-                  icon={ICONS.plusIcon}
+                  icon={ICONS.VERBOSE.plusIcon}
                   label='increase image size'
                   onClick={handleIncreasePhotoSize(index)}
                 />
                 <ControlButton
-                  icon={ICONS.minusIcon}
+                  icon={ICONS.VERBOSE.minusIcon}
                   label='decrease image size'
                   onClick={handleDecreasePhotoSize(index)}
                 />
@@ -190,7 +190,11 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
         </span>
 
         <span className={styles.controlsWrapper} contentEditable={false}>
-          <ControlButton icon={ICONS.deleteIcon} label='remove image' onClick={handleRemoveTweet} />
+          <ControlButton
+            icon={ICONS.VERBOSE.deleteIcon}
+            label='remove image'
+            onClick={handleRemoveTweet}
+          />
         </span>
       </span>
     </span>

@@ -94,6 +94,10 @@ export function EditArticleBar(props: ArticleBarProps) {
     }
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
   const handleHistoryOpen = () => {
     const { article, language } = props;
 
@@ -133,6 +137,11 @@ export function EditArticleBar(props: ArticleBarProps) {
 
     const { article, language } = props;
     const { title } = getValues();
+
+    if (!title) {
+      toast('Title is mandatory', { type: 'error' });
+      return;
+    }
 
     const elements = props.editorHandler.editor.children as CustomElement[];
 
@@ -176,9 +185,16 @@ export function EditArticleBar(props: ArticleBarProps) {
         ) : (
           <>
             <IconButton
+              onClick={handleBack}
+              label='Back'
+              icon={ICONS.BUTTON.cancelIcon}
+              collapsable
+            />
+            <IconButton
               onClick={handleHistoryOpen}
               label='History'
               icon={ICONS.BUTTON.historyIcon}
+              collapsable
             />
             <PermissionControl
               permissions={props.permissions}

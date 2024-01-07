@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 
 import { useAppSelector } from '@/redux/hooks';
 
-import { scrollToElementWithId, stringToHashId } from '@/utils/utils';
+import { scrollToBeginning, scrollToElementWithId, stringToHashId } from '@/utils/utils';
 import { ICONS } from '@/icons';
 
 import styles from './table-content.module.scss';
@@ -18,18 +18,23 @@ type TableContentProps = {
 export function TableContent({ isCreation }: TableContentProps) {
   const headings = useAppSelector((state) => state.editorReducer.headings);
 
-  // const router = useRouter();
   const pathname = usePathname();
 
   const [isOpened, setIsOpened] = useState(false);
 
-  const handleItemClick = (heading: string) => {
+  const handleItemClick = (heading?: string) => {
+    if (!heading) {
+      scrollToBeginning();
+      window.history.pushState({}, '', pathname);
+
+      return;
+    }
+
     const id = stringToHashId(heading);
 
     const isScrolled = scrollToElementWithId(id);
 
     if (isScrolled) {
-      // router.replace(`${pathname}#${heading}`); TODO
       window.history.pushState({}, '', `${pathname}#${heading}`);
     }
   };
@@ -51,11 +56,20 @@ export function TableContent({ isCreation }: TableContentProps) {
       </div>
       <div className={styles.tableContent}>
         <ol className={styles.tableList}>
-          {headings.map((heading, index) => (
-            <li key={index} onClick={() => handleItemClick(heading)}>
-              {heading}
-            </li>
-          ))}
+          {headings.length ? (
+            <>
+              <li key='beginning' onClick={() => handleItemClick()}>
+                ~ Beginning ~
+              </li>
+              {headings.map((heading, index) => (
+                <li key={index} onClick={() => handleItemClick(heading)}>
+                  {heading}
+                </li>
+              ))}
+            </>
+          ) : (
+            <span>Nothing here yet...</span>
+          )}
         </ol>
       </div>
     </section>

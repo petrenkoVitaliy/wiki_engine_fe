@@ -4,12 +4,13 @@ import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
-import { Button } from '@/components/button/button';
 import { Select } from '@/components/select/select';
+import { IconButton } from '@/components/icon-button/icon-button';
 
 import { ROUTES } from '@/routes/routes.handler';
 import { formatDateTime } from '@/utils/utils';
 
+import { ICONS } from '@/icons';
 import { Article } from '@/api/types/article.types';
 import { ArticleVersionDto } from '@/api/dto/article.dto';
 
@@ -116,14 +117,32 @@ export function ArticleBar(props: ArticleBarProps) {
               name='language'
             />
 
-            <Button onClick={handleEditClick} label='Return to article' />
+            <IconButton
+              onClick={handleEditClick}
+              label='Back to article'
+              icon={ICONS.BUTTON.cancelIcon}
+              collapsable
+              className={styles.backArrow}
+            />
           </div>
           <div className={styles.versionControlsWrapper}>
-            <Button onClick={handlePreviousVersionClick} label='Previous' />
-            <div
-              className={styles.versionBlock}
-            >{`${selectedArticleVersion.version}/${latestVersion}`}</div>
-            <Button onClick={handleNextVersionClick} label='Next' />
+            <IconButton
+              onClick={handlePreviousVersionClick}
+              label='Previous'
+              icon={ICONS.BUTTON.leftIcon}
+              simple
+              className={styles.leftArrow}
+            />
+            <div className={styles.versionBlock}>
+              {`${selectedArticleVersion.version}/${latestVersion}`}
+            </div>
+            <IconButton
+              onClick={handleNextVersionClick}
+              label='Next'
+              icon={ICONS.BUTTON.rightIcon}
+              simple
+              className={styles.rightArrow}
+            />
           </div>
         </div>
       </div>

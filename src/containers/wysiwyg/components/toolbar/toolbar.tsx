@@ -23,7 +23,7 @@ type ToolbarProps = {
   verboseBlockButtons: { label: string; format: ElementFormat; icon: StaticImport }[];
   toggleVerboseBlock: (format: ElementFormat, options: VerboseBlockOptions) => void;
 
-  handleOpenVerbosePrompt: (params: { format: string }) => void;
+  handleOpenVerbosePrompt: (params: { format: string; placeholder: string }) => void;
 };
 
 export function Toolbar(props: ToolbarProps) {

@@ -7,14 +7,13 @@ import { Input } from '../input/input';
 import styles from './prompt-modal.module.scss';
 
 type PromptModalProps<T> = {
-  promptParams: T | null;
+  promptParams: (T & { placeholder: string }) | null;
   handleClose: () => void;
   handleSubmit: (params: T, response: string | null) => void;
 
   label: string;
   cancelLabel: string;
   submitLabel: string;
-  placeholder: string;
 };
 
 type FormValues = {
@@ -41,7 +40,7 @@ export function PromptModal<T>(props: PromptModalProps<T>) {
           <Input
             formRegister={register('response')}
             highlighted
-            placeholder={props.placeholder}
+            placeholder={props.promptParams?.placeholder}
             name={props.label}
           />
         </div>
