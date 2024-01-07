@@ -2,9 +2,9 @@ import { CSSProperties, useMemo } from 'react';
 import { RenderElementProps } from 'slate-react';
 
 import { ControlButton } from '@/components/control-button/control-button';
-import { getHeadingParams, getUriWithFragment } from '@/utils/utils';
 
-import { ICONS } from './icons';
+import { getHeadingParams, getUriWithFragment } from '@/utils/utils';
+import { ICONS } from '@/icons';
 
 import styles from './header-element.module.scss';
 

@@ -6,9 +6,9 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 import { useAppSelector } from '@/redux/hooks';
-import { scrollToElementWithId, stringToHashId } from '@/utils/utils';
 
-import { ICONS } from './icons';
+import { scrollToElementWithId, stringToHashId } from '@/utils/utils';
+import { ICONS } from '@/icons';
 
 import styles from './table-content.module.scss';
 
@@ -47,8 +47,7 @@ export function TableContent({ isCreation }: TableContentProps) {
       })}
     >
       <div className={styles.tableContentHeader} onClick={handleContainerClick}>
-        <Image src={ICONS.contentIcon} alt='content' width={20} />
-        <span>content</span>
+        <Image src={ICONS.scrollIcon} alt='content' width={28} />
       </div>
       <div className={styles.tableContent}>
         <ol className={styles.tableList}>

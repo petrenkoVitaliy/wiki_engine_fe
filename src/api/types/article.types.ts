@@ -24,7 +24,7 @@ export type ArticleLanguage = {
   version: ArticleVersion;
 };
 
-export type VersionContent = {
+type VersionContent = {
   id: number;
   content: string;
 };
@@ -43,7 +43,7 @@ export type ArticleVersion = {
   article_language_id: number;
 };
 
-export type Language = {
+type Language = {
   id: number;
   code: string;
 };

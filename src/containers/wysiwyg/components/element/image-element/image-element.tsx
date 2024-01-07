@@ -14,9 +14,8 @@ import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
 import { ControlButton } from '@/components/control-button/control-button';
 import { ImageModal } from '@/components/image-modal/image-modal';
 
+import { ICONS } from '@/icons';
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
-
-import { ICONS } from './icons';
 
 import styles from './image-element.module.scss';
 

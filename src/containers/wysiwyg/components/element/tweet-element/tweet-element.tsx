@@ -17,13 +17,11 @@ import { Select } from '@/components/select/select';
 import { ControlButton } from '@/components/control-button/control-button';
 import { ImageModal } from '@/components/image-modal/image-modal';
 
+import { ICONS } from '@/icons';
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
 import { TwitterBlockElement } from '../../../types';
 
-import { ICONS } from './icons';
-
-import twitterIcon from '@/icons/twitter.svg';
 import styles from './tweet-element.module.scss';
 
 type FormValues = { selectedVideoIndex: string | null };
@@ -123,7 +121,7 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
 
       <span className={styles.tweetContainer}>
         <span className={styles.labelWrapper}>
-          <Image src={twitterIcon} alt={'tweet'} />
+          <Image src={ICONS.twitterIcon} alt={'tweet'} />
           <span className={styles.label}>Author:</span>
           <span className={styles.link}>
             <a href={element.source} target='_blank'>{`@${element.author}`}</a>

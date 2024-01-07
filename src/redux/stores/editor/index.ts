@@ -5,5 +5,5 @@ export {
   createArticleLanguage,
 } from './editor.thunk';
 
-export { updateHeadings, toggleEditMode, setEditMode } from './editor.slice';
+export { updateHeadings, toggleEditMode } from './editor.slice';
 export { editorReducer } from './editor.slice';

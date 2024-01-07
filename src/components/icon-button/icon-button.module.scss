@@ -1,0 +1,54 @@
+@import '../../styles/variables.scss';
+
+.button {
+  min-width: 65px;
+  height: 30px;
+
+  padding: 0 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  border: none;
+
+  border-radius: 2px;
+  background: $backgroundMain;
+  border: 1px solid $backgroundMain;
+
+  .image {
+    margin-left: 5px;
+  }
+
+  .label {
+    font-size: 14px;
+    color: $fontSecondary;
+    font-weight: 500;
+  }
+
+  &.primary {
+    height: 35px;
+    font-size: 16px;
+  }
+
+  &:hover {
+    border: 1px solid $backgroundShadowMain;
+  }
+
+  &.collapsable {
+    @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
+      justify-content: center;
+
+      .label {
+        display: none;
+      }
+
+      .image {
+        margin-left: 0;
+      }
+    }
+  }
+}

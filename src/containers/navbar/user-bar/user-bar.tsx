@@ -5,14 +5,16 @@ import { usePathname, useRouter } from 'next/navigation';
 import { setUser } from '@/redux/stores/user';
 import { useAppDispatch } from '@/redux/hooks';
 
-import { Button } from '@/components/button/button';
+import { IconButton } from '@/components/icon-button/icon-button';
 
+import { ICONS } from '@/icons';
 import { User } from '@/api/types/user.types';
 import { CookieHandler } from '@/cookie/cookie.handler';
 import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
 import { useTruthSource } from '@/hooks/truth-source.hook';
 
 import styles from './user-bar.module.scss';
+import { useMemo, useState } from 'react';
 
 type UserBarProps = {
   user: User | null;
@@ -22,6 +24,12 @@ export function UserBar(props: UserBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useAppDispatch();
+
+  const [isOpened, setIsOpened] = useState(false);
+
+  const toggleTooltip = () => {
+    setIsOpened(!isOpened);
+  };
 
   const user = useTruthSource({
     propSource: props.user,
@@ -39,15 +47,29 @@ export function UserBar(props: UserBarProps) {
     router.refresh();
   };
 
+  const logoutButton = useMemo(() => {
+    return (
+      <IconButton
+        className={styles.logoutButton}
+        onClick={handleLogoutClick}
+        label='Logout'
+        icon={ICONS.BUTTON.logoutIcon}
+      />
+    );
+  }, []);
+
   return (
     <div className={styles.userBarWrapper}>
       {user ? (
         <>
-          <p>{user.name}</p>
-          <Button label='Logout' onClick={handleLogoutClick} />
+          <div className={styles.userLabel} onClick={toggleTooltip}>
+            {user.name}
+          </div>
+          {logoutButton}
+          {isOpened ? <div className={styles.userTooltipWrapper}>{logoutButton}</div> : null}
         </>
       ) : (
-        <Button label='Login' onClick={handleLoginClick} />
+        <IconButton onClick={handleLoginClick} label='Login' icon={ICONS.BUTTON.loginIcon} />
       )}
     </div>
   );

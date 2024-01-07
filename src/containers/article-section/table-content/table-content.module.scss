@@ -5,11 +5,12 @@ $barRowSpaceHeight: 10px;
 
 $borderSize: 1px;
 
+$contentWidth: 230px;
+$contentShift: 20px;
+
 $basicHeaderTop: 70px;
 $headerHeight: 40px;
-$headerWidth: 60px;
-
-$contentShift: 20px;
+$headerWidth: 50px;
 
 .tableContentWrapper {
   position: absolute;
@@ -27,7 +28,7 @@ $contentShift: 20px;
 
     .tableContentHeader {
       > img {
-        transform: rotate(180deg);
+        transform: scaleX(-1);
       }
     }
 
@@ -49,7 +50,8 @@ $contentShift: 20px;
     align-items: center;
 
     border: $borderSize solid $backgroundMain;
-    background: $backgroundSecondary;
+    border-radius: 2px;
+    background: $backgroundMain;
 
     user-select: none;
     cursor: pointer;
@@ -79,7 +81,7 @@ $contentShift: 20px;
     color: $fontMain;
 
     .tableList {
-      width: 230px; // TODO const
+      width: $contentWidth;
 
       padding: 0;
       margin: 10px 0;
@@ -102,12 +104,13 @@ $contentShift: 20px;
   }
 
   @media screen and (max-width: map-get($media-sizes, size-large-1)) {
-    $headerTop: $basicHeaderTop + $barRowHeight + $barRowSpaceHeight + $borderSize;
+    $headerTop: $basicHeaderTop + $barRowHeight + $barRowSpaceHeight;
 
     z-index: map-get($z-indexes, large-2);
 
     .tableContentHeader {
       top: $headerTop;
+      height: $headerHeight + $borderSize;
     }
 
     &.open {
@@ -119,7 +122,7 @@ $contentShift: 20px;
       }
 
       .tableContent {
-        top: $headerTop + $headerHeight - $borderSize;
+        top: $headerTop + $headerHeight;
 
         border: $borderSize solid $backgroundMain;
       }
@@ -127,7 +130,7 @@ $contentShift: 20px;
   }
 
   @media screen and (max-width: map-get($media-sizes, size-large-2)) {
-    left: 0;
+    left: 10px;
 
     .tableContentHeader {
       width: $headerWidth + $borderSize;
@@ -151,6 +154,20 @@ $contentShift: 20px;
     .tableContentHeader {
       width: $headerWidth;
       border: $borderSize solid $backgroundMain;
+    }
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
+    $headerTop: $basicHeaderTop + $barRowHeight * 2 + $barRowSpaceHeight;
+
+    .tableContentHeader {
+      top: $headerTop;
+    }
+
+    &.open {
+      .tableContent {
+        top: $headerTop + $headerHeight;
+      }
     }
   }
 }

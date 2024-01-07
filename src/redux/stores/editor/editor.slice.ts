@@ -23,7 +23,7 @@ const initialState: EditorState = {
 
 export const sliceName = 'editor';
 
-export const editorSlice = createSlice({
+const editorSlice = createSlice({
   name: sliceName,
   initialState,
   reducers: {

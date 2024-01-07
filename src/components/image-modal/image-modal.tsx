@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
 
-import { ICONS } from '@/containers/wysiwyg/components/toolbar/icons';
+import { ICONS } from '@/icons';
 
 import { useWindowSizeRelation } from '@/hooks/window-size.hook';
 

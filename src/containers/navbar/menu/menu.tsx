@@ -1,12 +1,13 @@
 'use client';
 import { useRouter } from 'next/navigation';
 
-import { Button } from '@/components/button/button';
+import { SearchModal } from '@/components/search-modal/search-modal';
+import { IconButton } from '@/components/icon-button/icon-button';
 
 import { ROUTES } from '@/routes/routes.handler';
+import { ICONS } from '@/icons';
 
 import styles from './menu.module.scss';
-import { SearchModal } from '@/components/search-modal/search-modal';
 
 export function Menu() {
   const router = useRouter();
@@ -26,7 +27,13 @@ export function Menu() {
       </div>
 
       <div className={styles.controlsWrapper}>
-        <Button onClick={handleCreateNewArticle} label='Create' />
+        <IconButton
+          onClick={handleCreateNewArticle}
+          label='Create'
+          icon={ICONS.BUTTON.createIcon}
+          collapsable
+        />
+
         <SearchModal label='Search' placeholder='Search article' />
       </div>
     </div>

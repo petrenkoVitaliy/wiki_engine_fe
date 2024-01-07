@@ -77,7 +77,7 @@ export type ImageBlockElement = BaseElement & {
   height: number;
 };
 
-export type BlockElement = BaseElement & {
+type BlockElement = BaseElement & {
   align?: TextAlignFormat;
   type?: BlockFormat;
 };

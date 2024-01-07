@@ -5,18 +5,34 @@
   justify-content: space-between;
   align-items: center;
 
-  > p {
-    margin-right: 10px;
+  position: relative;
+
+  .userLabel {
+    padding: 10px;
+
+    user-select: none;
     font-size: 14px;
     color: $fontSecondary;
+    cursor: pointer;
   }
 
-  @media screen and (max-width: map-get($media-sizes, size-small-1)) {
-    > button {
-      min-width: 75px;
+  .userTooltipWrapper {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+
+    background: $backgroundMain;
+    padding: 10px;
+    border-radius: 0 0 2px 2px;
+  }
+
+  @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
+    .userTooltipWrapper {
+      display: flex;
     }
 
-    > p {
+    > .logoutButton {
       display: none;
     }
   }

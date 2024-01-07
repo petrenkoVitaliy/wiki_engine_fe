@@ -26,7 +26,7 @@ export type ArticleLanguageDto = {
   version: ArticleVersionDto;
 };
 
-export type VersionContentDto = {
+type VersionContentDto = {
   id: number;
   content: string;
 };

@@ -3,11 +3,12 @@ import { useForm } from 'react-hook-form';
 
 import { Modal } from '../modal/modal';
 
-import { Button } from '../button/button';
+import { IconButton } from '../icon-button/icon-button';
 import { Input } from '../input/input';
 
 import styles from './search-modal.module.scss';
 import { useDebounce } from '@/hooks/debounce.hook';
+import { ICONS } from '@/icons';
 
 type SearchModalProps = {
   label: string;
@@ -57,7 +58,12 @@ export function SearchModal(props: SearchModalProps) {
 
   return (
     <>
-      <Button onClick={handleOpen} label={props.label} />
+      <IconButton
+        onClick={handleOpen}
+        label={props.label}
+        icon={ICONS.BUTTON.searchIcon}
+        collapsable
+      />
 
       <Modal handleClickOutside={handleClose} isOpened={isOpened}>
         <div className={styles.modalContent}>

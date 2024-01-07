@@ -1,5 +1,5 @@
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import { ICONS } from './components/toolbar/icons';
+import { ICONS } from '@/icons';
 import { ElementFormat, MarkFormat } from './types';
 
 export const MarkButtons: { label: string; format: MarkFormat; icon: StaticImport }[] = [
