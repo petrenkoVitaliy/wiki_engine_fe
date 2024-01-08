@@ -8,9 +8,10 @@
   }
 
   .invisibleInputCopy {
-    width: fit-content;
+    width: max-content;
     position: absolute;
     opacity: 0;
     top: -20px;
+    z-index: map-get($z-indexes, hidden-1);
   }
 }
