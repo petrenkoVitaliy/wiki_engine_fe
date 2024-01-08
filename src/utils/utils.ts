@@ -132,5 +132,5 @@ export function formatDateTime(timestamp: string | undefined): string {
   const month = date.toLocaleString('default', { month: '2-digit' });
   const day = date.toLocaleString('default', { day: '2-digit' });
 
-  return [day, month, year].join('-');
+  return `${[day, month, year].join('-')} ${date.toLocaleTimeString()}`;
 }

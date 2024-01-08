@@ -101,7 +101,7 @@ export function ArticleBar(props: ArticleBarProps) {
             Author:
             <span>Author</span>
           </div> */}
-          <div className={styles.infoBlock}>
+          <div className={styles.infoBlock} suppressHydrationWarning>
             Creation time:
             <span>{formattedUpdateDate}</span>
           </div>
