@@ -56,6 +56,6 @@ export enum ArticleType {
 }
 
 export const articleTypesOptions = [
-  { value: ArticleType.Public, label: ArticleType.Public },
-  { value: ArticleType.Protected, label: ArticleType.Protected },
+  { value: ArticleType.Public, label: 'Anyone' },
+  { value: ArticleType.Protected, label: 'Author only' },
 ];

@@ -1,7 +1,7 @@
+import clsx from 'clsx';
 import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form';
 
 import styles from './select.module.scss';
-import clsx from 'clsx';
 
 type SelectProps<T extends FieldValues = FieldValues, TName extends FieldPath<T> = FieldPath<T>> = {
   options: { label: string; value: string | number }[];
@@ -14,6 +14,7 @@ type SelectProps<T extends FieldValues = FieldValues, TName extends FieldPath<T>
   className?: string;
   onChange?: () => void;
   disabled?: boolean;
+  collapsable?: boolean;
 };
 
 export function ControlledSelect<
@@ -25,6 +26,7 @@ export function ControlledSelect<
       className={clsx({
         ...(props.className ? { [props.className]: true } : null),
         [styles.selectWrapper]: true,
+        [styles.collapsable]: props.collapsable,
       })}
       onChange={props.onChange}
     >
@@ -33,7 +35,12 @@ export function ControlledSelect<
         control={props.control}
         name={props.name}
         render={({ field }) => (
-          <select {...field} disabled={props.disabled} aria-label={props.ariaName}>
+          <select
+            {...field}
+            disabled={props.disabled}
+            aria-label={props.ariaName}
+            className={styles.select}
+          >
             {props.options.map(({ label, value }) => (
               <option value={value} key={value}>
                 {label}

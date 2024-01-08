@@ -89,7 +89,7 @@ export function EditArticleBarForm(props: EditArticleBarFormProps) {
           disabled={!props.isPatchEnabled}
           name='articleType'
           ariaName='article type'
-          label='Type:'
+          label='Can be edited by:'
         />
 
         <ControlledSelect
@@ -99,6 +99,7 @@ export function EditArticleBarForm(props: EditArticleBarFormProps) {
           name='language'
           ariaName='language'
           className={styles.borderlessSelect}
+          collapsable
         />
 
         <PermissionControl
@@ -109,7 +110,7 @@ export function EditArticleBarForm(props: EditArticleBarFormProps) {
             onClick={props.handleAddLanguage}
             label='Add'
             icon={ICONS.BUTTON.addIcon}
-            collapsable
+            simple
           />
         </PermissionControl>
       </div>

@@ -13,6 +13,10 @@ import { ICONS } from '@/icons';
 
 import styles from './search-modal.module.scss';
 
+const ESCAPE_KEY = 'Escape';
+const ENTER_KEY = 'Enter';
+const SEARCH_KEY = 'k';
+
 type SearchModalProps = {
   label: string;
   placeholder: string;
@@ -35,7 +39,9 @@ export function SearchModal(props: SearchModalProps) {
   const abortRef = useRef<AbortController | null>(null);
   const router = useRouter();
 
-  const { register, watch, reset } = useForm<FormValues>({ defaultValues: { searchQuery: '' } });
+  const { register, watch, reset, setFocus } = useForm<FormValues>({
+    defaultValues: { searchQuery: '' },
+  });
 
   const handleSearchByQuery = async (searchQuery: string | null) => {
     if (abortRef.current) {
@@ -67,10 +73,24 @@ export function SearchModal(props: SearchModalProps) {
   const debouncedSearch = useDebounce(handleSearchByQuery, 300);
 
   useEffect(() => {
+    if (isOpened) {
+      setFocus('searchQuery');
+    }
+  }, [isOpened]);
+
+  useEffect(() => {
     const subscription = watch(({ searchQuery }) => debouncedSearch(searchQuery));
 
     return () => subscription.unsubscribe();
   }, [watch]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const handleClose = useCallback(() => {
     setIsOpened(false);
@@ -84,6 +104,27 @@ export function SearchModal(props: SearchModalProps) {
   const handleMatchClick = (nameKey: string, languageCode: string) => () => {
     router.push(ROUTES.articleLanguage(nameKey, languageCode));
   };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === ESCAPE_KEY) {
+      handleClose();
+      return;
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.key === SEARCH_KEY && !isOpened) {
+      handleOpen();
+      return;
+    }
+  };
+
+  const handleEnterKeyPress =
+    (callback: () => void) => (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === ENTER_KEY) {
+        e.preventDefault();
+
+        callback();
+      }
+    };
 
   return (
     <>
@@ -110,9 +151,16 @@ export function SearchModal(props: SearchModalProps) {
                   <div
                     className={styles.responseItem}
                     key={matchedArticleLanguage.nameKey}
+                    tabIndex={0}
                     onClick={handleMatchClick(
                       matchedArticleLanguage.nameKey,
                       matchedArticleLanguage.languageCode
+                    )}
+                    onKeyDown={handleEnterKeyPress(
+                      handleMatchClick(
+                        matchedArticleLanguage.nameKey,
+                        matchedArticleLanguage.languageCode
+                      )
                     )}
                   >
                     <div className={styles.label}>{matchedArticleLanguage.name}</div>
