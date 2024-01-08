@@ -1,6 +1,12 @@
 import { ImageToCreate } from '@/mappers/types';
 
-import { ArticleDto, ArticleLanguageDto, ArticleVersionDto, LanguageDto } from '../dto/article.dto';
+import {
+  ArticleDto,
+  ArticleLanguageDto,
+  ArticleVersionDto,
+  ArticlesSearchDto,
+  LanguageDto,
+} from '../dto/article.dto';
 import { LoginDto, UserWithPermissionsDto } from '../dto/auth.dto';
 import { ResponseDto } from '../dto/response.dto';
 import { ArticleType } from '../types/article.types';
@@ -39,6 +45,19 @@ class ApiHandler extends FetchHandler {
       method: 'get',
       cache: 'no-store',
     });
+
+    return articlesResponse;
+  }
+
+  public async getArticlesListByQuery(query: string, { signal }: { signal: AbortSignal }) {
+    const articlesResponse = await this.fetchApi<ArticlesSearchDto[]>(
+      `articles/search?query=${query}`,
+      {
+        method: 'get',
+        cache: 'no-store',
+        signal,
+      }
+    );
 
     return articlesResponse;
   }

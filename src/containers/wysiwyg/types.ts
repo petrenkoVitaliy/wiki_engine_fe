@@ -50,7 +50,7 @@ export type YoutubeBlockElement = BaseElement & {
 
 export type TwitterBlockElement = BaseElement & {
   align?: TextAlignFormat;
-  type: 'twitter';
+  type: 'tweet';
   message: string;
   source: string;
   author: string;

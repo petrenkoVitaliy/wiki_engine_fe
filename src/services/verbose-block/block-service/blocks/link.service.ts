@@ -1,10 +1,11 @@
 import { BaseEditor, Transforms, Editor, Element, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 
-import { TEXT_ALIGN_FORMATS_MAP } from '@/containers/wysiwyg/consts';
-import { CustomElement, ElementFormat, LinkBlockElement } from '@/containers/wysiwyg/types';
+import { LinkBlockElement } from '@/containers/wysiwyg/types';
 
-export class LinkBlockService {
+import { BlockService } from '../block.service';
+
+export class LinkBlockService extends BlockService {
   public static toggleLink(editor: BaseEditor & ReactEditor, url?: string): void {
     if (!editor.selection) {
       return;
@@ -43,30 +44,5 @@ export class LinkBlockService {
     Transforms.unwrapNodes(editor, {
       match: (n) => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'link',
     });
-  }
-
-  private static isBlockActiveCheck(
-    // TODO duplicate
-    editor: BaseEditor & ReactEditor,
-    format: ElementFormat
-  ): boolean {
-    const blockType: keyof CustomElement = TEXT_ALIGN_FORMATS_MAP[format] ? 'align' : 'type';
-
-    const { selection } = editor;
-
-    if (!selection) {
-      return false;
-    }
-
-    const [match] = Array.from(
-      Editor.nodes(editor, {
-        at: Editor.unhangRange(editor, selection),
-        match: (n) => {
-          return !Editor.isEditor(n) && Element.isElement(n) && n[blockType] === format;
-        },
-      })
-    );
-
-    return !!match;
   }
 }

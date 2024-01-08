@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { ICONS } from '@/icons';
 
@@ -41,13 +41,13 @@ export function ImageModal(props: ModalImageProps) {
     };
   }, [props, isAlbumOrientation]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsOpened(false);
-  };
+  }, []);
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     setIsOpened(true);
-  };
+  }, []);
 
   return (
     <>

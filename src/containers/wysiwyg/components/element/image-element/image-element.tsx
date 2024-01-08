@@ -7,7 +7,6 @@ import {
 } from 'slate-react';
 import clsx from 'clsx';
 
-import { BlockEditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/block-editor.handler';
 import { ImageBlockElement } from '@/containers/wysiwyg/types';
 import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
 
@@ -41,7 +40,7 @@ export function ImageElement({ attributes, children, element }: ImageProps) {
   };
 
   const handleRemoveImage = () => {
-    BlockEditorHandler.removeNode(editor, element);
+    VerboseBlockService.blockHandler['image'].removeNode(editor, element);
   };
 
   return (

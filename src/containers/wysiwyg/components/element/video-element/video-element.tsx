@@ -8,7 +8,6 @@ import {
   useSlateStatic,
 } from 'slate-react';
 
-import { BlockEditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/block-editor.handler';
 import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
 
 import { ControlButton } from '@/components/control-button/control-button';
@@ -44,7 +43,7 @@ export function VideoElement({ style, attributes, children, element }: VideoElem
   };
 
   const handleRemoveImage = () => {
-    BlockEditorHandler.removeNode(editor, element);
+    VerboseBlockService.blockHandler['youtube'].removeNode(editor, element);
   };
 
   return (

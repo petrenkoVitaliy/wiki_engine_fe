@@ -9,7 +9,7 @@ const VOID_ELEMENTS: {
 } = {
   image: true,
   youtube: true,
-  twitter: true,
+  tweet: true,
 };
 
 export const withImage = (editor: BaseEditor & ReactEditor) => {

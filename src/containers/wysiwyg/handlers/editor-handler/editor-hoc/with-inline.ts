@@ -12,7 +12,7 @@ const INLINE_ELEMENTS: {
   link: true,
   image: true,
   youtube: true,
-  twitter: true,
+  tweet: true,
 };
 
 const handleInsertUri = (editor: BaseEditor & ReactEditor, text: string): boolean => {

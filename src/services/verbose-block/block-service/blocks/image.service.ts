@@ -4,7 +4,9 @@ import { ReactEditor } from 'slate-react';
 import { IMAGE_ELEMENT_SIZES } from '@/containers/wysiwyg/consts';
 import { ImageBlockElement } from '@/containers/wysiwyg/types';
 
-export class ImageBlockService {
+import { BlockService } from '../block.service';
+
+export class ImageBlockService extends BlockService {
   public static insertImage(
     editor: BaseEditor & ReactEditor,
     url: string,
@@ -49,7 +51,7 @@ export class ImageBlockService {
   ): { width: number; height: number } {
     return {
       width: IMAGE_ELEMENT_SIZES.DEFAULT_WIDTH,
-      height: (IMAGE_ELEMENT_SIZES.DEFAULT_WIDTH * naturalHeight) / naturalWidth,
+      height: Math.round((IMAGE_ELEMENT_SIZES.DEFAULT_WIDTH * naturalHeight) / naturalWidth),
     };
   }
 }

@@ -10,7 +10,6 @@ import {
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
 
-import { BlockEditorHandler } from '@/containers/wysiwyg/handlers/editor-handler/block-editor.handler';
 import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
 
 import { Select } from '@/components/select/select';
@@ -61,7 +60,7 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
 
   const onVideoIndexChange = (data: FormValues) => {
     if (data.selectedVideoIndex !== null) {
-      VerboseBlockService.blockHandler['twitter'].updateSelectedVideoVariant(
+      VerboseBlockService.blockHandler['tweet'].updateSelectedVideoVariant(
         editor,
         element,
         +data.selectedVideoIndex
@@ -71,7 +70,7 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
 
   const handleChangeVideoSize = (direction: 'increase' | 'decrease') => {
     if (selectedVideoIndex !== null) {
-      VerboseBlockService.blockHandler['twitter'].updateSelectedVideoVariantSize(
+      VerboseBlockService.blockHandler['tweet'].updateSelectedVideoVariantSize(
         editor,
         element,
         direction
@@ -88,7 +87,7 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
   };
 
   const handleChangePhotoSize = (direction: 'increase' | 'decrease', photoIndex: number) => {
-    VerboseBlockService.blockHandler['twitter'].updatePhotoSize(
+    VerboseBlockService.blockHandler['tweet'].updatePhotoSize(
       editor,
       element,
       photoIndex,
@@ -105,7 +104,7 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
   };
 
   const handleRemoveTweet = () => {
-    BlockEditorHandler.removeNode(editor, element);
+    VerboseBlockService.blockHandler['tweet'].removeNode(editor, element);
   };
 
   return (

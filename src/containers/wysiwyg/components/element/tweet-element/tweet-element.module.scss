@@ -6,17 +6,25 @@
   display: inline-block;
 
   &:not([contenteditable]) {
-    .videoControlsWrapper {
-      display: none !important;
-    }
-
-    .controlsWrapper {
-      display: none !important;
-    }
-
-    .photoContainer {
-      .photoControlsWrapper {
+    .tweetContainer {
+      .videoControlsWrapper {
         display: none !important;
+      }
+
+      .controlsWrapper {
+        display: none !important;
+      }
+
+      .photosWrapper {
+        .photoContainer {
+          > img {
+            pointer-events: all;
+          }
+
+          .photoControlsWrapper {
+            display: none !important;
+          }
+        }
       }
     }
   }
@@ -83,6 +91,8 @@
         }
 
         > img {
+          pointer-events: none;
+
           &:last-child {
             margin-bottom: 0;
           }

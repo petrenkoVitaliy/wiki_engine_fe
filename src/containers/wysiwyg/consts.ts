@@ -27,7 +27,7 @@ const SIMPLE_BLOCK_FORMATS = [
   'block_quote',
 ] as const;
 
-export const VERBOSE_BLOCK_FORMATS = ['link', 'image', 'youtube', 'twitter'] as const;
+export const VERBOSE_BLOCK_FORMATS = ['link', 'image', 'youtube', 'tweet'] as const;
 
 export const BLOCK_FORMATS = [...SIMPLE_BLOCK_FORMATS, ...VERBOSE_BLOCK_FORMATS] as const;
 

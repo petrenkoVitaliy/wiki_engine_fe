@@ -11,13 +11,15 @@ import {
 } from '../../types';
 
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
+import { BlockService } from '@/services/verbose-block/block-service/block.service';
 
 import { TEXT_ALIGN_FORMATS_MAP, LIST_FORMATS_MAP } from '../../consts';
 
-export class BlockEditorHandler {
+export class BlockEditorHandler extends BlockService {
   private editor: BaseEditor & ReactEditor;
 
   constructor(editor: BaseEditor & ReactEditor) {
+    super();
     this.editor = editor;
   }
 
@@ -72,7 +74,7 @@ export class BlockEditorHandler {
   }
 
   public toggleBlock(format: ElementFormat): void {
-    const isActive = this.isBlockActiveCheck(format);
+    const isActive = BlockEditorHandler.isBlockActiveCheck(this.editor, format);
 
     const isList = LIST_FORMATS_MAP[format];
 
@@ -110,31 +112,10 @@ export class BlockEditorHandler {
       case 'youtube':
         VerboseBlockService.blockHandler['youtube'].toggleVideo(this.editor, options.url);
         break;
-      case 'twitter':
-        VerboseBlockService.blockHandler['twitter'].toggleTweet(this.editor, options.url);
+      case 'tweet':
+        VerboseBlockService.blockHandler['tweet'].toggleTweet(this.editor, options.url);
         break;
     }
-  }
-
-  private isBlockActiveCheck(format: ElementFormat): boolean {
-    const blockType: keyof CustomElement = TEXT_ALIGN_FORMATS_MAP[format] ? 'align' : 'type';
-
-    const { selection } = this.editor;
-
-    if (!selection) {
-      return false;
-    }
-
-    const [match] = Array.from(
-      Editor.nodes(this.editor, {
-        at: Editor.unhangRange(this.editor, selection),
-        match: (n) => {
-          return !Editor.isEditor(n) && Element.isElement(n) && n[blockType] === format;
-        },
-      })
-    );
-
-    return !!match;
   }
 
   public static removeNode(editor: BaseEditor & ReactEditor, element: CustomElement): void {

@@ -1,11 +1,14 @@
 import { BaseEditor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
+import { Flip, toast } from 'react-toastify';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
-import { TwitterBlockElement } from '@/containers/wysiwyg/types';
+import { CustomElement, TwitterBlockElement } from '@/containers/wysiwyg/types';
 import { TWEET_IMAGE_SIZES, TWEET_VIDEO_VARIANT_SIZES } from '@/containers/wysiwyg/consts';
 
-export class TweetBlockService {
+import { BlockService } from '../block.service';
+
+export class TweetBlockService extends BlockService {
   public static SUPPORTED_TYPES = ['video/mp4'];
 
   public static toggleTweet(editor: BaseEditor & ReactEditor, url?: string): void {
@@ -13,13 +16,18 @@ export class TweetBlockService {
       return;
     }
 
-    const tweetId = url ? this.getTweetKeyFromUri(url) : null;
+    if (this.isBlockActiveCheck(editor, 'tweet')) {
+      const selected = editor.children[editor.selection.anchor.path[0]] as CustomElement;
+      this.removeNode(editor, selected);
+    } else {
+      const tweetId = url ? this.getTweetKeyFromUri(url) : null;
 
-    if (!tweetId) {
-      return;
+      if (!tweetId) {
+        return;
+      }
+
+      this.insertTweet(editor, tweetId);
     }
-
-    this.insertTweet(editor, tweetId);
   }
 
   public static updateSelectedVideoVariant(
@@ -98,12 +106,29 @@ export class TweetBlockService {
     editor: BaseEditor & ReactEditor,
     tweetId: string
   ): Promise<void> {
-    // TODO loader
+    const toastId = toast('Downloading tweet', { type: 'info', isLoading: true });
+
     const tweetDetails = await apiHandler.internalApi.getTweetDetails(tweetId);
 
     if (tweetDetails.status !== 'ok') {
+      toast.update(toastId, {
+        render: 'Failed to download tweet',
+        type: 'error',
+        isLoading: false,
+        transition: Flip,
+        autoClose: 2000,
+      });
+
       return;
     }
+
+    toast.update(toastId, {
+      render: 'Tweet was successfully added',
+      type: 'success',
+      isLoading: false,
+      transition: Flip,
+      autoClose: 2000,
+    });
 
     const tweetVideos =
       tweetDetails.result.video?.variants.reduce<TwitterBlockElement['videoVariants']>(
@@ -139,7 +164,7 @@ export class TweetBlockService {
 
     const tweetBlock: TwitterBlockElement = {
       message,
-      type: 'twitter',
+      type: 'tweet',
       children: [{ text: '' }],
       source: url,
       author: tweetDetails.result.user.screen_name,
@@ -185,7 +210,7 @@ export class TweetBlockService {
   ): { width: number; height: number } {
     return {
       width: TWEET_IMAGE_SIZES.DEFAULT_WIDTH,
-      height: (TWEET_IMAGE_SIZES.DEFAULT_WIDTH * naturalHeight) / naturalWidth,
+      height: Math.round((TWEET_IMAGE_SIZES.DEFAULT_WIDTH * naturalHeight) / naturalWidth),
     };
   }
 }

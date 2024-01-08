@@ -1,24 +1,26 @@
-import { ImageBlockService } from './blocks-services/image.service';
-import { LinkBlockService } from './blocks-services/link.service';
-import { TweetBlockService } from './blocks-services/tweet.service';
-import { VideoBlockService } from './blocks-services/video.service';
+import {
+  ImageBlockService,
+  TweetBlockService,
+  VideoBlockService,
+  LinkBlockService,
+} from './block-service';
 
 import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 
 export class VerboseBlockService {
   public static blockHandler = {
-    twitter: TweetBlockService,
+    tweet: TweetBlockService,
     youtube: VideoBlockService,
     link: LinkBlockService,
     image: ImageBlockService,
   };
 
   public static insertVerboseUri(editor: BaseEditor & ReactEditor, uri: string): void {
-    const tweetId = VerboseBlockService.blockHandler['twitter'].getTweetKeyFromUri(uri);
+    const tweetId = VerboseBlockService.blockHandler['tweet'].getTweetKeyFromUri(uri);
 
     if (tweetId) {
-      VerboseBlockService.blockHandler['twitter'].insertTweet(editor, tweetId);
+      VerboseBlockService.blockHandler['tweet'].insertTweet(editor, tweetId);
       return;
     }
 

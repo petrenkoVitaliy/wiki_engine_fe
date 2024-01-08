@@ -5,24 +5,53 @@
   justify-content: center;
 
   .searchWrapper {
-    width: 600px;
+    width: 400px;
     max-width: calc(100vw - 44px);
 
     .responseContainer {
-      padding: 5px;
+      padding: 10px;
 
       .responseItem {
-        height: 30px;
-        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
         display: flex;
         align-items: center;
 
-        border-radius: 5px;
+        border-radius: 2px;
+
+        padding: 0 10px;
 
         &:hover {
           background: $backgroundShadowSecondary;
           cursor: pointer;
+        }
+
+        .label {
+          height: 40px;
+
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+
+          color: $fontMain;
+          font-weight: 500;
+        }
+
+        .languageLabel {
+          height: 25px;
+          width: 30px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          color: $fontSecondary;
+          font-weight: 600;
+          background-color: $backgroundMain;
+
+          border-radius: 5px;
         }
       }
     }

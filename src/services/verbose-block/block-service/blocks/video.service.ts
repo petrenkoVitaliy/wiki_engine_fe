@@ -2,21 +2,28 @@ import { BaseEditor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 
 import { VIDEO_ASPECT_RATIO, VIDEO_ELEMENT_SIZES } from '@/containers/wysiwyg/consts';
-import { YoutubeBlockElement } from '@/containers/wysiwyg/types';
+import { CustomElement, YoutubeBlockElement } from '@/containers/wysiwyg/types';
 
-export class VideoBlockService {
+import { BlockService } from '../block.service';
+
+export class VideoBlockService extends BlockService {
   public static toggleVideo(editor: BaseEditor & ReactEditor, url?: string): void {
     if (!editor.selection) {
       return;
     }
 
-    const videoKey = url ? this.getYoutubeVideoKeyFromUri(url) : null;
+    if (this.isBlockActiveCheck(editor, 'youtube')) {
+      const selected = editor.children[editor.selection.anchor.path[0]] as CustomElement;
+      this.removeNode(editor, selected);
+    } else {
+      const videoKey = url ? this.getYoutubeVideoKeyFromUri(url) : null;
 
-    if (!videoKey) {
-      return;
+      if (!videoKey) {
+        return;
+      }
+
+      this.insertVideo(editor, videoKey);
     }
-
-    this.insertVideo(editor, videoKey);
   }
 
   public static insertVideo(editor: BaseEditor & ReactEditor, videoKey: string): void {

@@ -24,11 +24,11 @@ export const BlockButtons: { label: string; format: ElementFormat; icon: StaticI
 export const VerboseBlockButtons: { label: string; format: ElementFormat; icon: StaticImport }[] = [
   { icon: ICONS.WYSIWYG.linkIcon, format: 'link', label: 'link' },
   { icon: ICONS.WYSIWYG.youtubeIcon, format: 'youtube', label: 'youtube' },
-  { icon: ICONS.WYSIWYG.twitterIcon, format: 'twitter', label: 'twitter' },
+  { icon: ICONS.WYSIWYG.twitterIcon, format: 'tweet', label: 'tweet' },
 ];
 
 export const VerboseBlockPlaceholders: { [key in ElementFormat]?: string } = {
-  twitter: 'https://twitter.com/user/status/...',
+  tweet: 'https://twitter.com/user/status/...',
   youtube: 'https://www.youtube.com/watch/...',
   link: 'https://...',
 };

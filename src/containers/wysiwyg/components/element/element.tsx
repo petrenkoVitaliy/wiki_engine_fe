@@ -39,7 +39,7 @@ export function Element({ attributes, children, element }: LeafProps) {
         />
       );
     }
-    case 'twitter': {
+    case 'tweet': {
       return (
         <TweetElement
           style={style}

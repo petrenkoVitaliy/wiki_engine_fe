@@ -1,5 +1,11 @@
 import { ArticleType } from '../types/article.types';
 
+export type ArticlesSearchDto = {
+  name: string;
+  name_key: string;
+  language_code: string;
+};
+
 export type ArticleDto = {
   id: number;
   enabled: boolean;

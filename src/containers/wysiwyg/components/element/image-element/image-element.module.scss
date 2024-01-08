@@ -9,6 +9,12 @@
     .controlsWrapper {
       display: none !important;
     }
+
+    .imageContainer {
+      > img {
+        pointer-events: all;
+      }
+    }
   }
 
   &:hover {
@@ -35,6 +41,7 @@
 
     > img {
       display: block;
+      pointer-events: none;
     }
   }
 

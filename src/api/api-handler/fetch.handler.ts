@@ -8,6 +8,7 @@ const ERROR_MESSAGES: { [key: number]: string } = {
   406: 'Incorrect information',
   401: 'User unauthorized',
   403: 'Insufficient permissions',
+  499: 'Request canceled',
   500: 'Something went wrong',
   418: 'Something went very wrong',
 };
@@ -33,21 +34,28 @@ class FetchHandler {
       }
     }
 
-    const res = await fetch(`${this.SERVER_URL}/${urn}`, { ...fetchOptions, headers });
+    try {
+      const res = await fetch(`${this.SERVER_URL}/${urn}`, { ...fetchOptions, headers });
 
-    if (!res.ok) {
+      if (!res.ok) {
+        return {
+          status: 'error',
+          message: this.getErrorMessage(res),
+        };
+      }
+
+      const responseBody = (await res.json()) as T;
+
+      return {
+        status: 'ok',
+        result: responseBody,
+      };
+    } catch (ex: any) {
       return {
         status: 'error',
-        message: this.getErrorMessage(res),
+        message: ERROR_MESSAGES[ex?.['name'] === 'AbortError' ? 499 : 500],
       };
     }
-
-    const responseBody = (await res.json()) as T;
-
-    return {
-      status: 'ok',
-      result: responseBody,
-    };
   }
 }
 
