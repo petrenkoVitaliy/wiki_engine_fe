@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
@@ -92,4 +93,24 @@ export async function generateStaticParams() {
   });
 
   return params;
+}
+
+export async function generateMetadata({ params }: ArticleLanguageProps): Promise<Metadata> {
+  const articleDto = await getArticleDto(params);
+
+  const matchedLanguage = articleDto?.languages.find(
+    ({ language }) => language.code === params.language
+  );
+
+  if (!matchedLanguage) {
+    return {};
+  }
+
+  return {
+    title: matchedLanguage.name,
+    openGraph: {
+      title: matchedLanguage.name,
+      description: `Quick wiki note: ${matchedLanguage.name}`,
+    },
+  };
 }

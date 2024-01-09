@@ -10,7 +10,9 @@ import clsx from 'clsx';
 
 export const metadata: Metadata = {
   title: 'Wikїfella',
-  description: 'Wikїfella',
+  applicationName: 'Wikїfella',
+  keywords: ['wiki', 'notes'],
+  description: 'Lightweight wiki-engine for your notes',
   manifest: '/manifest.json',
   themeColor: [{ media: '(prefers-color-scheme: dark)', color: '#282829' }],
 };
