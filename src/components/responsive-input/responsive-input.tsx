@@ -11,7 +11,7 @@ type InputProps = React.ComponentProps<typeof Input> & {
 export function ResponsiveInput({ value, maxWidth, minWidth, ...inputProps }: InputProps) {
   const invisibleCopyRef = useRef<HTMLDivElement>(null);
 
-  const [width, setWidth] = useState(0);
+  const [dynamicStyle, setDynamicStyle] = useState<React.CSSProperties | undefined>();
 
   useEffect(() => {
     if (!invisibleCopyRef.current) {
@@ -21,18 +21,15 @@ export function ResponsiveInput({ value, maxWidth, minWidth, ...inputProps }: In
     invisibleCopyRef.current.innerText = value;
     const updatedWidth = invisibleCopyRef.current.clientWidth;
 
-    setWidth(updatedWidth);
+    setDynamicStyle({
+      width: `max(calc(${updatedWidth}px + 20px), ${minWidth}px)`,
+      maxWidth: `${maxWidth}px`,
+    });
   }, [value]);
 
   return (
     <div className={styles.responsiveInputWrapper}>
-      <Input
-        {...inputProps}
-        style={{
-          width: `max(calc(${width}px + 20px), ${minWidth}px)`,
-          maxWidth: `${maxWidth}px`,
-        }}
-      />
+      <Input {...inputProps} style={dynamicStyle} />
       <div className={styles.invisibleInputCopy} ref={invisibleCopyRef} />
     </div>
   );

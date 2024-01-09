@@ -5,7 +5,7 @@ export type LoginDto = {
   user: UserDto;
 };
 
-type UserDto = {
+export type UserDto = {
   email: string;
   name: string;
   role_id: number;

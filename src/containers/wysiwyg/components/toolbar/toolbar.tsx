@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
+import { CheatModal } from '@/components/cheat-modal/cheat-modal';
+
 import { MarkButton } from './mark-button/mark-button';
 import { BlockButton } from './block-button/block-button';
 import { VerboseBlockButton } from './verbose-block-button/verbose-block-button';
@@ -113,6 +115,7 @@ function VerboseBlocksList(
           handleOpenVerbosePrompt={props.handleOpenVerbosePrompt}
         />
       ))}
+      <CheatModal />
     </>
   );
 }

@@ -1,0 +1,84 @@
+@import '../../styles/variables.scss';
+
+.filler {
+  flex-grow: 1;
+}
+
+.cheatButton {
+  width: 32px;
+  height: 32px;
+
+  background-color: $backgroundSecondary;
+
+  cursor: pointer;
+
+  padding: 3px;
+  margin: 0 5px 0 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  > div {
+    top: 10vh !important;
+
+    .modalContent {
+      width: 500px;
+      max-width: calc(100vw - 44px);
+
+      max-height: 80vh;
+      overflow: scroll;
+
+      .title {
+        font-size: 18px;
+        font-weight: 600;
+        color: $fontMain;
+
+        text-align: center;
+
+        margin-bottom: 20px;
+      }
+
+      .sectionWrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        margin-bottom: 10px;
+
+        > img {
+          margin-right: 10px;
+        }
+
+        > p {
+          line-height: 1.5;
+
+          > code {
+            font-size: 14px;
+            color: $backgroundShadowMain;
+            font-weight: 600;
+          }
+        }
+
+        .invertedBackground {
+          background: $backgroundMain;
+          width: 40px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 2px;
+
+          margin-right: 5px;
+        }
+      }
+    }
+
+    > p {
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+  }
+}

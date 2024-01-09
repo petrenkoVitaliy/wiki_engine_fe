@@ -23,6 +23,7 @@ import verticalLinkIcon from './svg/verbose/link-vertical.svg';
 
 import scrollIcon from './svg/scroll.svg';
 import contentIcon from './svg/content.svg';
+import betaIcon from './svg/beta.svg';
 
 import searchIcon from './svg/button/search.svg';
 import editIcon from './svg/button/edit.svg';
@@ -35,10 +36,12 @@ import loginIcon from './svg/button/login.svg';
 import logoutIcon from './svg/button/logout.svg';
 import leftIcon from './svg/button/left.svg';
 import rightIcon from './svg/button/right.svg';
+import questionIcon from './svg/button/question.svg';
 
 export const ICONS = {
   contentIcon,
   scrollIcon,
+  betaIcon,
 
   WYSIWYG: {
     boldIcon,
@@ -79,5 +82,6 @@ export const ICONS = {
     logoutIcon,
     leftIcon,
     rightIcon,
+    questionIcon,
   },
 };

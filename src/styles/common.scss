@@ -31,6 +31,10 @@
   background: $backgroundSecondary;
   color: $fontMain;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   > img {
     background: $backgroundSecondary;
     color: $fontMain;

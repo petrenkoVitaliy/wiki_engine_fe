@@ -1,5 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import { SearchModal } from '@/components/search-modal/search-modal';
 import { IconButton } from '@/components/icon-button/icon-button';
@@ -24,6 +25,7 @@ export function Menu() {
     <div className={styles.menuWrapper}>
       <div className={styles.logo} onClick={handleRedirectToMainPage}>
         Wikїfella
+        <Image src={ICONS.betaIcon} alt='beta' />
       </div>
 
       <div className={styles.controlsWrapper}>

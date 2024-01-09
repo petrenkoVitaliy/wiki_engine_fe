@@ -9,6 +9,8 @@ type ModalProps = {
   isOpened: boolean;
   children: React.ReactNode;
   handleClickOutside: () => void;
+
+  className?: string;
 };
 
 const PORTAL_SELECTOR = '#popup_root';
@@ -31,6 +33,7 @@ export function Modal(props: ModalProps) {
     ? createPortal(
         <div
           className={clsx({
+            ...(props.className ? { [props.className]: true } : null),
             [styles.overlay]: true,
             [styles.fullScreen]: props.fullScreen,
           })}

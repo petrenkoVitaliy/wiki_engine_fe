@@ -1,10 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useMemo } from 'react';
+import { DeepPartial, FieldPath, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
-import { Select } from '@/components/select/select';
 import { IconButton } from '@/components/icon-button/icon-button';
 
 import { ROUTES } from '@/routes/routes.handler';
@@ -15,6 +14,7 @@ import { Article } from '@/api/types/article.types';
 import { ArticleVersionDto } from '@/api/dto/article.dto';
 
 import styles from './article-bar.module.scss';
+import { ControlledSelect } from '@/components/select/controlled-select';
 
 type ArticleBarProps = {
   language: string;
@@ -44,17 +44,48 @@ export function ArticleBar(props: ArticleBarProps) {
 
   const router = useRouter();
 
-  const { register, handleSubmit, getValues } = useForm<FormValues>({
-    values: {
+  const { control, watch } = useForm<FormValues>({
+    defaultValues: {
       language,
     },
   });
 
-  const onLanguageChange = (data: FormValues) => {
-    router.push(
-      ROUTES.articleLanguageHistory(article.languagesMap[data.language].name_key, data.language)
-    );
+  const languageSubscription = watch('language');
+
+  useEffect(() => {
+    const subscription = watch(handleFormChange);
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
+  const handleFormChange = (
+    formValues: DeepPartial<FormValues>,
+    {
+      name,
+    }: {
+      name?: FieldPath<FormValues>;
+    }
+  ) => {
+    switch (name) {
+      case 'language':
+        onLanguageChange(formValues.language as string);
+        break;
+    }
   };
+
+  const onLanguageChange = (language: string) => {
+    router.push(ROUTES.articleLanguageHistory(article.languagesMap[language].name_key, language));
+  };
+
+  const authorName = useMemo(
+    () => selectedArticleVersion.created_by?.name,
+    [selectedArticleVersion]
+  );
+
+  const formattedUpdateDate = useMemo(
+    () => formatDateTime(selectedArticleVersion.created_at),
+    [selectedArticleVersion]
+  );
 
   const isFirstVersion = useMemo(
     () => selectedArticleVersion.version === 1,
@@ -64,11 +95,6 @@ export function ArticleBar(props: ArticleBarProps) {
   const isLastVersion = useMemo(
     () => selectedArticleVersion.version === latestVersion,
     [selectedArticleVersion, latestVersion]
-  );
-
-  const formattedUpdateDate = useMemo(
-    () => formatDateTime(selectedArticleVersion.created_at),
-    [selectedArticleVersion]
   );
 
   const handleNextVersionClick = () => {
@@ -84,9 +110,9 @@ export function ArticleBar(props: ArticleBarProps) {
   };
 
   const handleEditClick = () => {
-    const language = getValues().language;
-
-    router.push(ROUTES.articleLanguage(article.languagesMap[language].name_key, language));
+    router.push(
+      ROUTES.articleLanguage(article.languagesMap[language].name_key, languageSubscription)
+    );
   };
 
   return (
@@ -97,24 +123,24 @@ export function ArticleBar(props: ArticleBarProps) {
           <div className={styles.infoBlock}>
             Title: <span>{selectedArticleVersion.name}</span>
           </div>
-          {/* <div className={styles.infoBlock}> TODO add 
+          <div className={styles.infoBlock}>
             Author:
-            <span>Author</span>
-          </div> */}
-          <div className={styles.infoBlock} suppressHydrationWarning>
+            <span>{authorName}</span>
+          </div>
+          <div className={styles.infoBlock}>
             Creation time:
-            <span>{formattedUpdateDate}</span>
+            <span suppressHydrationWarning>{formattedUpdateDate}</span>
           </div>
         </div>
 
         <div className={styles.controlsWrapper}>
           <div className={styles.inputsWrapper}>
-            <Select
-              formRegister={register('language')}
-              onChange={handleSubmit(onLanguageChange)}
+            <ControlledSelect
+              control={control}
               options={languages}
-              label='Language:'
               name='language'
+              ariaName='language'
+              label='Language:'
             />
 
             <IconButton

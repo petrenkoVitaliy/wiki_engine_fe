@@ -1,4 +1,5 @@
 import { ArticleType } from '../types/article.types';
+import { UserDto } from './auth.dto';
 
 export type ArticlesSearchDto = {
   name: string;
@@ -49,6 +50,8 @@ export type ArticleVersionDto = {
   created_at: string;
 
   article_language_id: number;
+
+  created_by?: UserDto;
 };
 
 export type LanguageDto = {

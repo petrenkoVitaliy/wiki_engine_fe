@@ -28,6 +28,8 @@
 
     &:disabled {
       appearance: unset;
+
+      cursor: default;
     }
   }
 
