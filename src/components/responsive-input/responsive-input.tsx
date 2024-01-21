@@ -1,6 +1,7 @@
+import React, { useEffect, useRef, useState } from 'react';
+
 import styles from './responsive-input.module.scss';
 import { Input } from '../input/input';
-import React, { useEffect, useRef, useState } from 'react';
 
 type InputProps = React.ComponentProps<typeof Input> & {
   value: string;

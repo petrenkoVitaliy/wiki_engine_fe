@@ -1,5 +1,4 @@
 import { CSSProperties, useMemo } from 'react';
-import Image from 'next/image';
 import {
   ReactEditor,
   RenderElementProps,
@@ -7,23 +6,18 @@ import {
   useSelected,
   useSlateStatic,
 } from 'slate-react';
-import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
 
-import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
-
-import { Select } from '@/components/select/select';
 import { ControlButton } from '@/components/control-button/control-button';
-import { ImageModal } from '@/components/image-modal/image-modal';
 
 import { ICONS } from '@/icons';
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
 import { TwitterBlockElement } from '../../../types';
 
-import styles from './tweet-element.module.scss';
+import { TweetItem } from './tweet-item';
 
-type FormValues = { selectedVideoIndex: string | null };
+import styles from './tweet-element.module.scss';
 
 type TweetElementProps = { style: CSSProperties } & Omit<RenderElementProps, 'element'> & {
     element: TwitterBlockElement;
@@ -34,77 +28,27 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
   const selected = useSelected();
   const focused = useFocused();
 
-  const videoVariantsOptions = useMemo(() => {
-    return element.videoVariants.map((videoVariant, index) => ({
-      value: index,
-      label: `${videoVariant.qualityWidth} x ${videoVariant.qualityHeight}`,
-    }));
+  const threadDetails = useMemo(() => {
+    return {
+      isThread: !!element.parentId,
+      parentsAmount: element.parentTweets.length || 0,
+    };
   }, [element]);
-
-  const { register, handleSubmit, watch } = useForm<FormValues>({
-    values: {
-      selectedVideoIndex:
-        element.selectedVideoIndex !== null ? String(element.selectedVideoIndex) : null,
-    },
-  });
-
-  const selectedVideoIndex = watch('selectedVideoIndex');
-
-  const selectedVideoVariant = useMemo(() => {
-    if (selectedVideoIndex !== null && element.videoVariants[+selectedVideoIndex]) {
-      return element.videoVariants[+selectedVideoIndex];
-    }
-
-    return null;
-  }, [element.videoVariants, selectedVideoIndex]);
-
-  const onVideoIndexChange = (data: FormValues) => {
-    if (data.selectedVideoIndex !== null) {
-      VerboseBlockService.blockHandler['tweet'].updateSelectedVideoVariant(
-        editor,
-        element,
-        +data.selectedVideoIndex
-      );
-    }
-  };
-
-  const handleChangeVideoSize = (direction: 'increase' | 'decrease') => {
-    if (selectedVideoIndex !== null) {
-      VerboseBlockService.blockHandler['tweet'].updateSelectedVideoVariantSize(
-        editor,
-        element,
-        direction
-      );
-    }
-  };
-
-  const handleIncreaseVideoSize = () => {
-    handleChangeVideoSize('increase');
-  };
-
-  const handleDecreaseVideoSize = () => {
-    handleChangeVideoSize('decrease');
-  };
-
-  const handleChangePhotoSize = (direction: 'increase' | 'decrease', photoIndex: number) => {
-    VerboseBlockService.blockHandler['tweet'].updatePhotoSize(
-      editor,
-      element,
-      photoIndex,
-      direction
-    );
-  };
-
-  const handleIncreasePhotoSize = (photoIndex: number) => () => {
-    handleChangePhotoSize('increase', photoIndex);
-  };
-
-  const handleDecreasePhotoSize = (photoIndex: number) => () => {
-    handleChangePhotoSize('decrease', photoIndex);
-  };
 
   const handleRemoveTweet = () => {
     VerboseBlockService.blockHandler['tweet'].removeNode(editor, element);
+  };
+
+  const toggleThread = () => {
+    if (!threadDetails.isThread) {
+      return;
+    }
+
+    if (threadDetails.parentsAmount) {
+      VerboseBlockService.blockHandler['tweet'].removeThreadTweets(editor, element);
+    } else {
+      VerboseBlockService.blockHandler['tweet'].uploadThreadTweets(editor, element);
+    }
   };
 
   return (
@@ -118,83 +62,47 @@ export function TweetElement({ style, attributes, children, element }: TweetElem
     >
       {children}
 
-      <span className={styles.tweetContainer}>
-        <span className={styles.labelWrapper}>
-          <Image src={ICONS.WYSIWYG.twitterIcon} alt={'tweet'} />
-          <span className={styles.label}>Author:</span>
-          <span className={styles.link}>
-            <a href={element.source} target='_blank'>{`@${element.author}`}</a>
-          </span>
-        </span>
+      {element.parentTweets.map((item, index) => (
+        <TweetItem
+          topElement={index === 0}
+          key={item.tweetId}
+          element={element}
+          item={item}
+          editor={editor}
+          tweetIndex={index}
+          label={`${index + 1} / ${threadDetails.parentsAmount + 1} `}
+          isThread={threadDetails.isThread}
+        />
+      ))}
 
-        <span className={styles.message}>{element.message}</span>
-        <br />
+      <TweetItem
+        element={element}
+        item={element}
+        editor={editor}
+        topElement={!element.parentTweets.length}
+        isThread={threadDetails.isThread}
+        label={
+          threadDetails.parentsAmount
+            ? `${threadDetails.parentsAmount + 1} / ${threadDetails.parentsAmount + 1} `
+            : undefined
+        }
+      />
 
-        {selectedVideoVariant && (
-          <span className={styles.videoContainer}>
-            <video loop controls width={element.videoWidth} key={selectedVideoVariant.url}>
-              <source src={selectedVideoVariant.url} type={selectedVideoVariant.type} />
-            </video>
-            <span className={styles.videoControlsWrapper} contentEditable={false}>
-              <span className={styles.videoControlsButtons}>
-                <ControlButton
-                  icon={ICONS.VERBOSE.plusIcon}
-                  label='increase video size'
-                  onClick={handleIncreaseVideoSize}
-                />
-                <ControlButton
-                  icon={ICONS.VERBOSE.minusIcon}
-                  label='decrease video size'
-                  onClick={handleDecreaseVideoSize}
-                />
-              </span>
-
-              <Select
-                formRegister={register('selectedVideoIndex')}
-                onChange={handleSubmit(onVideoIndexChange)}
-                options={videoVariantsOptions}
-                label='Quality:'
-                name='quality'
-              />
-            </span>
-          </span>
-        )}
-
-        <span className={styles.photosWrapper}>
-          {element.photos.map((photo, index) => (
-            <span className={styles.photoContainer} key={index}>
-              <ImageModal
-                url={photo.url}
-                alt='tweet image'
-                width={photo.width}
-                height={photo.height}
-                placeholder='blur'
-                blurDataURL={BLUR_BACKGROUND_IMAGE}
-                quality={75}
-              />
-              <span className={styles.photoControlsWrapper} contentEditable={false}>
-                <ControlButton
-                  icon={ICONS.VERBOSE.plusIcon}
-                  label='increase image size'
-                  onClick={handleIncreasePhotoSize(index)}
-                />
-                <ControlButton
-                  icon={ICONS.VERBOSE.minusIcon}
-                  label='decrease image size'
-                  onClick={handleDecreasePhotoSize(index)}
-                />
-              </span>
-            </span>
-          ))}
-        </span>
-
-        <span className={styles.controlsWrapper} contentEditable={false}>
+      <span className={styles.controlsWrapper} contentEditable={false}>
+        <ControlButton
+          icon={ICONS.VERBOSE.deleteIcon}
+          label='Delete'
+          labeled
+          onClick={handleRemoveTweet}
+        />
+        {threadDetails.isThread && (
           <ControlButton
-            icon={ICONS.VERBOSE.deleteIcon}
-            label='remove image'
-            onClick={handleRemoveTweet}
+            icon={threadDetails.parentsAmount ? ICONS.VERBOSE.hideIcon : ICONS.BUTTON.threadIcon}
+            label={threadDetails.parentsAmount ? 'Hide thread' : 'Unroll full thread'}
+            onClick={toggleThread}
+            labeled
           />
-        </span>
+        )}
       </span>
     </span>
   );

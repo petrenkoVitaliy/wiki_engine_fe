@@ -17,6 +17,7 @@ import alignRightIcon from './svg/wysiwyg/align-right.svg';
 
 import closeIcon from './svg/verbose/close.svg';
 import plusIcon from './svg/verbose/plus.svg';
+import hideIcon from './svg/verbose/hide.svg';
 import minusIcon from './svg/verbose/minus.svg';
 import deleteIcon from './svg/verbose/delete.svg';
 import verticalLinkIcon from './svg/verbose/link-vertical.svg';
@@ -25,6 +26,7 @@ import scrollIcon from './svg/scroll.svg';
 import contentIcon from './svg/content.svg';
 import betaIcon from './svg/beta.svg';
 
+import threadIcon from './svg/button/thread.svg';
 import searchIcon from './svg/button/search.svg';
 import editIcon from './svg/button/edit.svg';
 import cancelIcon from './svg/button/cancel.svg';
@@ -68,6 +70,7 @@ export const ICONS = {
     closeIcon,
     plusIcon,
     minusIcon,
+    hideIcon,
   },
 
   BUTTON: {
@@ -83,5 +86,6 @@ export const ICONS = {
     leftIcon,
     rightIcon,
     questionIcon,
+    threadIcon,
   },
 };

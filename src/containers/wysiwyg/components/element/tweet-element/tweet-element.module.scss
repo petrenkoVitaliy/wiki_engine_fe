@@ -5,13 +5,17 @@
   position: relative;
   display: inline-block;
 
+  max-width: 700px;
+  text-align: left;
+
+  border: 2px solid $backgroundShadowSecondaryDark;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 15px;
+
   &:not([contenteditable]) {
     .tweetContainer {
       .videoControlsWrapper {
-        display: none !important;
-      }
-
-      .controlsWrapper {
         display: none !important;
       }
 
@@ -27,15 +31,17 @@
         }
       }
     }
+
+    .controlsWrapper {
+      display: none !important;
+    }
   }
 
   &.selected {
+    border: 2px solid $linkColor;
+
     .tweetContainer {
       .videoControlsWrapper {
-        display: inline-flex;
-      }
-
-      .controlsWrapper {
         display: inline-flex;
       }
 
@@ -48,24 +54,22 @@
       }
     }
 
-    .tweetContainer {
-      border: 2px solid $linkColor;
+    .controlsWrapper {
+      display: inline-flex;
+    }
+  }
+
+  &:hover {
+    .controlsWrapper {
+      display: inline-flex;
     }
   }
 
   .tweetContainer {
     display: inline-block;
 
-    border: 2px solid $backgroundShadowSecondaryDark;
-    padding: 5px;
-    margin: 5px;
-
     &:hover {
       .videoControlsWrapper {
-        display: inline-flex;
-      }
-
-      .controlsWrapper {
         display: inline-flex;
       }
     }
@@ -77,12 +81,13 @@
 
     .photosWrapper {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      flex-wrap: wrap;
+
+      column-gap: 5px;
+      row-gap: 5px;
 
       .photoContainer {
         position: relative;
-        margin-bottom: 10px;
 
         &:hover {
           .photoControlsWrapper {
@@ -92,6 +97,7 @@
 
         > img {
           pointer-events: none;
+          border-radius: 15px;
 
           &:last-child {
             margin-bottom: 0;
@@ -125,11 +131,6 @@
       display: inline-block;
     }
 
-    .controlsWrapper {
-      @include _controlsWrapper;
-      top: 5px;
-    }
-
     .videoControlsWrapper {
       @include _controlsWrapper;
 
@@ -142,29 +143,18 @@
       }
     }
   }
+
+  .controlsWrapper {
+    @include _controlsWrapper;
+
+    top: -2px;
+    left: -2px; // TODO
+  }
 }
 
 @media screen and (max-width: map-get($media-sizes, size-large-2)) {
   .tweetWrapper {
     .tweetContainer {
-      .photosWrapper {
-        .photoContainer {
-          max-width: 800px;
-          overflow: scroll;
-
-          &::-webkit-scrollbar-thumb {
-            border-radius: 4px;
-            background-color: $backgroundMain;
-            height: 2px;
-          }
-
-          &::-webkit-scrollbar {
-            -webkit-appearance: none;
-            width: 0px;
-          }
-        }
-      }
-
       .videoContainer {
         > video {
           max-width: 800px;
@@ -177,12 +167,6 @@
 @media screen and (max-width: map-get($media-sizes, size-large-4)) {
   .tweetWrapper {
     .tweetContainer {
-      .photosWrapper {
-        .photoContainer {
-          max-width: 600px;
-        }
-      }
-
       .videoContainer {
         > video {
           max-width: 600px;
@@ -195,12 +179,6 @@
 @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
   .tweetWrapper {
     .tweetContainer {
-      .photosWrapper {
-        .photoContainer {
-          max-width: 330px;
-        }
-      }
-
       .videoContainer {
         > video {
           max-width: 330px;

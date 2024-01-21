@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useCallback, useMemo, useState } from 'react';
 
 import { ICONS } from '@/icons';
-
 import { useWindowSizeRelation } from '@/hooks/window-size.hook';
 
 import { Modal } from '../modal/modal';

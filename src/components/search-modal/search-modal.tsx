@@ -13,7 +13,6 @@ import { ICONS } from '@/icons';
 
 import styles from './search-modal.module.scss';
 
-const ESCAPE_KEY = 'Escape';
 const ENTER_KEY = 'Enter';
 const SEARCH_KEY = 'k';
 
@@ -106,11 +105,6 @@ export function SearchModal(props: SearchModalProps) {
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === ESCAPE_KEY) {
-      handleClose();
-      return;
-    }
-
     if ((e.ctrlKey || e.metaKey) && e.key === SEARCH_KEY && !isOpened) {
       handleOpen();
       return;

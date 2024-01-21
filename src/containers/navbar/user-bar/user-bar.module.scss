@@ -28,6 +28,13 @@
   }
 
   @media screen and (max-width: map-get($media-sizes, size-medium-1)) {
+    .userLabel {
+      overflow: hidden;
+      max-width: 110px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .userTooltipWrapper {
       display: flex;
     }

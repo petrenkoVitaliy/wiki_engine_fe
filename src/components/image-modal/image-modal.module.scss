@@ -38,4 +38,9 @@
 
 .image {
   cursor: pointer;
+
+  @media screen and (max-width: map-get($media-sizes, size-large-2)) {
+    max-width: calc(100vw - 70px);
+    height: auto;
+  }
 }

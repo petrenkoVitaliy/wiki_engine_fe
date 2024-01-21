@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import { loginUser } from '@/redux/stores/user';
 import { useAppDispatch } from '@/redux/hooks';
+import { EDITOR_REQUEST_TOAST } from '@/redux/consts';
 
 import { LabeledInput } from '@/components/labeled-input/labeled-input';
 import { Button } from '@/components/button/button';
@@ -44,7 +45,9 @@ export function LoginForm() {
         router.push(ROUTES.main());
       }
     } else {
-      toast('Invalid email or password', { type: 'error' });
+      const { message, ...toastOptions } = EDITOR_REQUEST_TOAST.INVALID_EMAIL_PASSWORD;
+
+      toast(message, toastOptions);
     }
   };
 
@@ -53,6 +56,13 @@ export function LoginForm() {
 
     const from = searchParams.get('from');
     router.push(RoutesHandler.withQuery(ROUTES.signup(), from ? { from } : {}));
+  };
+
+  const handleForgotClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const from = searchParams.get('from');
+    router.push(RoutesHandler.withQuery(ROUTES.reset(), from ? { from } : {}));
   };
 
   const handleReturnBackClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -116,6 +126,10 @@ export function LoginForm() {
       <div className={styles.signupWrapper}>
         <p>Need an account?</p>
         <Button onClick={handleSignupClick} label='Sign Up' />
+      </div>
+
+      <div className={styles.forgetWrapper}>
+        <Button onClick={handleForgotClick} label='I forgot my password ;(' />
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { User } from '@/api/types/user.types';
 
-import { loginUser } from './user.thunk';
+import { loginUser, confirmPasswordReset } from './user.thunk';
 
 type UserState = {
   user: User | null;
@@ -24,6 +24,9 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(confirmPasswordReset.fulfilled, (state, action) => {
       state.user = action.payload;
     });
   },

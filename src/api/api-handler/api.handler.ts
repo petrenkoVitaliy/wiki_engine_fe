@@ -27,6 +27,16 @@ class ApiHandler extends FetchHandler {
     return loginResponse;
   }
 
+  public async confirmPasswordReset(credentials: { password: string; otp: string; email: string }) {
+    const resetResponse = await this.fetchApi<LoginDto>('auth/confirm-reset', {
+      method: 'post',
+      cache: 'no-store',
+      body: JSON.stringify(credentials),
+    });
+
+    return resetResponse;
+  }
+
   public async getUser(authToken: string, article?: string) {
     const userResponse = await this.fetchApi<UserWithPermissionsDto>(
       `auth/user${article ? '?article_code=' + article : ''}`,
@@ -200,6 +210,19 @@ class ApiHandler extends FetchHandler {
       method: 'get',
       cache: 'no-store',
     });
+
+    return languagesResponse;
+  }
+
+  public async resetPassword(contentBody: { email: string }, from: string | null) {
+    const languagesResponse = await this.fetchApi<ResponseDto>(
+      `auth/reset${from ? '?redirect_to=' + from : ''}`,
+      {
+        method: 'post',
+        cache: 'no-store',
+        body: JSON.stringify(contentBody),
+      }
+    );
 
     return languagesResponse;
   }

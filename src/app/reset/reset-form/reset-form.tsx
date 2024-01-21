@@ -1,11 +1,13 @@
 'use client';
-import { MouseEvent } from 'react';
+
+import { BaseSyntheticEvent, MouseEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import { signUp } from '@/redux/stores/user';
+import { resetPassword } from '@/redux/stores/user';
 import { useAppDispatch } from '@/redux/hooks';
+import { EDITOR_REQUEST_TOAST } from '@/redux/consts';
 
 import { LabeledInput } from '@/components/labeled-input/labeled-input';
 import { Button } from '@/components/button/button';
@@ -14,15 +16,13 @@ import { EMAIL_PATTERN } from '@/components/input/consts';
 import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
 
 import 'react-toastify/dist/ReactToastify.css';
-import styles from './form.module.scss';
+import styles from './reset-form.module.scss';
 
 type FormValues = {
-  password: string;
   email: string;
-  name: string;
 };
 
-export function SignupForm() {
+export function ResetForm() {
   const {
     register,
     handleSubmit,
@@ -33,30 +33,16 @@ export function SignupForm() {
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
 
-  const handleSignup = (isSuccessful: boolean) => {
+  const handleReset = (isSuccessful: boolean) => {
+    const { message, ...toastOptions } = isSuccessful
+      ? EDITOR_REQUEST_TOAST.CONFIRMATION_SENT
+      : EDITOR_REQUEST_TOAST.FAILED_TO_RESET_PASSWORD;
+
+    toast(message, toastOptions);
+
     if (isSuccessful) {
-      toast('User was successfully registered', { type: 'success' });
-      toast("We've sent you an email with confirmation,  please check it", {
-        type: 'info',
-        progress: 1,
-      });
-
       router.push(ROUTES.main());
-    } else {
-      toast('Cannot register new user', { type: 'error' });
     }
-  };
-
-  const onSubmit = async (formValues: FormValues) => {
-    const from = searchParams.get('from');
-
-    dispatch(
-      signUp({
-        from,
-        credentials: formValues,
-        callback: handleSignup,
-      })
-    );
   };
 
   const handleLoginClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -79,13 +65,27 @@ export function SignupForm() {
     }
   };
 
+  const onSubmit = async (formValues: FormValues, e?: BaseSyntheticEvent) => {
+    e?.preventDefault();
+
+    const from = searchParams.get('from');
+
+    dispatch(
+      resetPassword({
+        from,
+        credentials: formValues,
+        callback: handleReset,
+      })
+    );
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.preHeaderWrapper}>
         <Button onClick={handleReturnBackClick} label='Return back' />
       </div>
 
-      <div className={styles.header}>Sign up</div>
+      <div className={styles.header}>Reset password</div>
       <form autoComplete='on'>
         <LabeledInput
           label='email'
@@ -98,34 +98,13 @@ export function SignupForm() {
           type='email'
         />
 
-        <LabeledInput
-          label='name'
-          formRegister={register('name', {
-            required: { value: true, message: 'field is mandatory' },
-            maxLength: { value: 30, message: 'should be less than 30 symbols' },
-            minLength: { value: 5, message: 'should be longer than 5 symbols' },
-          })}
-          error={errors.name}
-        />
-
-        <LabeledInput
-          label='password'
-          formRegister={register('password', {
-            required: { value: true, message: 'field is mandatory' },
-            maxLength: { value: 30, message: 'should be less than 30 symbols' },
-            minLength: { value: 10, message: 'should be longer than 10 symbols' },
-          })}
-          error={errors.password}
-          type='password'
-        />
-
         <div className={styles.submitWrapper}>
-          <Button primary onClick={handleSubmit(onSubmit)} label='Sign Up' />
+          <Button primary type='submit' onClick={handleSubmit(onSubmit)} label='Reset' />
         </div>
       </form>
 
       <div className={styles.loginWrapper}>
-        <p>Already have an account?</p>
+        <p>Remember your password?</p>
         <Button onClick={handleLoginClick} label='Login' />
       </div>
     </section>

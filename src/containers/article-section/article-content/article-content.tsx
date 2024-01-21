@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
+import clsx from 'clsx';
 
 import { ApiMapper } from '@/mappers/api.mapper';
 
@@ -66,11 +67,16 @@ export function ArticleContent() {
     [language, article]
   );
 
+  const isEditMode = useMemo(
+    () => isArticleCreationMode || isEditorEditModeStore,
+    [isArticleCreationMode, isEditorEditModeStore]
+  );
+
   return (
     <section className={styles.articleContent}>
       {article && language ? (
         <EditArticleBar
-          isEditMode={isArticleCreationMode || isEditorEditModeStore}
+          isEditMode={isEditMode}
           article={article}
           editorHandler={editorHandler}
           language={language}
@@ -80,9 +86,9 @@ export function ArticleContent() {
         <CreateArticleBar article={article} editorHandler={editorHandler} languages={languages} />
       )}
 
-      <section className={styles.articleBody}>
+      <section className={clsx(styles.articleBody, { [styles.preview]: !isEditMode })}>
         <WysiwygEditor
-          isEditMode={isArticleCreationMode || isEditorEditModeStore}
+          isEditMode={isEditMode}
           editorHandler={editorHandler}
           articleVersion={selectedArticleVersion}
         />

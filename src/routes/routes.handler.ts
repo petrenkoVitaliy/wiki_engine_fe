@@ -4,6 +4,7 @@ export const ROUTES = {
   main: (articleLanguageKey?: string) => `/main/${articleLanguageKey || DEFAULT_LANGUAGE}`,
   login: () => '/login',
   signup: () => '/signup',
+  reset: () => '/reset',
   createArticle: () => '/create',
 
   createLanguage: (articleLanguageKey: string) => `/create/${articleLanguageKey}`,

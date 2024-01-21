@@ -1,12 +1,12 @@
-import { Roboto_Flex, Roboto_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
+import clsx from 'clsx';
 import { ToastContainer } from 'react-toastify';
+import { Roboto_Flex, Roboto_Mono } from 'next/font/google';
 
 import { Provider } from '@/redux/provider';
 
 import styles from './layout.module.scss';
 import '../styles/reset.scss';
-import clsx from 'clsx';
 
 export const metadata: Metadata = {
   title: 'Wikїfella',

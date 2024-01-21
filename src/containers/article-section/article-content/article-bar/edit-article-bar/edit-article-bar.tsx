@@ -143,6 +143,11 @@ export function EditArticleBar(props: ArticleBarProps) {
       return;
     }
 
+    if (title.length > 30) {
+      toast('Title is too long', { type: 'error' });
+      return;
+    }
+
     const elements = props.editorHandler.editor.children as CustomElement[];
 
     const toastOptions = EDITOR_REQUEST_TOAST.UPDATING_ARTICLE;

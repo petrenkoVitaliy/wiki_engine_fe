@@ -48,9 +48,8 @@ export type YoutubeBlockElement = BaseElement & {
   height: number;
 };
 
-export type TwitterBlockElement = BaseElement & {
-  align?: TextAlignFormat;
-  type: 'tweet';
+export type TweetBlock = {
+  tweetId: string;
   message: string;
   source: string;
   author: string;
@@ -67,7 +66,15 @@ export type TwitterBlockElement = BaseElement & {
     height: number;
     url: string;
   }[];
+  parentId?: string;
 };
+
+export type TwitterBlockElement = BaseElement &
+  TweetBlock & {
+    align?: TextAlignFormat;
+    type: 'tweet';
+    parentTweets: TweetBlock[];
+  };
 
 export type ImageBlockElement = BaseElement & {
   align?: TextAlignFormat;

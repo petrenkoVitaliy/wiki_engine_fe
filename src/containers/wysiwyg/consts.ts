@@ -41,7 +41,7 @@ export const HOTKEYS: { [key: string]: (typeof MARK_FORMATS)[number] } = {
 };
 
 export const IMAGE_ELEMENT_SIZES = {
-  DEFAULT_WIDTH: 200,
+  DEFAULT_WIDTH: 300,
   MIN: 100,
   MAX: 1000,
   STEP: 50,
@@ -50,16 +50,16 @@ export const IMAGE_ELEMENT_SIZES = {
 export const VIDEO_ASPECT_RATIO = 9 / 16;
 
 export const VIDEO_ELEMENT_SIZES = {
-  DEFAULT_WIDTH: 400,
+  DEFAULT_WIDTH: 500,
   MIN: 300,
   MAX: 1000,
   STEP: 50,
 };
 
 export const TWEET_IMAGE_SIZES = {
-  DEFAULT_WIDTH: 200,
+  DEFAULT_WIDTH: 300,
   MIN: 100,
-  MAX: 1000,
+  MAX: 650,
   STEP: 50,
 };
 

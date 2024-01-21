@@ -2,6 +2,20 @@ import { apiHandler } from '@/api/api-handler/api.handler';
 import { CookieHandler } from '@/cookie/cookie.handler';
 
 class AuthHandler {
+  public static async confirmPasswordReset(credentials: {
+    password: string;
+    otp: string;
+    email: string;
+  }) {
+    const resetResponse = await apiHandler.confirmPasswordReset(credentials);
+
+    if (resetResponse.status === 'ok') {
+      CookieHandler.setAuthCookie(resetResponse.result.token.token);
+    }
+
+    return resetResponse;
+  }
+
   public static async login(credentials: { password: string; email: string }) {
     const loginResponse = await apiHandler.login(credentials);
 

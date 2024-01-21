@@ -118,4 +118,25 @@
       }
     }
   }
+
+  @media screen and (max-width: map-get($media-sizes, size-large-4)) {
+    .elementsWrapper {
+      .infoWrapper {
+        flex-direction: column;
+        align-items: flex-end;
+
+        height: 120px;
+
+        .infoBlock {
+          margin: 0;
+          height: 30px;
+
+          display: flex;
+          align-items: center;
+
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
 }

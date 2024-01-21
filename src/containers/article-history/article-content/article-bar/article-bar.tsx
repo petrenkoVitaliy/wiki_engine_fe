@@ -5,6 +5,7 @@ import { DeepPartial, FieldPath, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import { IconButton } from '@/components/icon-button/icon-button';
+import { ControlledSelect } from '@/components/select/controlled-select';
 
 import { ROUTES } from '@/routes/routes.handler';
 import { formatDateTime } from '@/utils/utils';
@@ -14,7 +15,6 @@ import { Article } from '@/api/types/article.types';
 import { ArticleVersionDto } from '@/api/dto/article.dto';
 
 import styles from './article-bar.module.scss';
-import { ControlledSelect } from '@/components/select/controlled-select';
 
 type ArticleBarProps = {
   language: string;
@@ -117,19 +117,19 @@ export function ArticleBar(props: ArticleBarProps) {
 
   return (
     <section className={styles.articleBar}>
-      <div className={styles.headingWrapper}>Article Version History</div>
+      <div className={styles.headingWrapper}>Article History</div>
       <div className={styles.elementsWrapper}>
         <div className={styles.infoWrapper}>
+          <div className={styles.infoBlock}>
+            Update time:
+            <span suppressHydrationWarning>{formattedUpdateDate}</span>
+          </div>
           <div className={styles.infoBlock}>
             Title: <span>{selectedArticleVersion.name}</span>
           </div>
           <div className={styles.infoBlock}>
             Author:
             <span>{authorName}</span>
-          </div>
-          <div className={styles.infoBlock}>
-            Creation time:
-            <span suppressHydrationWarning>{formattedUpdateDate}</span>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import clsx from 'clsx';
 
 import { WysiwygViewer } from '@/containers/wysiwyg/wysiwyg-viewer';
 
@@ -32,7 +33,7 @@ export function ArticleContent(props: ArticleContentProps) {
 
   return (
     <section className={styles.articleContent}>
-      <section className={styles.articleBody}>
+      <section className={clsx(styles.articleBody, styles.preview)}>
         <ArticleBar article={article} languages={languages} language={props.language} />
         <WysiwygViewer articleVersion={selectedArticleVersion} />
       </section>

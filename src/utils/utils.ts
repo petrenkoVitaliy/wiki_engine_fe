@@ -121,12 +121,14 @@ export function getTweetToken(tweetId: string): string {
   return ((Number(tweetId) / 1e15) * Math.PI).toString(6 ** 2).replace(/(0+|\.)/g, '');
 }
 
+const MINUTE_IN_MS = 60_000;
 export function formatDateTime(timestamp: string | undefined): string {
   if (!timestamp) {
     return '';
   }
 
-  const date = new Date(timestamp);
+  const isoDate = new Date(timestamp);
+  const date = new Date(isoDate.getTime() - isoDate.getTimezoneOffset() * MINUTE_IN_MS);
 
   const year = date.toLocaleString('default', { year: 'numeric' });
   const month = date.toLocaleString('default', { month: '2-digit' });

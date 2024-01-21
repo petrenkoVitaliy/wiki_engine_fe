@@ -1,4 +1,6 @@
 export type TweetDetailsDto = {
+  id_str: string;
+
   lang: string;
   created_at: string;
   text: string;
@@ -29,4 +31,6 @@ export type TweetDetailsDto = {
     width: number;
     height: number;
   }[];
+
+  parent?: TweetDetailsDto;
 };

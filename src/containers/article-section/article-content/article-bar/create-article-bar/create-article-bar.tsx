@@ -72,7 +72,12 @@ export function CreateArticleBar(props: ArticleBarProps) {
     const values = getValues();
 
     if (!values.title) {
-      toast('Title is mandatory', { type: 'error' });
+      toast('Title is mandatory', { type: 'error', autoClose: 2000 });
+      return;
+    }
+
+    if (values.title.length > 30) {
+      toast('Title is too long', { type: 'error', autoClose: 2000 });
       return;
     }
 

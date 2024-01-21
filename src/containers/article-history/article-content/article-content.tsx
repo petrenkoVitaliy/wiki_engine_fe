@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext, useMemo, useState } from 'react';
+import clsx from 'clsx';
 
 import { WysiwygViewer } from '@/containers/wysiwyg/wysiwyg-viewer';
 
@@ -75,7 +76,7 @@ export function ArticleContent() {
         latestVersion={latestVersion}
       />
 
-      <section className={styles.articleBody}>
+      <section className={clsx(styles.articleBody, styles.preview)}>
         <WysiwygViewer articleVersion={selectedArticleVersion} />
       </section>
     </section>

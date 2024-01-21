@@ -13,6 +13,7 @@ type ModalProps = {
   className?: string;
 };
 
+const ESCAPE_KEY = 'Escape';
 const PORTAL_SELECTOR = '#popup_root';
 
 export function Modal(props: ModalProps) {
@@ -22,6 +23,20 @@ export function Modal(props: ModalProps) {
   useEffect(() => {
     portalRef.current = document.querySelector(PORTAL_SELECTOR);
   }, []);
+
+  useEffect(() => {
+    if (props.isOpened) {
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [props.isOpened]);
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === ESCAPE_KEY && props.isOpened) {
+      return props.handleClickOutside();
+    }
+  };
 
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === overlayRef.current) {

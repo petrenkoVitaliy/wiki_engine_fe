@@ -26,4 +26,15 @@
   &:active {
     background: $backgroundShadowSecondaryDark;
   }
+
+  &.labeled {
+    width: auto;
+
+    padding: 0 5px;
+
+    > span {
+      margin-right: 5px;
+      line-height: 22px;
+    }
+  }
 }

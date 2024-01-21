@@ -11,6 +11,9 @@
     .responseContainer {
       padding: 10px;
 
+      overflow-y: auto;
+      max-height: 400px;
+
       .responseItem {
         display: flex;
         align-items: center;

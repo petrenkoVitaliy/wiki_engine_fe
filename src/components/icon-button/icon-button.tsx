@@ -1,10 +1,9 @@
 import { MouseEvent } from 'react';
 import clsx from 'clsx';
-
+import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 import styles from './icon-button.module.scss';
-import Image from 'next/image';
 
 type IconButtonProps = {
   label: string;
