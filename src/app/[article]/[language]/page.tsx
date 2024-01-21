@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 import { Navbar } from '@/containers/navbar/navbar';
 import { ArticleSection } from '@/containers/article-section/article-section';
@@ -23,7 +23,7 @@ export default async function ArticleLanguage({ params }: ArticleLanguageProps) 
   const [articleDto, userDto] = await Promise.all([getArticleDto(params), getUser(params)]);
 
   if (!articleDto) {
-    notFound();
+    redirect(ROUTES.main());
   }
 
   const isMatchedLanguage = articleDto.languages.some(
