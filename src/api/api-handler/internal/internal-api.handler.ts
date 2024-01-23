@@ -8,7 +8,7 @@ export class InternalApiHandler extends InternalFetchHandler {
       `/api/tweet-details?tweetId=${tweetId}`,
       {
         method: 'get',
-        cache: 'no-store', // TODO?
+        cache: 'no-store',
       }
     );
 

@@ -1,5 +1,7 @@
 import { CustomElement, ImageBlockElement } from '@/containers/wysiwyg/types';
+
 import { VerboseResponse } from '@/api/types/request';
+
 import { ImageToCreate } from './types';
 
 export class ImageMapper {

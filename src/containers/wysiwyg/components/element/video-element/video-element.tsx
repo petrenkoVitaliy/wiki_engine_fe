@@ -9,14 +9,12 @@ import {
 } from 'slate-react';
 
 import { BLUR_BACKGROUND_IMAGE } from '@/containers/wysiwyg/consts';
-
 import { ControlButton } from '@/components/control-button/control-button';
-
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
-import { ICONS } from '@/icons';
 
 import { YoutubeBlockElement } from '../../../types';
 
+import { ICONS } from '@/icons';
 import styles from './video-element.module.scss';
 
 type VideoElementProps = { style: CSSProperties } & Omit<RenderElementProps, 'element'> & {

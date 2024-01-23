@@ -4,6 +4,8 @@ import { ReactEditor } from 'slate-react';
 import { VIDEO_ASPECT_RATIO, VIDEO_ELEMENT_SIZES } from '@/containers/wysiwyg/consts';
 import { CustomElement, YoutubeBlockElement } from '@/containers/wysiwyg/types';
 
+import { getYoutubeVideoKeyFromUri } from '@/utils/utils';
+
 import { BlockService } from '../block.service';
 
 export class VideoBlockService extends BlockService {
@@ -39,16 +41,7 @@ export class VideoBlockService extends BlockService {
   }
 
   public static getYoutubeVideoKeyFromUri(uri: string): string | null {
-    const youtubeRegex =
-      /^(?:(?:https?:)?\/\/)?(?:(?:www|m)\.)?(?:(?:youtube\.com|youtu.be))(?:\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(?:\S+)?$/;
-
-    const matchResult = uri.match(youtubeRegex);
-
-    if (!matchResult || !matchResult[1]) {
-      return null;
-    }
-
-    return matchResult[1];
+    return getYoutubeVideoKeyFromUri(uri);
   }
 
   public static updateVideoSize(

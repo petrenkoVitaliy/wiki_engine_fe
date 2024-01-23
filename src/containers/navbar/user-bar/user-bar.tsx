@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { setUser } from '@/redux/stores/user';
@@ -7,14 +8,13 @@ import { useAppDispatch } from '@/redux/hooks';
 
 import { IconButton } from '@/components/icon-button/icon-button';
 
-import { ICONS } from '@/icons';
 import { User } from '@/api/types/user.types';
 import { CookieHandler } from '@/cookie/cookie.handler';
 import { ROUTES, RoutesHandler } from '@/routes/routes.handler';
 import { useTruthSource } from '@/hooks/truth-source.hook';
 
+import { ICONS } from '@/icons';
 import styles from './user-bar.module.scss';
-import { useMemo, useState } from 'react';
 
 type UserBarProps = {
   user: User | null;

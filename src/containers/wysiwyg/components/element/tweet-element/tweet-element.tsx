@@ -9,14 +9,13 @@ import {
 import clsx from 'clsx';
 
 import { ControlButton } from '@/components/control-button/control-button';
-
-import { ICONS } from '@/icons';
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
-
-import { TwitterBlockElement } from '../../../types';
 
 import { TweetItem } from './tweet-item';
 
+import { TwitterBlockElement } from '../../../types';
+
+import { ICONS } from '@/icons';
 import styles from './tweet-element.module.scss';
 
 type TweetElementProps = { style: CSSProperties } & Omit<RenderElementProps, 'element'> & {

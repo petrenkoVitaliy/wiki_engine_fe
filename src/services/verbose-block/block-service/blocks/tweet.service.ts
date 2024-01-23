@@ -4,8 +4,11 @@ import { Flip, toast } from 'react-toastify';
 
 import { apiHandler } from '@/api/api-handler/api.handler';
 import { TweetDetailsDto } from '@/api/dto/internal.dto';
+
 import { CustomElement, TweetBlock, TwitterBlockElement } from '@/containers/wysiwyg/types';
 import { TWEET_IMAGE_SIZES, TWEET_VIDEO_VARIANT_SIZES } from '@/containers/wysiwyg/consts';
+
+import { getTweetKeyFromUri } from '@/utils/utils';
 
 import { BlockService } from '../block.service';
 
@@ -42,16 +45,7 @@ export class TweetBlockService extends BlockService {
   }
 
   public static getTweetKeyFromUri(uri: string): string | null {
-    const tweetRegex =
-      /^(?:(?:https?:)?\/\/)(?:(?:x\.com|twitter.com))(?:\/(?:[\w-]+))(?:\/(?:status)\/)([\w-]+)(?:\S+)?$/;
-
-    const matchResult = uri.match(tweetRegex);
-
-    if (!matchResult || !matchResult[1]) {
-      return null;
-    }
-
-    return matchResult[1];
+    return getTweetKeyFromUri(uri);
   }
 
   public static removeThreadTweets(

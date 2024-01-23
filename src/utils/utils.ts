@@ -9,6 +9,32 @@ export function scrollToBeginning(): void {
   });
 }
 
+export function getTweetKeyFromUri(uri: string): string | null {
+  const tweetRegex =
+    /^(?:(?:https?:)?\/\/)(?:(?:x\.com|twitter.com))(?:\/(?:[\w-]+))(?:\/(?:status)\/)([\w-]+)(?:\S+)?$/;
+
+  const matchResult = uri.match(tweetRegex);
+
+  if (!matchResult || !matchResult[1]) {
+    return null;
+  }
+
+  return matchResult[1];
+}
+
+export function getYoutubeVideoKeyFromUri(uri: string): string | null {
+  const youtubeRegex =
+    /^(?:(?:https?:)?\/\/)?(?:(?:www|m)\.)?(?:(?:youtube\.com|youtu.be))(?:\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(?:\S+)?$/;
+
+  const matchResult = uri.match(youtubeRegex);
+
+  if (!matchResult || !matchResult[1]) {
+    return null;
+  }
+
+  return matchResult[1];
+}
+
 export function scrollToElementWithId(hashId: string | null): boolean {
   const SCROLL_OFFSET = -50;
 

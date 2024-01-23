@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 import { ElementFormat, VerboseBlockOptions } from '@/containers/wysiwyg/types';
+import { VerboseBlockPlaceholders } from '@/containers/wysiwyg/elements';
 
 import styles from './verbose-block-button.module.scss';
-import { VerboseBlockPlaceholders } from '@/containers/wysiwyg/elements';
 
 type BlockButtonProps = {
   format: ElementFormat;

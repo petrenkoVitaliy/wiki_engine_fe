@@ -1,12 +1,12 @@
+import { BaseEditor } from 'slate';
+import { ReactEditor } from 'slate-react';
+
 import {
   ImageBlockService,
   TweetBlockService,
   VideoBlockService,
   LinkBlockService,
 } from './block-service';
-
-import { BaseEditor } from 'slate';
-import { ReactEditor } from 'slate-react';
 
 export class VerboseBlockService {
   public static blockHandler = {

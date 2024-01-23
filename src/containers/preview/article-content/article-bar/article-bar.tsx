@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { Select } from '@/components/select/select';
 
 import { ROUTES } from '@/routes/routes.handler';
-
 import { Article } from '@/api/types/article.types';
 
 import styles from './article-bar.module.scss';

@@ -9,11 +9,11 @@ import { Select } from '@/components/select/select';
 import { ControlButton } from '@/components/control-button/control-button';
 import { ImageModal } from '@/components/image-modal/image-modal';
 
-import { ICONS } from '@/icons';
 import { VerboseBlockService } from '@/services/verbose-block/verbose-block.service';
 
 import { TweetBlock, TwitterBlockElement } from '../../../types';
 
+import { ICONS } from '@/icons';
 import styles from './tweet-element.module.scss';
 
 type FormValues = { selectedVideoIndex: string | null };

@@ -6,11 +6,12 @@ import clsx from 'clsx';
 import { WysiwygViewer } from '@/containers/wysiwyg/wysiwyg-viewer';
 
 import { useTruthSource } from '@/hooks/truth-source.hook';
-
-import styles from './article-content.module.scss';
-import { ArticleBar } from './article-bar/article-bar';
 import { ApiMapper } from '@/mappers/api.mapper';
 import { Article } from '@/api/types/article.types';
+
+import { ArticleBar } from './article-bar/article-bar';
+
+import styles from './article-content.module.scss';
 
 type ArticleContentProps = {
   article: Article;
