@@ -1,6 +1,8 @@
-404
-starred & owned
+TODOs:
 
-font & font sizes & colors
+## medium:
 
-form validations
+    - [] 404 page
+    - [] starred & owned
+    - [] font & font sizes & colors
+    - [] forms validations
